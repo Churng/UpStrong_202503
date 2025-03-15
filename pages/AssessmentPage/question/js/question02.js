@@ -1,80 +1,65 @@
 if (window.consoleToggle) {
+	var console = {};
 
-  var console = {};
-
-  console.log = function () {};
-
+	console.log = function () {};
 } else {
+	var iframe = document.createElement("iframe");
 
-  var iframe = document.createElement("iframe");
+	iframe.style.display = "none";
 
-  iframe.style.display = "none";
+	document.body.appendChild(iframe);
 
-  document.body.appendChild(iframe);
+	console = iframe.contentWindow.console;
 
-  console = iframe.contentWindow.console;
-
-  window.console = console;
-
+	window.console = console;
 }
 
 $(document).ready(function () {
+	var step = "01";
 
-  var step = "01";
+	let params = new URLSearchParams(window.location.search);
+	const testparams = Object.fromEntries(params.entries());
+	let data = { workOrderId: testparams.workOrderID };
 
-  let params = new URLSearchParams(window.location.search);
-  const testparams = Object.fromEntries(params.entries());
-  let data = { workOrderId: testparams.workOrderID };
+	let paramStep = params.get("step");
 
-  let paramStep = params.get("step");
+	let paramBigStep = params.get("bigstep");
 
-  let paramBigStep = params.get("bigstep");
+	const getStep = () => {
+		if (paramStep) {
+			step = `0${paramStep}`;
 
-  const getStep = () => {
+			$(".title span span").html(`0${paramStep}`);
 
-    if (paramStep) {
+			$(".step01").css("display", "none");
 
-      step = `0${paramStep}`;
+			$(`.step0${paramStep}`).css("display", "block");
+		}
+	};
 
-      $(".title span span").html(`0${paramStep}`);
+	const getList = () => {
+		let res = { returnData: JSON.parse(localStorage.getItem("listData")) };
 
-      $(".step01").css("display", "none");
+		let data01 = res.returnData.item[1].item[0];
 
-      $(`.step0${paramStep}`).css("display", "block");
+		let data02 = res.returnData.item[1].item[1];
 
-    }
+		let data03 = res.returnData.item[1].item[2];
 
-  };
+		let data04 = res.returnData.item[1].item[3];
 
+		let data05 = res.returnData.item[1].item[4];
 
+		let data06 = res.returnData.item[1].item[5];
 
-  const getList = () => {
+		let data07 = res.returnData.item[1].item[6];
 
-    let res = { returnData: JSON.parse(localStorage.getItem("listData")) };
+		let data08 = res.returnData.item[1].item[7];
 
-    let data01 = res.returnData.item[1].item[0];
+		$(".step01 .checkbox-box").html("");
 
-    let data02 = res.returnData.item[1].item[1];
-
-    let data03 = res.returnData.item[1].item[2];
-
-    let data04 = res.returnData.item[1].item[3];
-
-    let data05 = res.returnData.item[1].item[4];
-
-    let data06 = res.returnData.item[1].item[5];
-
-    let data07 = res.returnData.item[1].item[6];
-
-    let data08 = res.returnData.item[1].item[7];
-
-
-
-    $(".step01 .checkbox-box").html("");
-
-    $(data01.item[0].question).each((idx, e) => {
-
-      $(".step01 .checkbox-box").append(`
+		$(data01.item[0].question).each((idx, e) => {
+			$(".step01 .checkbox-box").append(`
 
                       <div>
 
@@ -85,14 +70,12 @@ $(document).ready(function () {
                       </div>
 
                   `);
+		});
 
-    });
+		$(".step02 .radio-box").html("");
 
-    $(".step02 .radio-box").html("");
-
-    $(data02.item[0].question).each((idx, e) => {
-
-      $(".step02 .radio-box").append(`
+		$(data02.item[0].question).each((idx, e) => {
+			$(".step02 .radio-box").append(`
 
                     <div>
 
@@ -107,14 +90,12 @@ $(document).ready(function () {
                     </div>
 
                   `);
+		});
 
-    });
+		$(".step03 .radio-box").html("");
 
-    $(".step03 .radio-box").html("");
-
-    $(data03.item[0].question).each((idx, e) => {
-
-      $(".step03 .radio-box").append(`
+		$(data03.item[0].question).each((idx, e) => {
+			$(".step03 .radio-box").append(`
 
                     <div>
 
@@ -129,14 +110,12 @@ $(document).ready(function () {
                     </div>
 
                   `);
+		});
 
-    });
+		$(".step04 .radio-box").html("");
 
-    $(".step04 .radio-box").html("");
-
-    $(data04.item[0].question).each((idx, e) => {
-
-      $(".step04 .radio-box").append(`
+		$(data04.item[0].question).each((idx, e) => {
+			$(".step04 .radio-box").append(`
 
                     <div>
 
@@ -147,14 +126,12 @@ $(document).ready(function () {
                     </div>
 
                   `);
+		});
 
-    });
+		$(".step05 .radio-box").html("");
 
-    $(".step05 .radio-box").html("");
-
-    $(data05.item[0].question).each((idx, e) => {
-
-      $(".step05 .radio-box").append(`
+		$(data05.item[0].question).each((idx, e) => {
+			$(".step05 .radio-box").append(`
 
                     <div>
 
@@ -165,14 +142,12 @@ $(document).ready(function () {
                     </div>
 
                   `);
+		});
 
-    });
+		$(".step06 .checkbox-box").html("");
 
-    $(".step06 .checkbox-box").html("");
-
-    $(data06.item[0].question).each((idx, e) => {
-
-      $(".step06 .checkbox-box").append(`
+		$(data06.item[0].question).each((idx, e) => {
+			$(".step06 .checkbox-box").append(`
 
                       <div>
 
@@ -183,16 +158,12 @@ $(document).ready(function () {
                       </div>
 
                   `);
+		});
 
-    });
+		$(".step07 .detail-box>div").html("");
 
-
-
-    $(".step07 .detail-box>div").html("");
-
-    $(data07.item).each((idx, e) => {
-
-      $(".step07 .detail-box>div").append(`
+		$(data07.item).each((idx, e) => {
+			$(".step07 .detail-box>div").append(`
 
         <div class="title-box">
 
@@ -210,11 +181,8 @@ $(document).ready(function () {
 
       `);
 
-
-
-      $(e.question).each((idxx, ee) => {
-
-        $(`[data-id=${idx}]`).append(`
+			$(e.question).each((idxx, ee) => {
+				$(`[data-id=${idx}]`).append(`
 
           <div>
 
@@ -225,18 +193,13 @@ $(document).ready(function () {
           </div>
 
         `);
+			});
+		});
 
-      });
+		$(".step08 .detail-box>div").html("");
 
-    });
-
-
-
-    $(".step08 .detail-box>div").html("");
-
-    $(data08.item).each((idx, e) => {
-
-      $(".step08 .detail-box>div").append(`
+		$(data08.item).each((idx, e) => {
+			$(".step08 .detail-box>div").append(`
 
         <div class="title-box">
 
@@ -254,11 +217,8 @@ $(document).ready(function () {
 
       `);
 
-
-
-      $(e.question).each((idxx, ee) => {
-
-        $(`[data-08id=${idx}]`).append(`
+			$(e.question).each((idxx, ee) => {
+				$(`[data-08id=${idx}]`).append(`
 
         <div>
 
@@ -269,658 +229,482 @@ $(document).ready(function () {
         </div>
 
         `);
+			});
+		});
+	};
 
-      });
+	var oldData = null;
 
-    });
+	const getCheckListRecord = () => {
+		let formData = new FormData();
 
-  };
+		let session_id = sessionStorage.getItem("sessionId");
 
+		let action = "getCheckListRecord";
 
+		let chsm = "upStrongCheckListApi"; // api文件相關
 
-  var oldData = null;
+		chsm = $.md5(session_id + action + chsm);
 
-  const getCheckListRecord = () => {
+		formData.append("session_id", session_id);
 
-    let formData = new FormData();
+		formData.append("action", action);
 
-    let session_id = sessionStorage.getItem("sessionId");
+		formData.append("chsm", chsm);
 
-    let action = "getCheckListRecord";
+		$.ajax({
+			url: `${window.apiUrl}${window.apicheckList}`,
 
-    let chsm = "upStrongCheckListApi"; // api文件相關
+			type: "POST",
 
-    chsm = $.md5(session_id + action + chsm);
+			data: formData,
 
+			processData: false,
 
+			contentType: false,
 
-    formData.append("session_id", session_id);
+			success: function (res) {
+				if (res.returnCode) {
+					oldData = res.returnData;
 
-    formData.append("action", action);
+					let data01 = res.returnData.item[paramBigStep].item[0];
 
-    formData.append("chsm", chsm);
+					let data02 = res.returnData.item[paramBigStep].item[1];
 
-    $.ajax({
+					let data03 = res.returnData.item[paramBigStep].item[2];
 
-      url: `${window.apiUrl}${window.apicheckList}`,
+					let data04 = res.returnData.item[paramBigStep].item[3];
 
-      type: "POST",
+					let data05 = res.returnData.item[paramBigStep].item[4];
 
-      data: formData,
+					let data06 = res.returnData.item[paramBigStep].item[5];
 
-      processData: false,
+					let data07 = res.returnData.item[paramBigStep].item[6];
 
-      contentType: false,
+					let data08 = res.returnData.item[paramBigStep].item[7];
 
-      success: function (res) {
+					$.each(data01.item, (consciousness, subConsciousness) => {
+						$(`.step01 #consciousness${consciousness}`).attr("checked", "true");
 
-        if (res.returnCode) {
+						if (subConsciousness.length === 1) {
+							$(`.step01 #consciousness${consciousness}_${subConsciousness}`).attr("checked", "true");
+						} else if (typeof subConsciousness === "string" && subConsciousness !== "") {
+							$(`.step01 #sub_consciousness${consciousness}`).val(subConsciousness);
+						}
+					});
 
-          oldData = res.returnData;
+					$(".step02 input").each((idx, e) => {
+						if ($(e).val() == data02.item[0].value) {
+							$(e).attr("checked", "true");
+						}
+					});
+
+					$(".step03 input").each((idx, e) => {
+						if ($(e).val() == data03.item[0].value[0]) {
+							$(e).attr("checked", "true");
+						}
+					});
+
+					$(".step04 input").each((idx, e) => {
+						if ($(e).val() == data04.item[0].value[0]) {
+							$(e).attr("checked", "true");
+						}
+					});
+
+					$(".step05 input").each((idx, e) => {
+						if ($(e).val() == data05.item[0].value[0]) {
+							$(e).attr("checked", "true");
+						}
+					});
 
+					$(data06.item[0].value).each((index, item) => {
+						$(`.step06 #behavior${item}`).attr("checked", "true");
+						// 當 "以下皆無" 選項被勾選或取消勾選時
+						$("#behavior1").change(function () {
+							if ($(this).prop("checked")) {
+								// 當 "以下皆無" 被勾選時，取消其他所有選項的勾選
+								$('input[name="behavior"]').not("#behavior1").prop("checked", false);
+							}
+						});
 
+						// 如果其他選項被勾選時，取消 "以下皆無" 的勾選
+						$('input[name="behavior"]')
+							.not("#behavior1")
+							.change(function () {
+								if ($(this).prop("checked")) {
+									$("#behavior1").prop("checked", false);
+								}
+							});
+					});
+
+					$(data07.item[0].value).each((index, item) => {
+						$(`.step07 #pain${item}`).attr("checked", "true");
+					});
 
-          let data01 = res.returnData.item[paramBigStep].item[0];
+					$(data07.item[1].value).each((index, item) => {
+						$(`.step07 #urination${item}`).attr("checked", "true");
+					});
 
-          let data02 = res.returnData.item[paramBigStep].item[1];
+					$.each(data07.item[2].value, (item, text) => {
+						$(`.step07 #ulcer${item}`).attr("checked", "true");
 
-          let data03 = res.returnData.item[paramBigStep].item[2];
+						if (item !== "3") {
+							$(`.step07 #ulcer${item}_text`).val(text);
+						}
+					});
 
-          let data04 = res.returnData.item[paramBigStep].item[3];
+					// 當 "無" 選項被勾選或取消勾選時
+					$("#ulcer1").change(function () {
+						if ($(this).prop("checked")) {
+							// 當 "無" 被勾選時，取消其他選項的勾選
+							$('input[name="ulcer"]').not("#ulcer1").prop("checked", false);
+						}
+					});
 
-          let data05 = res.returnData.item[paramBigStep].item[4];
+					// 如果其他選項被勾選時，取消 "無" 的勾選
+					$('input[name="ulcer"]')
+						.not("#ulcer1")
+						.change(function () {
+							if ($(this).prop("checked")) {
+								$("#ulcer1").prop("checked", false);
+							}
+						});
 
-          let data06 = res.returnData.item[paramBigStep].item[5];
+					$(data07.item[3].value).each((index, item) => {
+						$(`.step07 #ability${item}`).attr("checked", "true");
+					});
 
-          let data07 = res.returnData.item[paramBigStep].item[6];
+					// 當 "皆無" 選項被勾選或取消勾選時
+					$("#ability4").change(function () {
+						if ($(this).prop("checked")) {
+							// 當 "皆無" 被勾選時，取消其他選項的勾選
+							$('input[name="ability"]').not("#ability4").prop("checked", false);
+						}
+					});
 
-          let data08 = res.returnData.item[paramBigStep].item[7];
+					// 如果其他選項被勾選時，取消 "皆無" 的勾選
+					$('input[name="ability"]')
+						.not("#ability4")
+						.change(function () {
+							if ($(this).prop("checked")) {
+								$("#ability4").prop("checked", false);
+							}
+						});
 
+					$(data08.item[0].value).each((index, item) => {
+						$(`.step08 #tube${item}`).attr("checked", "true");
+					});
 
+					$(data08.item[1].value).each((index, item) => {
+						$(`.step08 #turn${item}`).attr("checked", "true");
+					});
 
-          $.each(data01.item, (consciousness, subConsciousness) => {
+					$(data08.item[2].value).each((index, item) => {
+						$(`.step08 #sit${item}`).attr("checked", "true");
+					});
+				}
+			},
+		});
+	};
 
-            $(`.step01 #consciousness${consciousness}`).attr('checked', 'true');
+	getCheckListRecord();
 
-          
+	getStep();
 
-            if (subConsciousness.length === 1) {
+	const update = (type) => {
+		let formData = new FormData();
 
-              $(`.step01 #consciousness${consciousness}_${subConsciousness}`).attr('checked', 'true');
+		let session_id = sessionStorage.getItem("sessionId");
 
-            } else if (typeof subConsciousness === 'string' && subConsciousness !== '') {
+		let action = "updateCheckListRecord";
 
-              $(`.step01 #sub_consciousness${consciousness}`).val(subConsciousness);
+		let chsm = "upStrongCheckListApi"; // api文件相關
 
-            }
+		chsm = $.md5(session_id + action + chsm);
 
-          });
+		formData.append("session_id", session_id);
 
+		formData.append("action", action);
 
+		formData.append("chsm", chsm);
 
-          $(".step02 input").each((idx, e) => {
+		formData.append("data", JSON.stringify(oldData));
 
-            if ($(e).val() == data02.item[0].value) {
+		$.ajax({
+			url: `${window.apiUrl}${window.apicheckList}`,
 
-              $(e).attr("checked", "true");
+			type: "POST",
 
-            }
+			data: formData,
 
-          });
+			processData: false,
 
+			contentType: false,
 
+			success: function (res) {
+				if (res.returnCode) {
+					if (type != "prev") {
+						if (step != "08") {
+							$(".title span span").html(`0${Number(step) + 1}`);
 
-          $(".step03 input").each((idx, e) => {
+							$(`.step0${Number(step)}`).css("display", "none");
 
-            if ($(e).val() == data03.item[0].value[0]) {
+							$(`.step0${Number(step) + 1}`).css("display", "block");
 
-              $(e).attr("checked", "true");
+							step = `0${Number(step) + 1}`;
 
-            }
+							const url = new URL(window.location.href);
 
-          });
+							url.searchParams.set("step", Number(step));
 
+							window.history.replaceState(null, "", url);
+						} else {
+							window.location.href = `../../AssessmentPage/question/Index03.html?workOrderID=${testparams.workOrderID}`;
+						}
+					} else {
+						if (step != "01") {
+							$(".title span span").html(`0${Number(step) - 1}`);
 
+							$(`.step0${Number(step)}`).css("display", "none");
 
-          $(".step04 input").each((idx, e) => {
+							$(`.step0${Number(step) - 1}`).css("display", "block");
 
-            if ($(e).val() == data04.item[0].value[0]) {
+							step = `0${Number(step) - 1}`;
+						} else {
+							window.location.href = `../../AssessmentPage/question/Index02.html?workOrderID=${testparams.workOrderID}`;
+						}
+					}
+				}
+			},
 
-              $(e).attr("checked", "true");
+			error: function (e) {
+				alert(e);
+			},
+		});
+	};
 
-            }
+	$(".next").on("click", function () {
+		if (step == "01") {
+			let newData = {};
 
-          });
+			$("input[name='consciousness']:checked").each((idx, e) => {
+				let consciousnessValue = $(e).val();
 
+				let subConsciousness = $(`input[name='sub_consciousness${consciousnessValue}']`);
 
+				let subConsciousnessType = subConsciousness.attr("type");
 
-          $(".step05 input").each((idx, e) => {
+				let subConsciousnessValue =
+					subConsciousnessType === "text"
+						? subConsciousness.val()
+						: $(`input[name='sub_consciousness${consciousnessValue}']:checked`).val();
 
-            if ($(e).val() == data05.item[0].value[0]) {
+				if (subConsciousnessValue === undefined) {
+					subConsciousnessValue = "";
+				}
 
-              $(e).attr("checked", "true");
+				newData[consciousnessValue] = subConsciousnessValue;
+			});
 
-            }
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-          });
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
+			update();
+		} else if (step == "02") {
+			let newData = [{ value: [$("input[name='vision']:checked").val()] }];
 
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-          $(data06.item[0].value).each((index, item) => {
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-            $(`.step06 #behavior${item}`).attr("checked", "true")
+			update();
+		} else if (step == "03") {
+			let newData = [{ value: [$("input[name='hearing']:checked").val()] }];
 
-          })
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
+			update();
+		} else if (step == "04") {
+			let newData = [{ value: [$("input[name='express']:checked").val()] }];
 
-          $(data07.item[0].value).each((index, item) => {
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-            $(`.step07 #pain${item}`).attr("checked", "true")
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-          })
+			update();
+		} else if (step == "05") {
+			let newData = [{ value: [$("input[name='understand']:checked").val()] }];
 
-          
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-          $(data07.item[1].value).each((index, item) => {
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-            $(`.step07 #urination${item}`).attr("checked", "true")
+			update();
+		} else if (step == "06") {
+			let newData = [{ value: [] }];
 
-          })
+			$("input[name='behavior']:checked").each((idx, e) => {
+				newData[0].value.push($(e).val());
+			});
 
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-          $.each(data07.item[2].value, (item, text) => {
+			update();
+		} else if (step == "07") {
+			let newData = [{ value: [] }, { value: [] }, { value: {} }, { value: [] }];
 
-            $(`.step07 #ulcer${item}`).attr("checked", "true")
+			$("input[name='pain']:checked").each((idx, e) => {
+				newData[0].value.push($(e).val());
+			});
 
+			$("input[name='urination']:checked").each((idx, e) => {
+				newData[1].value.push($(e).val());
+			});
 
+			$("input[name='ulcer']:checked").each((idx, e) => {
+				let ulcerValue = $(e).val();
 
-            if(item !== '3') {
+				let ulcerText = $(`#ulcer${ulcerValue}_text`);
 
-              $(`.step07 #ulcer${item}_text`).val(text)
+				let ulcerTextValue = ulcerText.val();
 
-            }
+				if (ulcerTextValue === undefined) {
+					ulcerTextValue = "";
+				}
 
-          })
+				newData[2].value[ulcerValue] = ulcerTextValue;
+			});
 
+			$("input[name='ability']:checked").each((idx, e) => {
+				newData[3].value.push($(e).val());
+			});
 
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-          $(data07.item[3].value).each((index, item) => {
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-            $(`.step07 #ability${item}`).attr("checked", "true")
+			update();
+		} else if (step == "08") {
+			let newData = [
+				{ value: [$("input[name='tube']:checked").val()] },
 
-          })
+				{ value: [$("input[name='turn']:checked").val()] },
 
+				{ value: [$("input[name='sit']:checked").val()] },
+			];
 
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-          $(data08.item[0].value).each((index, item) => {
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-            $(`.step08 #tube${item}`).attr("checked", "true")
+			update();
+		}
+	});
 
-          })
+	$(".prev").on("click", function () {
+		if (step == "01") {
+			let newData = [{ value: [] }];
 
-          $(data08.item[1].value).each((index, item) => {
+			$("input[name='consciousness']:checked").each((idx, e) => {
+				newData[0].value.push($(e).val());
+			});
 
-            $(`.step08 #turn${item}`).attr("checked", "true")
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-          })
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-          $(data08.item[2].value).each((index, item) => {
+			update("prev");
+		} else if (step == "02") {
+			let newData = [{ value: [$("input[name='vision']:checked").val()] }];
 
-            $(`.step08 #sit${item}`).attr("checked", "true")
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-          })
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-        }
+			update("prev");
+		} else if (step == "03") {
+			let newData = [{ value: [$("input[name='hearing']:checked").val()] }];
 
-      },
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-    });
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-  };
+			update("prev");
+		} else if (step == "04") {
+			let newData = [{ value: [$("input[name='express']:checked").val()] }];
 
-  getCheckListRecord();
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-  getStep();
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
+			update("prev");
+		} else if (step == "05") {
+			let newData = [{ value: [$("input[name='understand']:checked").val()] }];
 
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-  const update = (type) => {
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-    let formData = new FormData();
+			update("prev");
+		} else if (step == "06") {
+			let newData = [{ value: [] }];
 
-    let session_id = sessionStorage.getItem("sessionId");
+			$("input[name='behavior']:checked").each((idx, e) => {
+				newData[0].value.push($(e).val());
+			});
 
-    let action = "updateCheckListRecord";
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-    let chsm = "upStrongCheckListApi"; // api文件相關
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-    chsm = $.md5(session_id + action + chsm);
+			update("prev");
+		} else if (step == "07") {
+			let newData = [{ value: [] }, { value: [] }, { value: [] }, { value: [] }];
 
+			$("input[name='pain']:checked").each((idx, e) => {
+				newData[0].value.push($(e).val());
+			});
 
+			$("input[name='urination']:checked").each((idx, e) => {
+				newData[1].value.push($(e).val());
+			});
 
-    formData.append("session_id", session_id);
+			$("input[name='ulcer']:checked").each((idx, e) => {
+				newData[2].value.push($(e).val());
+			});
 
-    formData.append("action", action);
+			$("input[name='ability']:checked").each((idx, e) => {
+				newData[3].value.push($(e).val());
+			});
 
-    formData.append("chsm", chsm);
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-    formData.append("data", JSON.stringify(oldData));
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-    $.ajax({
+			update("prev");
+		} else if (step == "08") {
+			let newData = [
+				{ value: [$("input[name='tube']:checked").val()] },
 
-      url: `${window.apiUrl}${window.apicheckList}`,
+				{ value: [$("input[name='turn']:checked").val()] },
 
-      type: "POST",
+				{ value: [$("input[name='sit']:checked").val()] },
+			];
 
-      data: formData,
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-      processData: false,
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-      contentType: false,
+			update("prev");
+		}
+	});
 
-      success: function (res) {
-
-        if (res.returnCode) {
-
-          if (type != "prev") {
-
-            if (step != "08") {
-
-              $(".title span span").html(`0${Number(step) + 1}`);
-
-              $(`.step0${Number(step)}`).css("display", "none");
-
-              $(`.step0${Number(step) + 1}`).css("display", "block");
-
-              step = `0${Number(step) + 1}`;
-
-              const url = new URL(window.location.href); 
-
-              url.searchParams.set('step', Number(step));
-
-              window.history.replaceState(null, '', url);
-
-            } else {
-
-              window.location.href = `../../AssessmentPage/question/Index03.html?workOrderID=${testparams.workOrderID}`;
-
-            }
-
-          } else {
-
-            if (step != "01") {
-
-              $(".title span span").html(`0${Number(step) - 1}`);
-
-              $(`.step0${Number(step)}`).css("display", "none");
-
-              $(`.step0${Number(step) - 1}`).css("display", "block");
-
-              step = `0${Number(step) - 1}`;
-
-            } else {
-
-              window.location.href = `../../AssessmentPage/question/Index02.html?workOrderID=${testparams.workOrderID}`;
-
-            }
-
-          }
-
-        }
-
-      },
-
-      error: function (e) {
-
-        alert(e);
-
-      },
-
-    });
-
-  };
-
-
-
-  $(".next").on("click", function () {
-
-    if (step == "01") {
-
-      let newData = {};
-
-      $("input[name='consciousness']:checked").each((idx, e) => {
-
-        let consciousnessValue = $(e).val();
-
-        let subConsciousness = $(`input[name='sub_consciousness${consciousnessValue}']`)
-
-        let subConsciousnessType = subConsciousness.attr('type');
-
-        let subConsciousnessValue = subConsciousnessType==='text' ? subConsciousness.val() : $(`input[name='sub_consciousness${consciousnessValue}']:checked`).val();
-
-
-
-        if (subConsciousnessValue === undefined) {
-
-          subConsciousnessValue = '';
-
-        }
-
-
-
-        newData[consciousnessValue] = subConsciousnessValue;
-
-      });
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update();
-
-    } else if (step == "02") {
-
-      let newData = [{ value: [$("input[name='vision']:checked").val()] }];
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update();
-
-    } else if (step == "03") {
-
-      let newData = [{ value: [$("input[name='hearing']:checked").val()] }];
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update();
-
-    } else if (step == "04") {
-
-      let newData = [
-
-        { value: [$("input[name='express']:checked").val()] },
-
-      ];
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update();
-
-    } else if (step == "05") {
-
-      let newData = [
-
-        { value: [$("input[name='understand']:checked").val()] },
-
-      ];
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update();
-
-    } else if (step == "06") {
-
-      let newData = [{ value: [] }];
-
-      $("input[name='behavior']:checked").each((idx, e) => {
-
-        newData[0].value.push($(e).val());
-
-      });
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update();
-
-    } else if (step == "07") {
-
-      let newData = [
-
-        { value: [] },
-
-        { value: [] },
-
-        { value: {} },
-
-        { value: [] },
-
-      ];
-
-      $("input[name='pain']:checked").each((idx, e) => {
-
-        newData[0].value.push($(e).val());
-
-      });
-
-      $("input[name='urination']:checked").each((idx, e) => {
-
-        newData[1].value.push($(e).val());
-
-      });
-
-      $("input[name='ulcer']:checked").each((idx, e) => {
-
-        let ulcerValue = $(e).val();
-
-        let ulcerText = $(`#ulcer${ulcerValue}_text`)
-
-        let ulcerTextValue = ulcerText.val();
-
-
-
-        if (ulcerTextValue === undefined) {
-
-          ulcerTextValue = '';
-
-        }
-
-
-
-        newData[2].value[ulcerValue] = ulcerTextValue;
-
-      });
-
-      $("input[name='ability']:checked").each((idx, e) => {
-
-        newData[3].value.push($(e).val());
-
-      });
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update();
-
-    } else if (step == "08") {
-
-      let newData = [
-
-        { value: [$("input[name='tube']:checked").val()] },
-
-        { value: [$("input[name='turn']:checked").val()] },
-
-        { value: [$("input[name='sit']:checked").val()] },
-
-      ];
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update();
-
-    }
-
-  });
-
-
-
-  $(".prev").on("click", function () {
-
-    if (step == "01") {
-
-      let newData = [{ value: [] }];
-
-      $("input[name='consciousness']:checked").each((idx, e) => {
-
-        newData[0].value.push($(e).val());
-
-      });
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update("prev");
-
-    } else if (step == "02") {
-
-      let newData = [{ value: [$("input[name='vision']:checked").val()] }];
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update("prev");
-
-    } else if (step == "03") {
-
-      let newData = [{ value: [$("input[name='hearing']:checked").val()] }];
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update("prev");
-
-    } else if (step == "04") {
-
-      let newData = [
-
-        { value: [$("input[name='express']:checked").val()] },
-
-      ];
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update("prev");
-
-    } else if (step == "05") {
-
-      let newData = [
-
-        { value: [$("input[name='understand']:checked").val()] },
-
-      ];
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update("prev");
-
-    } else if (step == "06") {
-
-      let newData = [{ value: [] }];
-
-      $("input[name='behavior']:checked").each((idx, e) => {
-
-        newData[0].value.push($(e).val());
-
-      });
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update("prev");
-
-    } else if (step == "07") {
-
-      let newData = [
-
-        { value: [] },
-
-        { value: [] },
-
-        { value: [] },
-
-        { value: [] },
-
-      ];
-
-      $("input[name='pain']:checked").each((idx, e) => {
-
-        newData[0].value.push($(e).val());
-
-      });
-
-      $("input[name='urination']:checked").each((idx, e) => {
-
-        newData[1].value.push($(e).val());
-
-      });
-
-      $("input[name='ulcer']:checked").each((idx, e) => {
-
-        newData[2].value.push($(e).val());
-
-      });
-
-      $("input[name='ability']:checked").each((idx, e) => {
-
-        newData[3].value.push($(e).val());
-
-      });
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update("prev");
-
-    } else if (step == "08") {
-
-      let newData = [
-
-        { value: [$("input[name='tube']:checked").val()] },
-
-        { value: [$("input[name='turn']:checked").val()] },
-
-        { value: [$("input[name='sit']:checked").val()] },
-
-      ];
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update("prev");
-
-    }
-
-  });
-
-  $(".home-box").click(() => {
-
-    window.location.href = `../../AssessmentPage/index.html?workOrderID=${testparams.workOrderID}`;
-
-  });
-
+	$(".home-box").click(() => {
+		window.location.href = `../../AssessmentPage/index.html?workOrderID=${testparams.workOrderID}`;
+	});
 });
-
