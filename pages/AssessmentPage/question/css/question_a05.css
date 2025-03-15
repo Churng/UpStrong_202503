@@ -949,6 +949,9 @@ body {
 	.content-box .detail-box .title-box .title {
 		margin-bottom: 16px;
 	}
+	.step01 .radio-box > div {
+		gap: 8px;
+	}
 
 	.radio-box {
 		flex-wrap: wrap;
