@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全身關節活動度</title>
+    <link rel="stylesheet" href="./css/question_a04.css">
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>
+        // 確保載入時，使用時間戳。
+        let version = Date.now();
+        document.write('<script type="text/javascript" src="../../../js/jquery.md5.js?ver=' + version + '"></scr' + 'ipt>');
+        document.write('<script type="text/javascript" src="../../../js/jquery.cookie.js?ver=' + version + '"></scr' + 'ipt>');
+    </script>
+</head>
+<body>
+    <div class="header-box">
+        <div class="prev">
+            <img src="../images/question/prev-arrow.png">
+        </div>
+        <span class="title">全身關節活動度 <span><span>01</span>/01</span></span>
+        <div class="home-box">
+            <img src="../images/question/home-icon.png">
+            <span>主選單</span>
+        </div>
+    </div>
+    <div class="content-box">
+        <div class="step01">
+            <div class="detail-box" style="display: block;">
+                <div>
+                    <div class="title-box">
+                        <span class="title">請選取有受限需加強之關節動作</span>
+                    </div>
+                    <div class="bottom-box">
+                        <div class="select-box">
+                            <div class="box">
+                                <span class="title">頭頸部</span>
+                                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <div class="checkbox-box">
+                                    <div class="title-box">
+                                        <span>項目</span>
+                                        <span>是</span>
+                                        <span>否</span>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">頭左轉</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s0-q0-0" name="s0-q0" data-section-id="0" data-sub-id="0" value="1">
+                                            <label for="s0-q0-0"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s0-q0-1" name="s0-q0" data-section-id="0" data-sub-id="0" value="2">
+                                            <label for="s0-q0-1"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">頭右轉</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s0-q1-1" name="s0-q1" data-section-id="0" data-sub-id="1" value="1">
+                                            <label for="s0-q1-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s0-q1-2" name="s0-q1" data-section-id="0" data-sub-id="1" value="2">
+                                            <label for="s0-q1-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">頭右側彎</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s0-q2-1" name="s0-q2" data-section-id="0" data-sub-id="2" value="1">
+                                            <label for="s0-q2-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s0-q2-2" name="s0-q2" data-section-id="0" data-sub-id="2" value="2">
+                                            <label for="s0-q2-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">頭左側彎</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s0-q3-1" name="s0-q3" data-section-id="0" data-sub-id="3" value="1">
+                                            <label for="s0-q3-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s0-q3-2" name="s0-q3" data-section-id="0" data-sub-id="3" value="2">
+                                            <label for="s0-q3-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">低頭前彎</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s0-q4-1" name="s0-q4" data-section-id="0" data-sub-id="4" value="1">
+                                            <label for="s0-q4-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s0-q4-2" name="s0-q4" data-section-id="0" data-sub-id="4" value="2">
+                                            <label for="s0-q4-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">抬頭後仰</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s0-q5-1" name="s0-q5" data-section-id="0" data-sub-id="5" value="1">
+                                            <label for="s0-q5-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s0-q5-2" name="s0-q5" data-section-id="0" data-sub-id="5" value="2">
+                                            <label for="s0-q5-2"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <span class="title">肩關節</span>
+                                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <div class="checkbox-box">
+                                    <div class="title-box">
+                                        <span>項目</span>
+                                        <span>是</span>
+                                        <span>否</span>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左肩前抬</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q0-1" name="s1-q0" data-section-id="1" data-sub-id="0" value="1">
+                                            <label for="s1-q0-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q0-2" name="s1-q0" data-section-id="1" data-sub-id="0" value="2">
+                                            <label for="s1-q0-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右肩前抬</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q1-1" name="s1-q1" data-section-id="1" data-sub-id="1" value="1">
+                                            <label for="s1-q1-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q1-2" name="s1-q1" data-section-id="1" data-sub-id="1" value="2">
+                                            <label for="s1-q1-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左肩外展</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q2-1" name="s1-q2" data-section-id="1" data-sub-id="2" value="1">
+                                            <label for="s1-q2-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q2-2" name="s1-q2" data-section-id="1" data-sub-id="2" value="2">
+                                            <label for="s1-q2-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右肩外展</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q3-1" name="s1-q3" data-section-id="1" data-sub-id="3" value="1">
+                                            <label for="s1-q3-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q3-2" name="s1-q3" data-section-id="1" data-sub-id="3" value="2">
+                                            <label for="s1-q3-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左肩外轉</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q4-1" name="s1-q4" data-section-id="1" data-sub-id="4" value="1">
+                                            <label for="s1-q4-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q4-2" name="s1-q4" data-section-id="1" data-sub-id="4" value="2">
+                                            <label for="s1-q4-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右肩外轉</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q5-1" name="s1-q5" data-section-id="1" data-sub-id="5" value="1">
+                                            <label for="s1-q5-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q5-2" name="s1-q5" data-section-id="1" data-sub-id="5" value="2">
+                                            <label for="s1-q5-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左肩內轉</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q6-1" name="s1-q6" data-section-id="1" data-sub-id="6" value="1">
+                                            <label for="s1-q6-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q6-2" name="s1-q6" data-section-id="1" data-sub-id="6" value="2">
+                                            <label for="s1-q6-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右肩內轉</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q7-1" name="s1-q7" data-section-id="1" data-sub-id="7" value="1">
+                                            <label for="s1-q7-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s1-q7-2" name="s1-q7" data-section-id="1" data-sub-id="7" value="2">
+                                            <label for="s1-q7-2"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <span class="title">肘關節</span>
+                                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <div class="checkbox-box">
+                                    <div class="title-box">
+                                        <span>項目</span>
+                                        <span>是</span>
+                                        <span>否</span>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左肘彎曲</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q0-1" name="s2-q0"  data-section-id="2" data-sub-id="0" value="1">
+                                            <label for="s2-q0-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q0-2" name="s2-q0"  data-section-id="2" data-sub-id="0" value="2">
+                                            <label for="s2-q0-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右肘彎曲</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q1-1" name="s2-q1"  data-section-id="2" data-sub-id="1" value="1">
+                                            <label for="s2-q1-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q1-2" name="s2-q1"  data-section-id="2" data-sub-id="1" value="2">
+                                            <label for="s2-q1-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左肘伸直</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q2-1" name="s2-q2"  data-section-id="2" data-sub-id="2" value="1">
+                                            <label for="s2-q2-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q2-2" name="s2-q2"  data-section-id="2" data-sub-id="2" value="2">
+                                            <label for="s2-q2-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右肘伸直</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q3-1" name="s2-q3"  data-section-id="2" data-sub-id="3" value="1">
+                                            <label for="s2-q3-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q3-2" name="s2-q3"  data-section-id="2" data-sub-id="3" value="2">
+                                            <label for="s2-q3-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左掌心向前翻(旋後)</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q4-1" name="s2-q4"  data-section-id="2" data-sub-id="4" value="1">
+                                            <label for="s2-q4-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q4-2" name="s2-q4"  data-section-id="2" data-sub-id="4" value="2">
+                                            <label for="s2-q4-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右掌心向前翻(旋後)</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q5-1" name="s2-q5"  data-section-id="2" data-sub-id="5" value="1">
+                                            <label for="s2-q5-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q5-2" name="s2-q5"  data-section-id="2" data-sub-id="5" value="2">
+                                            <label for="s2-q5-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左掌心向後翻(旋前)</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q6-1" name="s2-q6"  data-section-id="2" data-sub-id="6" value="1">
+                                            <label for="s2-q6-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q6-2" name="s2-q6"  data-section-id="2" data-sub-id="6" value="2">
+                                            <label for="s2-q6-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右掌心向後翻(旋前)</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q7-1" name="s2-q7"  data-section-id="2" data-sub-id="7" value="1">
+                                            <label for="s2-q7-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s2-q7-2" name="s2-q7"  data-section-id="2" data-sub-id="7" value="2">
+                                            <label for="s2-q7-2"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="select-box">
+                            <div class="box">
+                                <span class="title">腕關節</span>
+                                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <div class="checkbox-box">
+                                    <div class="title-box">
+                                        <span>項目</span>
+                                        <span>是</span>
+                                        <span>否</span>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左腕向手背彎</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s3-q0-1" name="s3-q0" data-section-id="3" data-sub-id="0" value="1">
+                                            <label for="s3-q0-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s3-q0-2" name="s3-q0" data-section-id="3" data-sub-id="0" value="2">
+                                            <label for="s3-q0-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右腕向手背彎</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s3-q1-1" name="s3-q1" data-section-id="3" data-sub-id="1" value="1">
+                                            <label for="s3-q1-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s3-q1-2" name="s3-q1" data-section-id="3" data-sub-id="1" value="2">
+                                            <label for="s3-q1-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左腕向手心彎</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s3-q2-1" name="s3-q2" data-section-id="3" data-sub-id="2" value="1">
+                                            <label for="s3-q2-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s3-q2-2" name="s3-q2" data-section-id="3" data-sub-id="2" value="2">
+                                            <label for="s3-q2-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右腕向手心彎</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s3-q3-1" name="s3-q3" data-section-id="3" data-sub-id="3" value="1">
+                                            <label for="s3-q3-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s3-q3-2" name="s3-q3" data-section-id="3" data-sub-id="3" value="2">
+                                            <label for="s3-q3-2"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <span class="title">手指</span>
+                                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <div class="checkbox-box">
+                                    <div class="title-box">
+                                        <span>項目</span>
+                                        <span>是</span>
+                                        <span>否</span>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左拇指打開</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q0-1" name="s4-q0" data-section-id="4" data-sub-id="0" value="1">
+                                            <label for="s4-q0-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q0-2" name="s4-q0" data-section-id="4" data-sub-id="0" value="2">
+                                            <label for="s4-q0-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右拇指打開</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q1-1" name="s4-q1" data-section-id="4" data-sub-id="1" value="1">
+                                            <label for="s4-q1-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q1-2" name="s4-q1" data-section-id="4" data-sub-id="1" value="2">
+                                            <label for="s4-q1-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左拇指內收</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q2-1" name="s4-q2" data-section-id="4" data-sub-id="2" value="1">
+                                            <label for="s4-q2-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q2-2" name="s4-q2" data-section-id="4" data-sub-id="2" value="2">
+                                            <label for="s4-q2-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右拇指內收</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q3-1" name="s4-q3" data-section-id="4" data-sub-id="3" value="1">
+                                            <label for="s4-q3-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q3-2" name="s4-q3" data-section-id="4" data-sub-id="3" value="2">
+                                            <label for="s4-q3-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左四指打開</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q4-1" name="s4-q4" data-section-id="4" data-sub-id="4" value="1">
+                                            <label for="s4-q4-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q4-2" name="s4-q4" data-section-id="4" data-sub-id="4" value="2">
+                                            <label for="s4-q4-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右四指打開</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q5-1" name="s4-q5" data-section-id="4" data-sub-id="5" value="1">
+                                            <label for="s4-q5-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q5-2" name="s4-q5" data-section-id="4" data-sub-id="5" value="2">
+                                            <label for="s4-q5-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左四指握拳</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q6-1" name="s4-q6" data-section-id="4" data-sub-id="5" value="1">
+                                            <label for="s4-q6-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q6-2" name="s4-q6" data-section-id="4" data-sub-id="5" value="2">
+                                            <label for="s4-q6-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右四指握拳</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q7-1" name="s4-q7" data-section-id="4" data-sub-id="6" value="1">
+                                            <label for="s4-q7-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s4-q7-2" name="s4-q7" data-section-id="4" data-sub-id="6" value="2">
+                                            <label for="s4-q7-2"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <span class="title">軀幹脊柱</span>
+                                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <div class="checkbox-box">
+                                    <div class="title-box">
+                                        <span>項目</span>
+                                        <span>是</span>
+                                        <span>否</span>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">軀幹左旋轉</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s5-q0-1" name="s5-q0" data-section-id="5" data-sub-id="0" value="1">
+                                            <label for="s5-q0-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s5-q0-2" name="s5-q0" data-section-id="5" data-sub-id="0" value="2">
+                                            <label for="s5-q0-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">軀幹右旋轉</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s5-q1-1" name="s5-q1" data-section-id="5" data-sub-id="1" value="1">
+                                            <label for="s5-q1-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s5-q1-2" name="s5-q1" data-section-id="5" data-sub-id="1" value="2">
+                                            <label for="s5-q1-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">軀幹左側彎</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s5-q2-1" name="s5-q2" data-section-id="5" data-sub-id="2" value="1">
+                                            <label for="s5-q2-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s5-q2-2" name="s5-q2" data-section-id="5" data-sub-id="2" value="2">
+                                            <label for="s5-q2-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">軀幹右側彎</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s5-q3-1" name="s5-q3" data-section-id="5" data-sub-id="3" value="1">
+                                            <label for="s5-q3-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s5-q3-2" name="s5-q3" data-section-id="5" data-sub-id="3" value="2">
+                                            <label for="s5-q3-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">軀幹前屈</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s5-q4-1" name="s5-q4" data-section-id="5" data-sub-id="4" value="1">
+                                            <label for="s5-q4-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s5-q4-2" name="s5-q4" data-section-id="5" data-sub-id="4" value="2">
+                                            <label for="s5-q4-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">軀幹後仰</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s5-q5-1" name="s5-q5" data-section-id="5" data-sub-id="5" value="1">
+                                            <label for="s5-q5-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s5-q5-2" name="s5-q5" data-section-id="5" data-sub-id="5" value="2">
+                                            <label for="s5-q5-2"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="select-box">
+                            <div class="box">
+                                <span class="title">髖關節</span>
+                                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <div class="checkbox-box">
+                                    <div class="title-box">
+                                        <span>項目</span>
+                                        <span>是</span>
+                                        <span>否</span>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左大腿前屈</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q0-1" name="s6-q0" data-section-id="6" data-sub-id="0" value="1">
+                                            <label for="s6-q0-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q0-2" name="s6-q0" data-section-id="6" data-sub-id="0" value="2">
+                                            <label for="s6-q0-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右大腿前屈</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q1-1" name="s6-q1" data-section-id="6" data-sub-id="1" value="1">
+                                            <label for="s6-q1-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q1-2" name="s6-q1" data-section-id="6" data-sub-id="1" value="2">
+                                            <label for="s6-q1-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左大腿後伸</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q2-1" name="s6-q2" data-section-id="6" data-sub-id="2" value="1">
+                                            <label for="s6-q2-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q2-2" name="s6-q2" data-section-id="6" data-sub-id="2" value="2">
+                                            <label for="s6-q2-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右大腿後伸</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q3-1" name="s6-q3" data-section-id="6" data-sub-id="3" value="1">
+                                            <label for="s6-q3-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q3-2" name="s6-q3" data-section-id="6" data-sub-id="3" value="2">
+                                            <label for="s6-q3-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左大腿外展張開(膝屈曲下)</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q4-1" name="s6-q4" data-section-id="6" data-sub-id="4" value="1">
+                                            <label for="s6-q4-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q4-2" name="s6-q4" data-section-id="6" data-sub-id="4" value="2">
+                                            <label for="s6-q4-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右大腿外展張開(膝屈曲下)</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q5-1" name="s6-q5" data-section-id="6" data-sub-id="5" value="1">
+                                            <label for="s6-q5-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q5-2" name="s6-q5" data-section-id="6" data-sub-id="5" value="2">
+                                            <label for="s6-q5-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左大腿內收閉合(膝屈曲下)</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q6-1" name="s6-q6" data-section-id="6" data-sub-id="6" value="1">
+                                            <label for="s6-q6-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q6-2" name="s6-q6" data-section-id="6" data-sub-id="6" value="2">
+                                            <label for="s6-q6-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右大腿內收閉合(膝屈曲下)</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q7-1" name="s6-q7" data-section-id="6" data-sub-id="7" value="1">
+                                            <label for="s6-q7-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q7-2" name="s6-q7" data-section-id="6" data-sub-id="7"value="2">
+                                            <label for="s6-q7-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左劈腿張開(膝伸直下)</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q8-1" name="s6-q8" data-section-id="6" data-sub-id="8" value="1">
+                                            <label for="s6-q8-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q8-2" name="s6-q8" data-section-id="6" data-sub-id="8"value="2">
+                                            <label for="s6-q8-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右劈腿張開(膝伸直下)</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q9-1" name="s6-q9" data-section-id="6" data-sub-id="9" value="1">
+                                            <label for="s6-q9-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s6-q9-2" name="s6-q9" data-section-id="6" data-sub-id="9" value="2">
+                                            <label for="s6-q9-2"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <span class="title">膝關節</span>
+                                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <div class="checkbox-box">
+                                    <div class="title-box">
+                                        <span>項目</span>
+                                        <span>是</span>
+                                        <span>否</span>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左髖伸直下膝伸直(拉關節)</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s7-q0-1" name="s7-q0" data-section-id="7" data-sub-id="0"  value="1">
+                                            <label for="s7-q0-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s7-q0-2" name="s7-q0" data-section-id="7" data-sub-id="0" value="2">
+                                            <label for="s7-q0-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右髖伸直下膝伸直(拉關節)</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s7-q1-1" name="s7-q1" data-section-id="7" data-sub-id="1"  value="1">
+                                            <label for="s7-q1-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s7-q1-2" name="s7-q1" data-section-id="7" data-sub-id="1" value="2">
+                                            <label for="s7-q1-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左髖屈曲下膝伸直(拉肌肉)</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s7-q2-1" name="s7-q2" data-section-id="7" data-sub-id="2"  value="1">
+                                            <label for="s7-q2-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s7-q2-2" name="s7-q2" data-section-id="7" data-sub-id="2" value="2">
+                                            <label for="s7-q2-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右髖屈曲下膝伸直(拉肌肉)</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s7-q3-1" name="s7-q3" data-section-id="7" data-sub-id="3"  value="1">
+                                            <label for="s7-q3-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s7-q3-2" name="s7-q3" data-section-id="7" data-sub-id="3" value="2">
+                                            <label for="s7-q3-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左膝彎曲</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s7-q4-1" name="s7-q4" data-section-id="7" data-sub-id="4"  value="1">
+                                            <label for="s7-q4-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s7-q4-2" name="s7-q4" data-section-id="7" data-sub-id="4" value="2">
+                                            <label for="s7-q4-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右膝彎曲</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s7-q5-1" name="s7-q5" data-section-id="7" data-sub-id="5"  value="1">
+                                            <label for="s7-q5-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s7-q5-2" name="s7-q5" data-section-id="7" data-sub-id="5" value="2">
+                                            <label for="s7-q5-2"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <span class="title">踝關節</span>
+                                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <div class="checkbox-box">
+                                    <div class="title-box">
+                                        <span>項目</span>
+                                        <span>是</span>
+                                        <span>否</span>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左腳掌向上翹</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s8-q0-1" name="s8-q0" data-section-id="8" data-sub-id="0" value="1">
+                                            <label for="s8-q0-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s8-q0-2" name="s8-q0" data-section-id="8" data-sub-id="0" value="2">
+                                            <label for="s8-q0-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右腳掌向上翹</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s8-q1-1" name="s8-q1" data-section-id="8" data-sub-id="1" value="1">
+                                            <label for="s8-q1-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s8-q1-2" name="s8-q1" data-section-id="8" data-sub-id="1" value="2">
+                                            <label for="s8-q1-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左腳掌向下踩</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s8-q2-1" name="s8-q2" data-section-id="8" data-sub-id="2" value="1">
+                                            <label for="s8-q2-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s8-q2-2" name="s8-q2" data-section-id="8" data-sub-id="2" value="2">
+                                            <label for="s8-q2-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右腳掌向下踩</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s8-q3-1" name="s8-q3" data-section-id="8" data-sub-id="3" value="1">
+                                            <label for="s8-q3-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s8-q3-2" name="s8-q3" data-section-id="8" data-sub-id="3" value="2">
+                                            <label for="s8-q3-2"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <span class="title">腳趾</span>
+                                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <div class="checkbox-box">
+                                    <div class="title-box">
+                                        <span>項目</span>
+                                        <span>是</span>
+                                        <span>否</span>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左腳趾往上翻</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s9-q0-1" name="s9-q0" data-section-id="9" data-sub-id="0" value="1">
+                                            <label for="s9-q0-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s9-q0-2" name="s9-q0" data-section-id="9" data-sub-id="0" value="2">
+                                            <label for="s9-q0-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右腳趾往上翻</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s9-q1-1" name="s9-q1" data-section-id="9" data-sub-id="1" value="1">
+                                            <label for="s9-q1-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s9-q1-2" name="s9-q1" data-section-id="9" data-sub-id="1" value="2">
+                                            <label for="s9-q1-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">左腳趾往下彎</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s9-q2-1" name="s9-q2" data-section-id="9" data-sub-id="2" value="1">
+                                            <label for="s9-q2-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s9-q2-2" name="s9-q2" data-section-id="9" data-sub-id="2" value="2">
+                                            <label for="s9-q2-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-box">
+                                        <span class="sub-title">右腳趾往下彎</span>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s9-q3-1" name="s9-q3" data-section-id="9" data-sub-id="3" value="1">
+                                            <label for="s9-q3-1"></label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" id="s9-q3-2" name="s9-q3" data-section-id="9" data-sub-id="3" value="2">
+                                            <label for="s9-q3-2"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="next-button">
+            <span class="next">下一步</span>
+        </div>
+    </div>
+    <script type="text/javascript" src="../../../js/webConfig.js"></script>
+    <script type="text/javascript" src="./js/question04.js"></script>
+</body>
+
+</html>
