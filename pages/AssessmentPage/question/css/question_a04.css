@@ -1,338 +1,230 @@
 * {
+	font-family: "Open Sans", sans-serif;
 
-    font-family: "Open Sans", sans-serif;
-
-    box-sizing: border-box;
-
+	box-sizing: border-box;
 }
-
-
-
-
 
 body {
+	margin: 0;
 
-    margin: 0;
-
-    padding: 0;
-
+	padding: 0;
 }
-
-
 
 .header-box {
+	display: flex;
 
-    display: flex;
+	justify-content: space-between;
 
-    justify-content: space-between;
+	align-items: center;
 
-    align-items: center;
+	height: 50px;
 
-    height: 50px;
+	background: #fff;
 
-    background: #fff;
-
-    padding: 0 20px;
-
+	padding: 0 20px;
 }
-
-
 
 .header-box .prev {
-
-    height: 24px;
-
+	height: 24px;
 }
-
-
 
 .header-box .title {
+	position: absolute;
 
-    position: absolute;
+	left: 50%;
 
-    left: 50%;
+	transform: translate(-50%, 0);
 
-    transform: translate(-50%, 0);
+	color: #656c78;
 
-    color: #656c78;
-
-    font-weight: bolder;
-
+	font-weight: bolder;
 }
-
-
 
 .header-box .title span {
-
-    font-weight: bolder;
-
+	font-weight: bolder;
 }
-
-
 
 .header-box .title span span {
-
-    color: #FB7C2D;
-
+	color: #fb7c2d;
 }
-
-
 
 .header-box .home-box {
+	display: flex;
 
-    display: flex;
+	align-items: center;
 
-    align-items: center;
+	justify-content: center;
 
-    justify-content: center;
+	gap: 8px;
 
-    gap: 8px;
+	width: 96px;
 
-    width: 96px;
+	height: 34px;
 
-    height: 34px;
+	font-weight: bolder;
 
-    font-weight: bolder;
+	border-radius: 10px;
 
-    border-radius: 10px;
+	border: 1px solid #ddd;
 
-    border: 1px solid #DDD;
-
-    cursor: pointer;
-
+	cursor: pointer;
 }
-
-
 
 .content-box {
+	min-height: calc(100vh - 50px);
 
-    min-height: calc(100vh - 50px);
+	max-width: 1200px;
 
-    max-width: 1200px;
+	min-width: 1024px;
 
-    min-width: 1024px;
+	padding: 24px 50px;
 
-    padding: 24px 50px;
-
-    margin: 0 auto;
-
+	margin: 0 auto;
 }
-
-
 
 .content-box .detail-box {
-
-    min-height: calc(100vh - 50px - 71px - 60px - 77px);
-
+	min-height: calc(100vh - 50px - 71px - 60px - 77px);
 }
-
-
-
-
 
 .content-box .detail-box .title-box {
+	display: flex;
 
-    display: flex;
+	justify-content: space-between;
 
-    justify-content: space-between;
+	align-items: baseline;
 
-    align-items: baseline;
-
-    margin-bottom: 24px;
-
+	margin-bottom: 24px;
 }
-
-
 
 .content-box .detail-box .title-box .title {
+	font-size: 20px;
 
-    font-size: 20px;
+	font-weight: bolder;
 
-    font-weight: bolder;
+	color: #434a54;
 
-    color: #434a54;
-
-    margin-bottom:44px;
-
+	margin-bottom: 44px;
 }
-
-
 
 .bottom-box {
+	display: flex;
 
-    display: flex;
+	gap: 47px;
 
-    gap:47px;
-
-    width: 100%;
-
+	width: 100%;
 }
-
-
 
 .bottom-box .select-box {
+	display: flex;
 
-    display: flex;
+	flex-wrap: wrap;
 
-    flex-wrap: wrap;
+	width: 100%;
 
-    width: 100%;
+	height: fit-content;
 
-    height: fit-content;
-
-    gap: 24px;
-
+	gap: 24px;
 }
 
+.bottom-box .select-box .box {
+	display: flex;
 
+	justify-content: space-between;
 
-.bottom-box .select-box .box{
+	align-items: center;
 
-    display: flex;
+	flex-wrap: wrap;
 
-    justify-content: space-between;
+	min-height: 24px;
 
-    align-items: center;
+	width: 100%;
 
-    flex-wrap: wrap;
+	color: #434a54;
 
-    min-height: 24px;
+	font-weight: bolder;
 
-    width: 100%;
-
-    color:#434a54;
-
-    font-weight: bolder;
-
-    cursor: pointer;
-
+	cursor: pointer;
 }
 
+.bottom-box .select-box .box .checkbox-box {
+	display: none;
 
+	max-width: 335px;
 
+	margin-top: 12px;
 
+	border: 1px solid #ddd;
 
-.bottom-box .select-box .box .checkbox-box{
+	border-radius: 10px;
 
-    display: none;
-
-    max-width: 335px;
-
-    margin-top: 12px;
-
-    border: 1px solid #DDD;
-
-    border-radius: 10px;
-
-    cursor:auto;
-
+	cursor: auto;
 }
 
-
-
-.bottom-box .select-box .box.active .checkbox-box{
-
-    display: block;
-
+.bottom-box .select-box .box.active .checkbox-box {
+	display: block;
 }
 
-
-
-.bottom-box .select-box .box.active svg{
-
-    transform: rotate(90deg);
-
+.bottom-box .select-box .box.active svg {
+	transform: rotate(90deg);
 }
 
-
-
-.bottom-box .select-box .box .title-box{
-
-    margin:0;
-
+.bottom-box .select-box .box .title-box {
+	margin: 0;
 }
-
-
 
 .bottom-box .select-box .box .checkbox-box .title-box span {
+	display: block;
 
-    display: block;
+	width: 100px;
 
-    width: 100px;
+	height: 48px;
 
-    height: 48px;
+	padding: 12px;
 
-    padding:12px;
-
-    font-weight: bolder;
-
+	font-weight: bolder;
 }
 
-
-
-.bottom-box .select-box .box .checkbox-box .title-box span:first-child{
-
-    width:135px;
-
+.bottom-box .select-box .box .checkbox-box .title-box span:first-child {
+	width: 135px;
 }
-
-
 
 .radio-box {
+	display: flex;
 
-    display: flex;
-
-    height: 45px;
-
+	height: 45px;
 }
 
+.radio-box span {
+	width: 135px;
 
-
-
-
-.radio-box span{
-
-    width:135px;
-
-    padding: 12px;
-
+	padding: 12px;
 }
 
+.radio-box > div {
+	display: flex;
 
+	align-items: center;
 
-.radio-box >div{
+	width: 100px;
 
-    display: flex;
-
-    align-items: center;
-
-    width: 100px;
-
-    padding: 0 12px;
-
+	padding: 0 12px;
 }
 
+.radio-box label {
+	position: relative;
 
+	display: block;
 
-.radio-box label{
+	width: 15px;
 
-    position: relative;
+	height: 15px;
 
-    display: block;
+	border-radius: 3px;
 
-    width: 15px;
+	box-sizing: border-box;
 
-    height: 15px;
-
-    border-radius: 3px;
-
-    box-sizing: border-box;
-
-    border: 2px solid #999999;
-
+	border: 2px solid #999999;
 }
-
-
 
 /* input[type="radio"]:checked::after {
 
@@ -378,186 +270,130 @@ input[type="radio"]:checked~label::after{
 
 } */
 
-
-
 .radio-box input[type="radio"] {
-
-    display: none;
-
+	display: none;
 }
-
-
 
 /* Style the custom radio button */
 
 .custom-radio label {
+	display: inline-block;
 
-    display: inline-block;
+	width: 16px;
 
-    width: 16px;
+	height: 16px;
 
-    height: 16px;
+	border: 1px solid #999999;
 
-    border: 1px solid #999999;
+	background-color: transparent;
 
-    background-color: transparent;
+	border-radius: 50%;
 
-    border-radius: 50%;
+	cursor: pointer;
 
-    cursor: pointer;
-
-    position: relative;
-
+	position: relative;
 }
-
-
 
 .custom-radio input[type="radio"]:checked + label {
-
-    border: 1px solid #FB7C2D;
-
+	border: 1px solid #fb7c2d;
 }
-
-
 
 .custom-radio input[type="radio"]:checked + label::before {
+	content: "";
 
-    content: '';
+	position: absolute;
 
-    position: absolute;
+	top: 2px;
 
-    top: 2px;
+	left: 2px;
 
-    left: 2px;
+	width: 10px;
 
-    width: 10px;
+	height: 10px;
 
-    height: 10px;
+	border-radius: 50%;
 
-    border-radius: 50%;
-
-    background: #FB7C2D;
-
+	background: #fb7c2d;
 }
 
-
-
-.custom-radio input[type="radio"]:checked+label::after {
-
-    border: 1px solid #FB7C2D;
-
+.custom-radio input[type="radio"]:checked + label::after {
+	border: 1px solid #fb7c2d;
 }
-
-
 
 .next-button {
+	display: flex;
 
-    display: flex;
+	justify-content: end;
 
-    justify-content: end;
+	width: 100%;
 
-    width: 100%;
-
-    margin-top: 77px;
-
+	margin-top: 77px;
 }
-
-
 
 .next-button span {
+	display: flex;
 
-    display: flex;
+	justify-content: center;
 
-    justify-content: center;
+	align-items: center;
 
-    align-items: center;
+	width: 180px;
 
-    width: 180px;
+	height: 60px;
 
-    height: 60px;
+	color: #fff;
 
-    color: #fff;
+	font-weight: bolder;
 
-    font-weight: bolder;
+	border-radius: 6px;
 
-    border-radius: 6px;
+	background: #fb7c2d;
 
-    background: #FB7C2D;
-
-    cursor: pointer;
-
+	cursor: pointer;
 }
-
-
 
 .sub-title {
+	font-size: 14px;
 
-    font-size: 14px;
+	font-weight: 400;
 
-    font-weight: 400;
-
-    color: #656c78;
-
+	color: #656c78;
 }
 
-
-
 @media (max-width: 1024px) {
+	.header-box .home-box {
+		border: none;
 
-    .header-box .home-box{
+		width: auto;
+	}
 
-        border: none;
+	.header-box .home-box span {
+		display: none;
+	}
 
-        width: auto;
+	.next-button span {
+		width: 100%;
 
-    }
+		height: 44px;
+	}
 
+	.content-box {
+		max-width: 500px;
 
+		min-width: auto;
 
-    .header-box .home-box span{
+		padding: 16px 20px;
+	}
 
-        display: none;
+	.content-box .detail-box {
+		flex-wrap: wrap;
 
-    }
+		gap: 40px;
+	}
 
-    
+	.bottom-box {
+		flex-wrap: wrap;
 
-    .next-button span {
-
-        width: 100%;
-
-        height: 44px;
-
-    }
-
-
-
-    .content-box {
-
-        max-width: 500px;
-
-        min-width: auto;
-
-        padding: 16px 20px;
-
-    }
-
-
-
-    .content-box .detail-box {
-
-        flex-wrap: wrap;
-
-        gap: 40px;
-
-    }
-
-    .bottom-box {
-
-        flex-wrap: wrap;
-
-        gap: 24px;
-
-    }
-
+		gap: 24px;
+	}
 }

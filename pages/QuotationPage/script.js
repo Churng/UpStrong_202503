@@ -1,134 +1,96 @@
 if (window.consoleToggle) {
+	var console = {};
 
-    var console = {};
-
-    console.log = function () { };
-
+	console.log = function () {};
 } else {
+	var iframe = document.createElement("iframe");
 
-    var iframe = document.createElement('iframe');
+	iframe.style.display = "none";
 
-    iframe.style.display = 'none';
+	document.body.appendChild(iframe);
 
-    document.body.appendChild(iframe);
+	console = iframe.contentWindow.console;
 
-    console = iframe.contentWindow.console;
-
-    window.console = console;
-
+	window.console = console;
 }
 
 $(document).ready(function () {
+	//報價單資料
 
-    //報價單資料
+	let quotationData = null;
 
-    let quotationData = null
+	let eventsData = [];
 
-    let eventsData = []
+	let quotationID = null;
 
-    let quotationID = null
+	let firstIn = false;
 
-    let firstIn = false
+	//個案資料
 
-    //個案資料
+	const getBasicData = () => {
+		$(".nav-box").html("");
 
-    const getBasicData = () => {
-
-        $(".nav-box").html('')
-
-        $(".nav-box").append(
-
-            `
+		$(".nav-box").append(
+			`
 
                 <span class="acc">個案帳號<span>${quotationData.quotationBasicData.account}</span></span>
 
                 <span class="name">個案名稱<span>${quotationData.quotationBasicData.name}</span></span>
 
             `
+		);
+	};
 
-        )
+	//行事曆活動
 
-    }
+	const getQuotationDetail = () => {
+		let allEvents = [];
 
+		eventsData = [];
 
+		for (let i = 0; i < Object.keys(quotationData.quotationDetail).length; i++) {
+			allEvents.push({
+				date: Object.keys(quotationData.quotationDetail)[i],
 
-    //行事曆活動
+				detail: Object.values(quotationData.quotationDetail)[i],
+			});
+		}
 
-    const getQuotationDetail = () => {
+		$(allEvents).each(function (idx, e) {
+			$(this.detail).each(function (idxx, ee) {
+				if (ee.courseTypeId == 3) {
+					eventsData.push({
+						title: ee.courseType,
 
-        let allEvents = []
+						start: e.date,
 
-        eventsData = []
+						className: "vacation dnone",
 
-        for (let i = 0; i < Object.keys(quotationData.quotationDetail).length; i++) {
+						detail: ee,
+					});
+				} else {
+					eventsData.push({
+						title: ee.courseType + " " + ee.startTime.slice(11, 16) + "-" + ee.endTime.slice(11, 16),
 
-            allEvents.push({
+						start: e.date,
 
-                date: Object.keys(quotationData.quotationDetail)[i],
+						className: ee.courseTypeId == 2 ? "training dnone" : ee.courseTypeId == 1 ? "evaluate dnone" : null,
 
-                detail: Object.values(quotationData.quotationDetail)[i]
+						detail: ee,
+					});
+				}
+			});
+		});
+	};
 
-            })
+	//課程一覽
 
-        }
+	const getCourse = () => {
+		$(".pc_none").html("");
 
-        $(allEvents).each(function (idx, e) {
+		$(".mb_none").html("");
 
-            $(this.detail).each(function (idxx, ee) {
-
-                if (ee.courseTypeId == 3) {
-
-                    eventsData.push(
-
-                        {
-
-                            title: ee.courseType,
-
-                            start: e.date,
-
-                            className: 'vacation dnone',
-
-                            detail: ee
-
-                        },
-
-                    )
-
-                } else {
-
-                    eventsData.push(
-
-                        {
-
-                            title: ee.courseType + ' ' + ee.startTime.slice(11, 16) + '-' + ee.endTime.slice(11, 16),
-
-                            start: e.date,
-
-                            className: ee.courseTypeId == 2 ? 'training dnone' : ee.courseTypeId == 1 ? 'evaluate dnone' : null,
-
-                            detail: ee
-
-                        },
-
-                    )
-
-                }
-
-            })
-
-        })
-
-    }
-
-    //課程一覽
-
-    const getCourse = () => {
-
-        $(".pc_none").html('')
-
-        $(".mb_none").html('')
-
-        $(".mb_none").append(`
+		$(".mb_none").append(`
 
             <li class="header">
 
@@ -142,13 +104,11 @@ $(document).ready(function () {
 
                 <span class="total" style="text-align: center;padding:0;">總計</span>
 
-            </li>`)
+            </li>`);
 
-        $(quotationData.quotationCourse.courseList).each(function (idx, e) {
-
-            $(".pc_none").append(
-
-                `
+		$(quotationData.quotationCourse.courseList).each(function (idx, e) {
+			$(".pc_none").append(
+				`
 
                 <li>
 
@@ -165,12 +125,10 @@ $(document).ready(function () {
                 </li>
 
                 `
+			);
 
-            )
-
-            $(".mb_none").append(
-
-                `
+			$(".mb_none").append(
+				`
 
                 <li class="content">
 
@@ -187,14 +145,11 @@ $(document).ready(function () {
                 </li>
 
                 `
+			);
+		});
 
-            )
-
-        })
-
-        $(".pc_none").append(
-
-            `
+		$(".pc_none").append(
+			`
 
             <li class="total-box">
 
@@ -205,12 +160,10 @@ $(document).ready(function () {
             </li>
 
             `
+		);
 
-        )
-
-        $(".mb_none").append(
-
-            `
+		$(".mb_none").append(
+			`
 
             <li class="total-box">
 
@@ -221,222 +174,176 @@ $(document).ready(function () {
             </li>
 
             `
+		);
+	};
 
-        )
+	//注意事項
 
-    }
+	const getPrecautions = () => {
+		$(".tips-box").html("");
 
-
-
-    //注意事項
-
-    const getPrecautions = () => {
-
-        $(".tips-box").html('')
-
-        $(quotationData.quotationPrecautions).each(function (idx, e) {
-
-            $(".tips-box").append(
-
-                ` 
+		$(quotationData.quotationPrecautions).each(function (idx, e) {
+			$(".tips-box").append(
+				` 
 
                     <div><span>${idx + 1}. </span><span>${e}</span></div>
 
                 `
+			);
+		});
+	};
 
-            )
+	//匯款帳戶
 
-        })
+	const getRemitInfo = () => {
+		$(".remittance-box .detail").html("");
 
-    }
-
-    //匯款帳戶
-
-    const getRemitInfo = () => {
-
-        $(".remittance-box .detail").html('')
-
-        $(quotationData.quotationRemitInfo).each(function (idx, e) {
-
-            $(".remittance-box .detail").append(
-
-                ` 
+		$(quotationData.quotationRemitInfo).each(function (idx, e) {
+			$(".remittance-box .detail").append(
+				` 
 
                     <span>${e}</span>
 
                 `
+			);
+		});
+	};
 
-            )
+	// 初始化 FullCalendar
 
-        })
+	const getFullCalendar = () => {
+		let urlSearchParams = new URLSearchParams(window.location.search);
 
-    }
+		let params = Object.fromEntries(urlSearchParams.entries());
 
-    // 初始化 FullCalendar
+		let selectData = null;
 
-    const getFullCalendar = () => {
+		if (params.starttime && !firstIn) {
+			selectData = params.starttime.slice(0, 7);
+		}
 
-        let urlSearchParams = new URLSearchParams(window.location.search);
+		firstIn = true;
 
-        let params = Object.fromEntries(urlSearchParams.entries());
+		console.log("1");
 
-        let selectData = null
+		$("#calendar").fullCalendar(
+			{
+				locale: "zh-tw",
 
-        if (params.starttime && !firstIn) {
+				fixedWeekCount: true,
 
-            selectData = params.starttime.slice(0, 7)
+				defaultDate: selectData,
 
-        }
+				height: "auto", //組件高度，默認aspectRatio即縱橫比；parent父容器大小；auto自動不帶滾動條；
 
-        firstIn = true
+				contentHeight: "auto", //組件中的內容高度，默認aspectRatio即縱橫比；auto自動不帶滾動條；支持數字和函數返回像素；
 
-        console.log('1');
+				dayNamesShort: ["日", "一", "二", "三", "四", "五", "六"],
 
-        $('#calendar').fullCalendar({
+				monthNames: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"], //月份自定義命名
 
-            locale: 'zh-tw',
+				buttonText: {
+					today: "今天",
+				},
 
-            fixedWeekCount: true,
+				views: {
+					month: {
+						titleFormat: "YYYY年 MMMM",
+					},
+				},
 
-            defaultDate: selectData,
+				//events: eventsData,
 
-            height: 'auto',//組件高度，默認aspectRatio即縱橫比；parent父容器大小；auto自動不帶滾動條；
+				events: function (start, end, timezone, callback) {
+					if (firstIn) {
+						selectData = $("#calendar").fullCalendar("getDate").format("YYYY-MM");
+					}
 
-            contentHeight: 'auto',//組件中的內容高度，默認aspectRatio即縱橫比；auto自動不帶滾動條；支持數字和函數返回像素；
+					let formData = new FormData();
 
-            dayNamesShort: ['日', '一', '二', '三', '四', '五', '六'],
+					let session_id = sessionStorage.getItem("sessionId");
 
-            monthNames: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"], //月份自定義命名
+					let action = "getQuotationByTime";
 
-            buttonText: {
+					let chsm = "upStrongQuotationApi"; // api文件相關
 
-                today: '今天',
+					chsm = $.md5(session_id + action + chsm);
 
-            },
+					console.log(selectData);
 
-            views: {
+					let data = { startTime: selectData };
 
-                month: {
+					formData.append("session_id", session_id);
 
-                    titleFormat: 'YYYY年 MMMM',
+					formData.append("action", action);
 
-                }
+					formData.append("chsm", chsm);
 
-            },
+					formData.append("data", JSON.stringify(data));
 
-            //events: eventsData,
+					$.ajax({
+						url: `${window.apiUrl}${window.apiquotation}`,
 
-            events: function (start, end, timezone, callback) {
+						type: "POST",
 
-                if (firstIn) {
+						data: formData,
 
-                    selectData = $('#calendar').fullCalendar('getDate').format('YYYY-MM')
+						processData: false,
 
-                }
+						contentType: false,
 
-                let formData = new FormData()
+						success: function (res) {
+							if (res.returnCode == "1") {
+								quotationData = res.returnData;
 
-                let session_id = sessionStorage.getItem('sessionId');
+								quotationID = null;
 
-                let action = 'getQuotationByTime'
+								if (res.returnData.quotationBasicData) {
+									quotationID = res.returnData.quotationBasicData.id;
 
-                let chsm = 'upStrongQuotationApi'; // api文件相關
+									$(".send").attr("disabled", false);
 
-                chsm = $.md5(session_id + action + chsm);
+									getBasicData();
+								} else {
+									$(".send").attr("disabled", true);
 
-                console.log(selectData);
+									$(".nav-box").html("");
 
-
-
-                let data = { "startTime": selectData }
-
-
-
-                formData.append('session_id', session_id);
-
-                formData.append('action', action)
-
-                formData.append('chsm', chsm)
-
-                formData.append('data', JSON.stringify(data))
-
-                $.ajax({
-
-                    url: `${window.apiUrl}${window.apiquotation}`,
-
-                    type: "POST",
-
-                    data: formData,
-
-                    processData: false,
-
-                    contentType: false,
-
-                    success: function (res) {
-
-                        if (res.returnCode == '1') {
-
-                            quotationData = res.returnData
-
-                            quotationID = null
-
-                            if (res.returnData.quotationBasicData) {
-
-                                quotationID = res.returnData.quotationBasicData.id
-
-                                $('.send').attr('disabled', false);
-
-                                getBasicData()
-
-                            } else {
-
-                                $('.send').attr('disabled', true);
-
-                                $(".nav-box").html('')
-
-                                $(".nav-box").append(
-
-                                    `
+									$(".nav-box").append(
+										`
                                         <span class="acc">個案帳號<span></span></span>
 
                                         <span class="name">個案名稱<span></span></span>
 
                                     `
+									);
+								}
 
-                                )
+								if (res.returnData.quotationDetail) {
+									getQuotationDetail();
 
-                            }
-
-                            if (res.returnData.quotationDetail) {
-
-                                getQuotationDetail()
-
-                                $('.fc-day').each(function (idx, e) {
-
-                                    $(this).append(
-
-                                        `
+									$(".fc-day").each(function (idx, e) {
+										$(this).append(
+											`
                                             <div class="even-box">
 
                                             </div>
 
                                         `
+										);
+									});
 
-                                    )
+									$(".fc-day").each(function (idx, e) {
+										$(eventsData).each(function (idxx, ee) {
+											if ($(e).data("date") == ee.start) {
+												$(e)
+													.children()
+													.append(
+														`
 
-                                })
-
-                                $('.fc-day').each(function (idx, e) {
-
-                                    $(eventsData).each(function (idxx, ee) {
-
-                                        if ($(e).data('date') == ee.start) {
-
-                                            $(e).children().append(
-
-                                                `
-
-                                                    <a class="fc-day-grid-event fc-event ${ee.className ? ee.className.slice(0, 8) : ee.className}">
+                                                    <a class="fc-day-grid-event fc-event ${
+																											ee.className ? ee.className.slice(0, 8) : ee.className
+																										}">
 
                                                     <div class="fc-content">
 
@@ -447,144 +354,99 @@ $(document).ready(function () {
                                                     </a>
 
                                                 `
+													);
+											}
+										});
+									});
+								}
 
-                                            )
+								if (res.returnData.quotationCourse) {
+									getCourse();
+								} else {
+									$(".pc_none").html("");
 
-                                        }
+									$(".mb_none").html("");
+								}
 
-                                    })
+								if (res.returnData.quotationPrecautions) {
+									getPrecautions();
+								}
 
-                                })
+								if (res.returnData.quotationRemitInfo) {
+									getRemitInfo();
+								}
 
-                            }
+								$(".right-box").hide();
 
-                            if (res.returnData.quotationCourse) {
+								callback(eventsData);
+							} else {
+								new CustomAlert({ content: "請重新登入" });
+								window.location.assign("../LoginPage/index.html");
+							}
+						},
 
-                                getCourse()
+						error: function () {
+							$("#error").text("An error occurred. Please try again later.");
+						},
+					});
+				},
 
-                            } else {
+				dayClick: function (date, allDay, jsEvent, view) {
+					$(".fc-day-top").each(function (idx, e) {
+						if ($(e).data("date") == date.format("YYYY-MM-DD")) {
+							$(this).addClass("today");
+						} else {
+							$(this).removeClass("today");
+						}
+					});
 
-                                $(".pc_none").html('')
+					//課程內容
 
-                                $(".mb_none").html('')
+					$(".right-box").css("display", "block");
 
-                            }
+					var eventsCount = 0;
 
-                            if (res.returnData.quotationPrecautions) {
+					var year = date.format("YYYY");
 
-                                getPrecautions()
+					var date = date.format("YYYY-MM-DD");
 
-                            }
+					$.ajax({
+						url: `../../js/TaiwanCalendar/${year}.json`,
 
-                            if (res.returnData.quotationRemitInfo) {
+						type: "get",
 
-                                getRemitInfo()
+						success: function (res) {
+							$(res).each(function (idx, e) {
+								let resDate = e.date.slice(0, 4) + "-" + e.date.slice(4, 6) + "-" + e.date.slice(6, 8);
 
-                            }
+								if (resDate == date) {
+									$(".date-bar").html("");
 
-                            $('.right-box').hide()
-
-                            callback(eventsData);
-
-                        } else {
-
-                            alert(res.returnMessage)
-
-                        }
-
-                    },
-
-                    error: function () {
-
-                        $("#error").text("An error occurred. Please try again later.");
-
-                    },
-
-                });
-
-            },
-
-
-
-            dayClick: function (date, allDay, jsEvent, view) {
-
-                $('.fc-day-top').each(function (idx, e) {
-
-                    if ($(e).data('date') == date.format('YYYY-MM-DD')) {
-
-                        $(this).addClass('today');
-
-                    } else {
-
-                        $(this).removeClass('today');
-
-                    }
-
-                })
-
-                //課程內容
-
-                $('.right-box').css("display", "block")
-
-                var eventsCount = 0;
-
-                var year = date.format('YYYY')
-
-                var date = date.format('YYYY-MM-DD');
-
-                $.ajax({
-
-                    url: `../../js/TaiwanCalendar/${year}.json`,
-
-                    type: "get",
-
-                    success: function (res) {
-
-                        $(res).each(function (idx, e) {
-
-                            let resDate = e.date.slice(0, 4) + '-' + e.date.slice(4, 6) + '-' + e.date.slice(6, 8)
-
-                            if (resDate == date) {
-
-                                $('.date-bar').html('')
-
-                                $('.date-bar').append(
-
-                                    `
+									$(".date-bar").append(
+										`
 
                                         <span class="date">${date} 星期${e.week}</span>
 
                                         <span class="date-tag">${e.description}</span>
 
                                     `
+									);
+								}
+							});
+						},
+					});
 
-                                )
+					$(".detail-box").remove();
 
-                            }
+					$("#calendar").fullCalendar("clientEvents", function (event) {
+						var start = moment(event.start).format("YYYY-MM-DD");
 
-                        })
+						var end = moment(event.end).format("YYYY-MM-DD");
 
-                    }
-
-                });
-
-
-
-                $('.detail-box').remove()
-
-                $('#calendar').fullCalendar('clientEvents', function (event) {
-
-                    var start = moment(event.start).format("YYYY-MM-DD");
-
-                    var end = moment(event.end).format("YYYY-MM-DD");
-
-                    if (date == start) {
-
-                        if (event.detail.courseTypeId == 3) {
-
-                            $('.right-box .detail').append(
-
-                                `
+						if (date == start) {
+							if (event.detail.courseTypeId == 3) {
+								$(".right-box .detail").append(
+									`
 
                                 <div class="detail-box vacation">
 
@@ -593,22 +455,24 @@ $(document).ready(function () {
                                 </div>
 
                                 `
+								);
+							} else {
+								$(".right-box .detail").append(
+									`
 
-                            )
-
-                        } else {
-
-                            $('.right-box .detail').append(
-
-                                `
-
-                                <div class="detail-box ${event.detail.courseTypeId == 2 ? 'training' : event.detail.courseTypeId == 1 ? 'evaluate' : null}">
+                                <div class="detail-box ${
+																	event.detail.courseTypeId == 2
+																		? "training"
+																		: event.detail.courseTypeId == 1
+																		? "evaluate"
+																		: null
+																}">
 
                                     <span class="tag">${event.detail.courseType}</span>
 
                                     <span class="title">${event.detail.courseName}</span>
 
-                                    <span class="coach">教練：${event.detail.courseCoach || ''}</span>
+                                    <span class="coach">教練：${event.detail.courseCoach || ""}</span>
 
                                     <span class="date">課程時間：</span>
 
@@ -619,127 +483,95 @@ $(document).ready(function () {
                                 </div>
 
                                 `
+								);
+							}
+						}
+					});
+				},
+			},
+			2000
+		);
+	};
 
-                            )
+	getFullCalendar();
 
-                        }
+	//送出
 
-                    }
+	$(".send").click(function () {
+		if (quotationID) {
+			let formData = new FormData();
 
-                });
+			let session_id = sessionStorage.getItem("sessionId");
 
-            },
+			let action = "approveQuotationById";
 
-        }, 2000);
+			let chsm = "upStrongQuotationApi"; // api文件相關
 
-    }
+			let data = { id: quotationID };
 
-    getFullCalendar()
+			chsm = $.md5(session_id + action + chsm);
 
+			formData.append("session_id", session_id);
 
+			formData.append("action", action);
 
-    //送出
+			formData.append("chsm", chsm);
 
-    $('.send').click(function () {
+			formData.append("data", JSON.stringify(data));
 
-        if (quotationID) {
+			$.ajax({
+				url: `${window.apiUrl}${window.apiquotation}`,
 
-            let formData = new FormData()
+				type: "POST",
 
-            let session_id = sessionStorage.getItem('sessionId');
+				data: formData,
 
-            let action = 'approveQuotationById'
+				processData: false,
 
-            let chsm = 'upStrongQuotationApi'; // api文件相關
+				contentType: false,
 
-            let data = { "id": quotationID }
+				success: function (res) {},
 
-            chsm = $.md5(session_id + action + chsm);
+				error: function () {
+					$("#error").text("An error occurred. Please try again later.");
+				},
+			});
+		}
+	});
 
+	//匯款日曆
 
+	const zh = {
+		days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
 
-            formData.append('session_id', session_id);
+		daysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
 
-            formData.append('action', action)
+		daysMin: ["日", "一", "二", "三", "四", "五", "六"],
 
-            formData.append('chsm', chsm)
+		months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
 
-            formData.append('data', JSON.stringify(data))
+		monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
 
-            $.ajax({
+		today: "今天",
 
-                url: `${window.apiUrl}${window.apiquotation}`,
+		clear: "清空",
+	};
 
-                type: "POST",
+	$(function () {
+		new AirDatepicker("#birthDate", {
+			locale: zh, // 上方定義中文化，在此引用才能成功，跟以前用法不同，依據新API文件教學
 
-                data: formData,
+			dateFormat: "yyyy/MM/dd",
 
-                processData: false,
+			firstDay: 1,
 
-                contentType: false,
+			isMobile: false,
 
-                success: function (res) {
+			weekends: [6, 0],
 
-                },
+			toggleSelected: true,
 
-                error: function () {
-
-                    $("#error").text("An error occurred. Please try again later.");
-
-                },
-
-            });
-
-        }
-
-    })
-
-
-
-    //匯款日曆
-
-
-
-    const zh = {
-
-        days: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
-
-        daysShort: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
-
-        daysMin: ['日', '一', '二', '三', '四', '五', '六'],
-
-        months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
-
-        monthsShort: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
-
-        today: '今天',
-
-        clear: '清空'
-
-    }
-
-
-
-    $(function () {
-
-        new AirDatepicker('#birthDate', {
-
-            locale: zh, // 上方定義中文化，在此引用才能成功，跟以前用法不同，依據新API文件教學
-
-            dateFormat: 'yyyy/MM/dd',
-
-            firstDay: 1,
-
-            isMobile: false,
-
-            weekends: [6, 0],
-
-            toggleSelected: true,
-
-            keyboardNav: true
-
-        });
-
-    }); // end ready
-
+			keyboardNav: true,
+		});
+	}); // end ready
 });
