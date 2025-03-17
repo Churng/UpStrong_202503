@@ -24,13 +24,17 @@ body {
 }
 
 .userInfoPage {
-	padding: 10px;
+	margin-top: 20px;
 }
 .userInfo-link {
-	text-decoration: none;
 	color: #656c78;
 	font-weight: bolder;
 	margin-left: 10px;
+	padding: 5px 10px;
+	background-color: #fb8d48;
+}
+.userInfo-link:hover {
+	color: white;
 }
 
 .header-box {
