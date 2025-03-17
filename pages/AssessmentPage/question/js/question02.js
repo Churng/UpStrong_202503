@@ -402,6 +402,9 @@ $(document).ready(function () {
 					$(data08.item[2].value).each((index, item) => {
 						$(`.step08 #sit${item}`).attr("checked", "true");
 					});
+				} else if (res.returnCode == "003") {
+					new CustomAlert({ content: res.returnMessage });
+					window.location.assign("../../LoginPage/index.html");
 				}
 			},
 		});
@@ -442,9 +445,11 @@ $(document).ready(function () {
 			contentType: false,
 
 			success: function (res) {
+				console.log(res);
+
 				if (res.returnCode) {
 					if (type != "prev") {
-						if (step != "08") {
+						if (step != "06") {
 							$(".title span span").html(`0${Number(step) + 1}`);
 
 							$(`.step0${Number(step)}`).css("display", "none");
@@ -474,6 +479,9 @@ $(document).ready(function () {
 							window.location.href = `../../AssessmentPage/question/Index02.html?workOrderID=${testparams.workOrderID}`;
 						}
 					}
+				} else if (res.returnCode == "003") {
+					new CustomAlert({ content: res.returnMessage });
+					window.location.assign("../LoginPage/index.html");
 				}
 			},
 

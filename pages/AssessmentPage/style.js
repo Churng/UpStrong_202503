@@ -270,8 +270,6 @@ $(document).ready(function () {
 			contentType: false,
 
 			success: function (res) {
-				console.log(res);
-
 				if (res.returnCode) {
 					$(res.returnData.item).each((idx, e) => {
 						$(`[data-cardidx=${idx + 1}] .g-container .text`).html(`${e.percent * 100}%`);
