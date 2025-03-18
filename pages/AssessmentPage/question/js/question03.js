@@ -1,329 +1,242 @@
 if (window.consoleToggle) {
+	var console = {};
 
-  var console = {};
-
-  console.log = function () {};
-
+	console.log = function () {};
 } else {
+	var iframe = document.createElement("iframe");
 
-  var iframe = document.createElement("iframe");
+	iframe.style.display = "none";
 
-  iframe.style.display = "none";
+	document.body.appendChild(iframe);
 
-  document.body.appendChild(iframe);
+	console = iframe.contentWindow.console;
 
-  console = iframe.contentWindow.console;
-
-  window.console = console;
-
+	window.console = console;
 }
 
 $(document).ready(function () {
+	var step = "01";
 
-  var step = "01";
+	var backTotalScore = 0;
 
-  var backTotalScore = 0;
+	var frontTotalScore = 0;
 
-  var frontTotalScore = 0;
+	$(".next").on("click", function () {
+		if (step == "01") {
+			let newData = [{ value: [$("input[name='express']:checked").val()] }];
 
-  $(".next").on("click", function () {
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-    if (step == "01") {
-      let newData = [{ value: [$("input[name='express']:checked").val()] }];
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
+			update();
 
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
+			if ($(".step01 input:checked").val() == 1) {
+				window.location.href = `./Index04.html`;
+			}
+		} else if (step == "02") {
+			let newData = [{ value: [] }];
 
-      update();
+			let payload = {};
 
-      
+			$(".front path").each((idx, e) => {
+				if ($(e).attr("class") && $(e).attr("class").includes("used")) {
+					payload[$(e).attr("id")] = Number($(e).attr("data-sroce"));
+				}
+			});
 
-      if ($(".step01 input:checked").val() == 1) {
+			newData[0].value.push(payload);
 
-        window.location.href = `./Index04.html`;
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-      }
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-    } else if (step == "02") {
+			update();
+		} else if (step == "02-02") {
+			let newData = [{ value: [] }];
 
-      let newData = [{ value: [] }];
+			let payload = {};
 
-      let payload = {};
+			$(".back path").each((idx, e) => {
+				if ($(e).attr("class") && $(e).attr("class").includes("used")) {
+					payload[$(e).attr("id")] = Number($(e).attr("data-sroce"));
+				}
+			});
 
-      $(".front path").each((idx, e) => {
+			newData[0].value.push(payload);
 
-        if ($(e).attr("class") && $(e).attr("class").includes("used")) {
+			oldData.item[paramBigStep].item[2].item = newData;
 
-          payload[$(e).attr("id")] = Number($(e).attr("data-sroce"));
+			oldData.item[paramBigStep].item[2].if_complete = true;
 
-        }
+			update();
+		} else if (step == "03") {
+			update();
+		}
+	});
 
-      });
+	$(".prev").on("click", function () {
+		if (step == "01") {
+			if ($(".step01 input:checked").val() == 2) {
+				let newData = [{ value: [$("input[name='express']:checked").val()] }];
 
-      newData[0].value.push(payload);
+				oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
+				oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
+				update("prev");
+			} else {
+				window.location.href = `../../AssessmentPage/question/Index03.html?workOrderID=${testparams.workOrderID}`;
+			}
+		} else if (step == "02") {
+			let newData = [{ value: [] }];
 
-      update();
+			let payload = {};
 
-    } else if (step == "02-02") {
+			$(".front path").each((idx, e) => {
+				if ($(e).attr("class") && $(e).attr("class").includes("used")) {
+					payload[$(e).attr("id")] = Number($(e).attr("data-sroce"));
+				}
+			});
 
-      let newData = [{ value: [] }];
+			newData[0].value.push(payload);
 
-      let payload = {};
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-      $(".back path").each((idx, e) => {
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-        if ($(e).attr("class") && $(e).attr("class").includes("used")) {
+			update("prev");
+		} else if (step == "02-02") {
+			let newData = [{ value: [] }];
 
-          payload[$(e).attr("id")] = Number($(e).attr("data-sroce"));
+			let payload = {};
 
-        }
+			$(".back path").each((idx, e) => {
+				if ($(e).attr("class") && $(e).attr("class").includes("used")) {
+					payload[$(e).attr("id")] = Number($(e).attr("data-sroce"));
+				}
+			});
 
-      });
+			newData[0].value.push(payload);
 
-      newData[0].value.push(payload);
+			oldData.item[paramBigStep].item[2].item = newData;
 
-      oldData.item[paramBigStep].item[2].item = newData;
+			oldData.item[paramBigStep].item[2].if_complete = true;
 
-      oldData.item[paramBigStep].item[2].if_complete = true;
+			update("prev");
+		} else if (step == "03") {
+			update("prev");
+		}
+	});
 
-      update();
+	const silder = () => {
+		$("#slider-range-max").slider({
+			range: "max",
 
-    } else if (step == "03") {
+			min: 0,
 
-      update();
+			max: 10,
 
-    }
+			value: 0,
 
-  });
+			slide: function (event, ui) {
+				selectNum = ui.value;
+			},
+		});
+	};
 
+	var painColor = [
+		"#fff",
 
+		"#FFE5E5",
 
-  $(".prev").on("click", function () {
+		"#FFCCCC",
 
-    if (step == "01") {
+		"#FFB3B3",
 
-      if ($(".step01 input:checked").val() == 2) {
+		"#FF9999",
 
-        let newData = [{ value: [$("input[name='express']:checked").val()] }];
+		"#FF8080",
 
-        oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
+		"#FF6666",
 
-        oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
+		"#FF4C4C",
 
-        update("prev");
+		"#F30000",
 
-      } else {
-        window.location.href = `../../AssessmentPage/question/Index03.html?workOrderID=${testparams.workOrderID}`;
-      }
+		"#DC0000",
 
-    } else if (step == "02") {
+		"#BE0000",
+	];
 
-      let newData = [{ value: [] }];
+	var oldPainColor = null;
 
-      let payload = {};
+	var selectNum = 0;
 
-      $(".front path").each((idx, e) => {
+	var selectData = null;
 
-        if ($(e).attr("class") && $(e).attr("class").includes("used")) {
+	var selectId = 0;
 
-          payload[$(e).attr("id")] = Number($(e).attr("data-sroce"));
+	$(".left-box path").on("click", function () {
+		if (step != 3) {
+			if ($(this).attr("id")) {
+				selectId = $(this).attr("id");
 
-        }
+				silder();
 
-      });
+				$(".right-box .title-box .num").html($(this).attr("id"));
 
-      newData[0].value.push(payload);
+				if (selectData && !$(selectData).attr("class").includes("used")) {
+					//沒有選過顏色
 
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
+					$(selectData).css("fill", "#fff");
+				}
 
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
+				if ($(this).attr("class").includes("used")) {
+					//選過顏色
 
-      update("prev");
+					if (selectData && $(selectData).attr("class").includes("used")) {
+						//選擇其他區域恢復顏色
 
-    } else if (step == "02-02") {
+						$(selectData).css("fill", oldPainColor);
+					}
 
-      let newData = [{ value: [] }];
+					oldPainColor = $(this).css("fill"); //記錄選過的顏色
+				} else if (!$(this).attr("class").includes("used")) {
+					if (selectData && $(selectData).attr("class").includes("used")) {
+						//選擇其他區域恢復顏色
 
-      let payload = {};
+						$(selectData).css("fill", oldPainColor);
+					}
+				}
 
-      $(".back path").each((idx, e) => {
+				selectData = $(this)[0];
 
-        if ($(e).attr("class") && $(e).attr("class").includes("used")) {
+				$($(this)[0]).css("fill", "#654F00");
 
-          payload[$(e).attr("id")] = Number($(e).attr("data-sroce"));
+				$(".right-box").css("display", "block");
 
-        }
+				$(".left-box").css("width", "45%");
 
-      });
+				$();
+			}
+		}
+	});
 
-      newData[0].value.push(payload);
+	$(".pupop-btn").on("click", function () {
+		$(selectData).css("fill", painColor[selectNum]);
 
-      oldData.item[paramBigStep].item[2].item = newData;
+		if (selectId <= 22) {
+			frontTotalScore = frontTotalScore + selectNum;
 
-      oldData.item[paramBigStep].item[2].if_complete = true;
-
-      update("prev");
-
-    } else if (step == "03") {
-
-      update("prev");
-
-    }
-
-  });
-
-
-
-  const silder = () => {
-
-    $("#slider-range-max").slider({
-
-      range: "max",
-
-      min: 0,
-
-      max: 10,
-
-      value: 0,
-
-      slide: function (event, ui) {
-
-        selectNum = ui.value;
-
-      },
-
-    });
-
-  };
-
-  var painColor = [
-
-    "#fff",
-
-    "#FFE5E5",
-
-    "#FFCCCC",
-
-    "#FFB3B3",
-
-    "#FF9999",
-
-    "#FF8080",
-
-    "#FF6666",
-
-    "#FF4C4C",
-
-    "#F30000",
-
-    "#DC0000",
-
-    "#BE0000",
-
-  ];
-
-  var oldPainColor = null;
-
-  var selectNum = 0;
-
-  var selectData = null;
-
-  var selectId = 0;
-
-
-
-  $(".left-box path").on("click", function () {
-
-    if (step != 3) {
-
-      if ($(this).attr("id")) {
-
-        selectId = $(this).attr("id");
-
-        silder();
-
-        $(".right-box .title-box .num").html($(this).attr("id"));
-
-        if (selectData && !$(selectData).attr("class").includes("used")) {
-
-          //沒有選過顏色
-
-          $(selectData).css("fill", "#fff");
-
-        }
-
-        if ($(this).attr("class").includes("used")) {
-
-          //選過顏色
-
-          if (selectData && $(selectData).attr("class").includes("used")) {
-
-            //選擇其他區域恢復顏色
-
-            $(selectData).css("fill", oldPainColor);
-
-          }
-
-          oldPainColor = $(this).css("fill"); //記錄選過的顏色
-
-        } else if (!$(this).attr("class").includes("used")) {
-
-          if (selectData && $(selectData).attr("class").includes("used")) {
-
-            //選擇其他區域恢復顏色
-
-            $(selectData).css("fill", oldPainColor);
-
-          }
-
-        }
-
-        selectData = $(this)[0];
-
-        $($(this)[0]).css("fill", "#654F00");
-
-        $(".right-box").css("display", "block");
-
-        $(".left-box").css("width", "45%");
-
-        $();
-
-      }
-
-    }
-
-  });
-
-
-
-  $(".pupop-btn").on("click", function () {
-
-    $(selectData).css("fill", painColor[selectNum]);
-
-    if (selectId <= 22) {
-
-      frontTotalScore = frontTotalScore + selectNum;
-
-      if ($(selectData).attr("class").includes("used")) {
-
-        $(".box01").each(function () {
-
-          if ($(this).find(".num").text() == selectId) {
-
-            $(this).find(".point").html(selectNum);
-
-          }
-
-        });
-
-      } else {
-
-        $(".point-box.front  .box").append(`
+			if ($(selectData).attr("class").includes("used")) {
+				$(".box01").each(function () {
+					if ($(this).find(".num").text() == selectId) {
+						$(this).find(".point").html(selectNum);
+					}
+				});
+			} else {
+				$(".point-box.front  .box").append(`
 
           <div class="box01">
 
@@ -336,28 +249,18 @@ $(document).ready(function () {
           <span class="plus">+</span>
 
         `);
+			}
+		} else {
+			backTotalScore = backTotalScore + selectNum;
 
-      }
-
-    } else {
-
-      backTotalScore = backTotalScore + selectNum;
-
-      if ($(selectData).attr("class").includes("used")) {
-
-        $(".box01").each(function () {
-
-          if ($(this).find(".num").text() == selectId) {
-
-            $(this).find(".point").html(selectNum);
-
-          }
-
-        });
-
-      } else {
-
-        $(".point-box.back .box").append(`
+			if ($(selectData).attr("class").includes("used")) {
+				$(".box01").each(function () {
+					if ($(this).find(".num").text() == selectId) {
+						$(this).find(".point").html(selectNum);
+					}
+				});
+			} else {
+				$(".point-box.back .box").append(`
 
           <div class="box01">
 
@@ -370,186 +273,134 @@ $(document).ready(function () {
           <span class="plus">+</span>
 
         `);
+			}
+		}
 
-      }
+		$(selectData).addClass("used");
 
-    }
+		$(selectData).attr("data-sroce", selectNum);
 
-    $(selectData).addClass("used");
+		$(".right-box").css("display", "none");
 
-    $(selectData).attr("data-sroce", selectNum);
+		$(".left-box").css("width", "100%");
 
-    $(".right-box").css("display", "none");
+		selectNum = 0;
 
-    $(".left-box").css("width", "100%");
+		$(".front .total-box .num").html(frontTotalScore);
 
+		$(".back .total-box .num").html(backTotalScore);
 
+		if (window.innerWidth <= 500) {
+			$(".right-box").css("display", "none");
+		}
+	});
 
-    selectNum = 0;
+	$(".right-box .pupon-box .close-box").on("click", function () {
+		$(".right-box").css("display", "none");
+	});
 
-    $(".front .total-box .num").html(frontTotalScore);
+	let params = new URLSearchParams(window.location.search);
+	const testparams = Object.fromEntries(params.entries());
+	let data = { workOrderId: testparams.workOrderID };
 
-    $(".back .total-box .num").html(backTotalScore);
+	let paramStep = params.get("step");
 
-    if (window.innerWidth <= 500) {
+	let paramBigStep = params.get("bigstep");
 
-      $(".right-box").css("display", "none");
+	const getStep = () => {
+		if (paramStep) {
+			if (paramStep == "2-02") {
+				step = `02-02`;
 
-    }
+				$(".title span span").html(`02`);
 
-  });
+				$(".step01").css("display", "none");
 
+				$(`.step02`).css("display", "block");
 
+				$(`.front`).attr("style", "display: none ");
 
-  $(".right-box .pupon-box .close-box").on("click", function () {
+				$(`.back`).css("display", "block");
 
-    $(".right-box").css("display", "none");
+				$(`.point-box.back`).css("display", "flex");
+			} else {
+				step = `0${paramStep}`;
 
-  });
+				$(".title span span").html(`0${paramStep}`);
 
+				$(".step01").css("display", "none");
 
+				$(`.back`).css("display", "none");
 
-  let params = new URLSearchParams(window.location.search);
-  const testparams = Object.fromEntries(params.entries());
-  let data = { workOrderId: testparams.workOrderID };
-  
-  let paramStep = params.get("step");
+				$(".point-box.back").attr("style", "display: none !important");
 
-  let paramBigStep = params.get("bigstep");
+				$(`.step0${paramStep}`).css("display", "block");
+			}
+		}
+	};
 
-  const getStep = () => {
+	var oldData = null;
 
-    if (paramStep) {
+	const getCheckListRecord = () => {
+		let formData = new FormData();
 
-      if (paramStep == "2-02") {
+		let session_id = sessionStorage.getItem("sessionId");
 
-        step = `02-02`;
+		let action = "getCheckListRecord";
 
-        $(".title span span").html(`02`);
+		let chsm = "upStrongCheckListApi"; // api文件相關
 
-        $(".step01").css("display", "none");
+		chsm = $.md5(session_id + action + chsm);
 
-        $(`.step02`).css("display", "block");
+		formData.append("session_id", session_id);
 
-        $(`.front`).attr("style", "display: none ");
+		formData.append("action", action);
 
-        $(`.back`).css("display", "block");
+		formData.append("chsm", chsm);
 
-        $(`.point-box.back`).css("display", "flex");
+		$.ajax({
+			url: `${window.apiUrl}${window.apicheckList}`,
 
-      } else {
+			type: "POST",
 
-        step = `0${paramStep}`;
+			data: formData,
 
-        $(".title span span").html(`0${paramStep}`);
+			processData: false,
 
-        $(".step01").css("display", "none");
+			contentType: false,
 
-        $(`.back`).css("display", "none");
+			success: function (res) {
+				if (res.returnCode) {
+					oldData = res.returnData;
 
-        $(".point-box.back").attr("style", "display: none !important");
+					let data01 = res.returnData.item[paramBigStep].item[0];
 
-        $(`.step0${paramStep}`).css("display", "block");
+					let data02 = res.returnData.item[paramBigStep].item[1];
 
-      }
+					let data03 = res.returnData.item[paramBigStep].item[2];
 
-    }
+					$(".step01 input").each((idx, e) => {
+						if ($(e).val() == data01.item[0].value[0]) {
+							$(e).attr("checked", "true");
+						}
+					});
 
-  };
+					//正面
 
+					let frontData = [];
 
+					for (let i = 0; i < Object.keys(data02.item[0].value[0]).length; i++) {
+						frontData.push({
+							id: Object.keys(data02.item[0].value[0])[i],
 
-  var oldData = null;
+							score: Object.values(data02.item[0].value[0])[i],
+						});
+					}
 
-  const getCheckListRecord = () => {
-
-    let formData = new FormData();
-
-    let session_id = sessionStorage.getItem("sessionId");
-
-    let action = "getCheckListRecord";
-
-    let chsm = "upStrongCheckListApi"; // api文件相關
-
-    chsm = $.md5(session_id + action + chsm);
-
-
-
-    formData.append("session_id", session_id);
-
-    formData.append("action", action);
-
-    formData.append("chsm", chsm);
-
-    $.ajax({
-
-      url: `${window.apiUrl}${window.apicheckList}`,
-
-      type: "POST",
-
-      data: formData,
-
-      processData: false,
-
-      contentType: false,
-
-      success: function (res) {
-
-        if (res.returnCode) {
-
-          oldData = res.returnData;
-
-          let data01 = res.returnData.item[paramBigStep].item[0];
-
-          let data02 = res.returnData.item[paramBigStep].item[1];
-
-          let data03 = res.returnData.item[paramBigStep].item[2];
-
-
-
-          $(".step01 input").each((idx, e) => {
-
-            if ($(e).val() == data01.item[0].value[0]) {
-
-              $(e).attr("checked", "true");
-
-            }
-
-          });
-
-
-
-          //正面
-
-          let frontData = [];
-
-          for (
-
-            let i = 0;
-
-            i < Object.keys(data02.item[0].value[0]).length;
-
-            i++
-
-          ) {
-
-            frontData.push({
-
-              id: Object.keys(data02.item[0].value[0])[i],
-
-              score: Object.values(data02.item[0].value[0])[i],
-
-            });
-
-          }
-
-          $(".front path").each((idx, e) => {
-
-            $(frontData).each((idxx, ee) => {
-
-              if ($(e).attr("id") == ee.id) {
-
-                $(".point-box.front .box").append(`
+					$(".front path").each((idx, e) => {
+						$(frontData).each((idxx, ee) => {
+							if ($(e).attr("id") == ee.id) {
+								$(".point-box.front .box").append(`
 
                   <div class="box01">
 
@@ -563,59 +414,35 @@ $(document).ready(function () {
 
                 `);
 
-                $(e).addClass("used");
+								$(e).addClass("used");
 
-                $(e).css("fill", painColor[ee.score]);
+								$(e).css("fill", painColor[ee.score]);
 
-                $(e).attr("data-sroce", ee.score);
+								$(e).attr("data-sroce", ee.score);
 
-                frontTotalScore = frontTotalScore + ee.score;
+								frontTotalScore = frontTotalScore + ee.score;
+							}
+						});
+					});
 
-              }
+					$(".front .total-box .num").html(frontTotalScore);
 
-            });
+					//背面
 
-          });
+					let backData = [];
 
+					for (let i = 0; i < Object.keys(data03.item[0].value[0]).length; i++) {
+						backData.push({
+							id: Object.keys(data03.item[0].value[0])[i],
 
+							score: Object.values(data03.item[0].value[0])[i],
+						});
+					}
 
-          $(".front .total-box .num").html(frontTotalScore);
-
-
-
-          //背面
-
-          let backData = [];
-
-          for (
-
-            let i = 0;
-
-            i < Object.keys(data03.item[0].value[0]).length;
-
-            i++
-
-          ) {
-
-            backData.push({
-
-              id: Object.keys(data03.item[0].value[0])[i],
-
-              score: Object.values(data03.item[0].value[0])[i],
-
-            });
-
-          }
-
-
-
-          $(".back path").each((idx, e) => {
-
-            $(backData).each((idxx, ee) => {
-
-              if ($(e).attr("id") == ee.id) {
-
-                $(".point-box.back .box").append(`
+					$(".back path").each((idx, e) => {
+						$(backData).each((idxx, ee) => {
+							if ($(e).attr("id") == ee.id) {
+								$(".point-box.back .box").append(`
 
                   <div class="box01">
 
@@ -629,285 +456,234 @@ $(document).ready(function () {
 
                 `);
 
-                $(e).addClass("used");
+								$(e).addClass("used");
 
-                $(e).css("fill", painColor[ee.score]);
+								$(e).css("fill", painColor[ee.score]);
 
-                $(e).attr("data-sroce", ee.score);
+								$(e).attr("data-sroce", ee.score);
 
-                backTotalScore = backTotalScore + ee.score;
+								backTotalScore = backTotalScore + ee.score;
+							}
+						});
+					});
 
-              }
+					$(".back .total-box .num").html(backTotalScore);
+				}
+			},
+		});
+	};
 
-            });
+	getCheckListRecord();
 
-          });
+	getStep();
 
+	const update = (type) => {
+		let formData = new FormData();
 
+		let session_id = sessionStorage.getItem("sessionId");
 
-          $(".back .total-box .num").html(backTotalScore);
+		let action = "updateCheckListRecord";
 
-        }
+		let chsm = "upStrongCheckListApi"; // api文件相關
 
-      },
+		chsm = $.md5(session_id + action + chsm);
 
-    });
+		formData.append("session_id", session_id);
 
-  };
+		formData.append("action", action);
 
-  getCheckListRecord();
+		formData.append("chsm", chsm);
 
-  getStep();
+		formData.append("data", JSON.stringify(oldData));
 
+		$.ajax({
+			url: `${window.apiUrl}${window.apicheckList}`,
 
+			type: "POST",
 
-  const update = (type) => {
+			data: formData,
 
-    let formData = new FormData();
+			processData: false,
 
-    let session_id = sessionStorage.getItem("sessionId");
+			contentType: false,
 
-    let action = "updateCheckListRecord";
+			success: function (res) {
+				if (res.returnCode) {
+					if (type != "prev") {
+						if (step != "03") {
+							if (step == "01") {
+								//進入正面
+								console.log("test1");
+								step = "02";
 
-    let chsm = "upStrongCheckListApi"; // api文件相關
+								$(".title span span").html("02");
 
-    chsm = $.md5(session_id + action + chsm);
+								$(".step01").css("display", "none");
 
+								$(".step02").css("display", "block");
 
+								$(".point-box.back").attr("style", "display: none !important");
+							} else if (step == "02") {
+								//進入反面
+								console.log("test2");
+								step = "02-02";
 
-    formData.append("session_id", session_id);
+								oldPainColor = null;
 
-    formData.append("action", action);
+								$(".title span span").html("02");
 
-    formData.append("chsm", chsm);
+								$(".left-box .front").css("display", "none");
 
-    formData.append("data", JSON.stringify(oldData));
+								$(".left-box .back").css("display", "block");
 
-    $.ajax({
+								$(".right-box").css("display", "none");
 
-      url: `${window.apiUrl}${window.apicheckList}`,
+								$(".front").css("display", "none");
 
-      type: "POST",
+								$(".left-box").css("width", "100%");
 
-      data: formData,
+								$(".point-box.front").css("display", "none");
 
-      processData: false,
+								$(".point-box.back").css("display", "flex");
+							} else if (step == "02-02") {
+								//進入雙面
+								console.log("test3");
+								step = "03";
 
-      contentType: false,
+								$(".next-button").addClass("step03box");
 
-      success: function (res) {
+								$(".right-box").addClass("step03box");
 
-        if (res.returnCode) {
+								$(".bottom-box").addClass("step03box");
 
-          if (type != "prev") {
+								$(".point-box.back").attr("style", "display: none !important");
 
-            if (step != "03") {
+								$(".right-box").css("display", "block");
 
-              if (step == "01") { //進入正面
-                console.log("test1")
-                step = "02";
+								$(".left-box").css("width", "45%");
 
-                $(".title span span").html("02");
+								$(".left-box .front").css("display", "flex");
 
-                $(".step01").css("display", "none");
+								$(".left-box .back").css("display", "flex");
 
-                $(".step02").css("display", "block");
+								$(".title span span").html("03");
 
-                $(".point-box.back").attr("style", "display: none !important");
+								$(".left-box").addClass("style02");
 
-              } else if (step == "02") { //進入反面
-                console.log("test2")
-                step = "02-02";
+								$(".left-box .tips").css("display", "none");
 
-                oldPainColor = null;
+								$(".detail-box .ChosePart").css("display", "none");
 
-                $(".title span span").html("02");
+								$(".left-box .left").css("display", "none");
 
-                $(".left-box .front").css("display", "none");
+								$(".left-box .right").css("display", "none");
 
-                $(".left-box .back").css("display", "block");
+								$(".left-box .step03box .front .num").html(frontTotalScore);
 
-                $(".right-box").css("display", "none");
+								$(".left-box .step03box .back .num").html(backTotalScore);
 
-                $(".front").css("display", "none");
+								$(".left-box .step03box .total-box").html("總共" + (backTotalScore + frontTotalScore) + "分");
 
-                $(".left-box").css("width", "100%");
+								$(".color-box").css("display", "none");
 
-                $(".point-box.front").css("display", "none");
+								$(".step02box").css("display", "none");
 
-                $(".point-box.back").css("display", "flex");
+								$(".step03box").css("display", "flex");
 
-              } else if (step == "02-02") { //進入雙面
-console.log("test3")
-                step = "03";
+								$(".left-box .step03box").css("display", "block");
+							}
+						} else {
+							window.location.href = `../../AssessmentPage/question/Index04.html?workOrderID=${testparams.workOrderID}`;
+						}
+					} else {
+						if (step != "01") {
+							if (step == "03") {
+								step = "02";
 
-                $(".next-button").addClass("step03box");
+								oldPainColor = null;
 
-                $(".right-box").addClass("step03box");
+								$(".title span span").html("02");
 
-                $(".bottom-box").addClass("step03box");
+								$(".next-button").removeClass("step03box");
 
-                $(".point-box.back").attr("style", "display: none !important");
+								$(".right-box").removeClass("step03box");
 
-                $(".right-box").css("display", "block");
+								$(".bottom-box").removeClass("step03box");
 
-                $(".left-box").css("width", "45%");
+								$(".left-box").removeClass("style02");
 
-                $(".left-box .front").css("display", "flex");
+								$(".right-box").css("display", "none");
 
-                $(".left-box .back").css("display", "flex");
+								$(".left-box").css("width", "100%");
 
-                $(".title span span").html("03");
+								$(".back").css("display", "none");
 
-                $(".left-box").addClass("style02");
+								$(".right-box .point-box.front").css("display", "flex");
 
-                $(".left-box .tips").css("display", "none");
+								$(".left-box .front").css("display", "block");
 
-                $(".detail-box .ChosePart").css("display", "none");
+								$(".point-box.back").attr("style", "display: none !important");
 
-                $(".left-box .left").css("display", "none");
+								$(".point-box.front.mb").addClass("show");
 
-                $(".left-box .right").css("display", "none");
+								$(".left-box .tips").css("display", "flex");
 
-                $(".left-box .step03box .front .num").html(frontTotalScore);
+								$(".detail-box .ChosePart").css("display", "flex");
 
-                $(".left-box .step03box .back .num").html(backTotalScore);
+								$(".left-box .left").css("display", "flex");
 
-                $(".left-box .step03box .total-box").html(
+								$(".left-box .right").css("display", "flex");
 
-                  "總共" + (backTotalScore + frontTotalScore) + "分"
+								$(".color-box").css("display", "flex");
 
-                );
+								$(".step02box").css("display", "block");
 
-                $(".color-box").css("display", "none");
+								$(".step03box").css("display", "none");
 
-                $(".step02box").css("display", "none");
+								$(".left-box .step03box").css("display", "none");
+							} else if (step == "02") {
+								step = "01";
 
-                $(".step03box").css("display", "flex");
+								oldPainColor = null;
 
-                $(".left-box .step03box").css("display", "block");
+								$(".title span span").html("01");
 
-              }
+								$(".step01").css("display", "block");
 
-            } else {
+								$(".step02").css("display", "none");
+							} else if (step == "02-02") {
+								step = "02";
 
-              window.location.href = `../../AssessmentPage/question/Index04.html?workOrderID=${testparams.workOrderID}`;
+								$(".point-box.back").attr("style", "display: none !important");
 
-            }
+								$(".right-box").css("display", "nome");
 
-          } else {
+								$(".left-box").css("width", "100%");
 
-            if (step != "01") {
+								$(`.right-box .front`).css("display", "flex");
 
-              if (step == "03") {
+								$(".left-box .front").css("display", "block");
 
-                step = "02";
+								$(".left-box .back").css("display", "none");
 
-                oldPainColor = null;
+								$(".title span span").html("02");
 
-                $(".title span span").html("02");
+								$(".point-box.front.mb").addClass("show");
+							}
+						} else {
+							window.location.href = `../../AssessmentPage/question/Index03.html?workOrderID=${testparams.workOrderID}`;
+						}
+					}
+				}
+			},
 
-                $(".next-button").removeClass("step03box");
+			error: function () {
+				$("#error").text("An error occurred. Please try again later.");
+			},
+		});
+	};
 
-                $(".right-box").removeClass("step03box");
-
-                $(".bottom-box").removeClass("step03box");
-
-                $(".left-box").removeClass("style02");
-
-                $(".right-box").css("display", "none");
-
-                $(".left-box").css("width", "100%");
-
-                $(".back").css("display", "none");
-
-                $(".right-box .point-box.front").css("display", "flex");
-
-                $(".left-box .front").css("display", "block");
-
-                $(".point-box.back").attr("style", "display: none !important");
-
-                $(".point-box.front.mb").addClass("show");
-
-
-
-                $(".left-box .tips").css("display", "flex");
-
-                $(".detail-box .ChosePart").css("display", "flex");
-
-                $(".left-box .left").css("display", "flex");
-
-                $(".left-box .right").css("display", "flex");
-
-                $(".color-box").css("display", "flex");
-
-                $(".step02box").css("display", "block");
-
-                $(".step03box").css("display", "none");
-
-                $(".left-box .step03box").css("display", "none");
-
-              } else if (step == "02") {
-
-                step = "01";
-
-                oldPainColor = null;
-
-                $(".title span span").html("01");
-
-                $(".step01").css("display", "block");
-
-                $(".step02").css("display", "none");
-
-              } else if (step == "02-02") {
-
-                step = "02";
-
-                $(".point-box.back").attr("style", "display: none !important");
-
-                $(".right-box").css("display", "nome");
-
-                $(".left-box").css("width", "100%");
-
-                $(`.right-box .front`).css("display", "flex");
-
-                $(".left-box .front").css("display", "block");
-
-                $(".left-box .back").css("display", "none");
-
-                $(".title span span").html("02");
-
-                $(".point-box.front.mb").addClass("show");
-
-              }
-
-            } else {
-
-              window.location.href = `../../AssessmentPage/question/Index03.html?workOrderID=${testparams.workOrderID}`;
-
-            }
-
-          }
-
-        }
-
-      },
-
-      error: function () {
-
-        $("#error").text("An error occurred. Please try again later.");
-
-      },
-
-    });
-
-  };
-
-  $(".home-box").click(() => {
-
-    window.location.href = `../../AssessmentPage/index.html?workOrderID=${testparams.workOrderID}`;
-
-  });
-
+	$(".home-box").click(() => {
+		window.location.href = `../../AssessmentPage/index.html?workOrderID=${testparams.workOrderID}`;
+	});
 });
-

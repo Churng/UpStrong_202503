@@ -265,6 +265,11 @@ $(document).ready(function () {
 
 			success: function (res) {
 				if (res.returnCode) {
+					//003重新登入
+					if (res.returnCode == "003") {
+						alert(res.returnMessage);
+						window.location.assign("../../LoginPage/index.html");
+					}
 					oldData = res.returnData;
 
 					let data01 = res.returnData.item[paramBigStep].item[0];
@@ -402,9 +407,6 @@ $(document).ready(function () {
 					$(data08.item[2].value).each((index, item) => {
 						$(`.step08 #sit${item}`).attr("checked", "true");
 					});
-				} else if (res.returnCode == "003") {
-					new CustomAlert({ content: res.returnMessage });
-					window.location.assign("../../LoginPage/index.html");
 				}
 			},
 		});
