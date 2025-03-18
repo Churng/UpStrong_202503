@@ -131,6 +131,8 @@ body {
 
 	justify-content: space-between;
 
+	flex-direction: column;
+
 	align-items: center;
 
 	flex-wrap: wrap;
@@ -186,6 +188,14 @@ body {
 
 .bottom-box .select-box .box .checkbox-box .title-box span:first-child {
 	width: 135px;
+}
+
+.img-box {
+	width: 250px;
+
+	img {
+		width: 100%;
+	}
 }
 
 .radio-box {
@@ -396,4 +406,62 @@ input[type="radio"]:checked~label::after{
 
 		gap: 24px;
 	}
+}
+
+.text-plus {
+	color: #e91e63;
+}
+
+/* test */
+.icon-card-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 280px; /* 調整適合的寬度 */
+	text-align: center;
+	flex-direction: row;
+}
+
+.icon-card-icon {
+	width: 100px; /* 調整 icon 大小 */
+	height: 100px;
+	background-color: white;
+	border-radius: 12px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid #ddd; /* 加個細邊框 */
+	padding: 10px;
+}
+
+.icon-card-title {
+	width: 100%;
+	background-color: #fb7c2d; /* 橘色背景 */
+	color: white;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	padding: 8px 12px;
+	border: none;
+	border-radius: 3px 0 0 3px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.icon-arrow {
+	background-color: #fb7c2d; /* 跟標題相同的背景顏色 */
+	padding: 9px 12px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-left: 1px solid white; /* 左邊加上白色的 border */
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+.icon-arrow svg {
+	width: 20px;
+	height: 20px;
 }
