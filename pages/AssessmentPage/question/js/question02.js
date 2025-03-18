@@ -265,11 +265,7 @@ $(document).ready(function () {
 
 			success: function (res) {
 				if (res.returnCode) {
-					//003重新登入
-					if (res.returnCode == "003") {
-						alert(res.returnMessage);
-						window.location.assign("../../LoginPage/index.html");
-					}
+					handleResponse(res);
 					oldData = res.returnData;
 
 					let data01 = res.returnData.item[paramBigStep].item[0];

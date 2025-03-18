@@ -17,6 +17,14 @@ if (window.consoleToggle) {
 $(document).ready(function () {
 	var step = "01";
 
+	let params = new URLSearchParams(window.location.search);
+	const testparams = Object.fromEntries(params.entries());
+	let data = { workOrderId: testparams.workOrderID };
+
+	let paramStep = params.get("step");
+
+	let paramBigStep = params.get("bigstep");
+
 	var backTotalScore = 0;
 
 	var frontTotalScore = 0;
@@ -299,16 +307,16 @@ $(document).ready(function () {
 		$(".right-box").css("display", "none");
 	});
 
-	let params = new URLSearchParams(window.location.search);
-	const testparams = Object.fromEntries(params.entries());
-	let data = { workOrderId: testparams.workOrderID };
-
-	let paramStep = params.get("step");
-
-	let paramBigStep = params.get("bigstep");
-
 	const getStep = () => {
 		if (paramStep) {
+			step = `0${paramStep}`;
+
+			$(".title span span").html(`0${paramStep}`);
+
+			$(".step01").css("display", "none");
+
+			$(`.step0${paramStep}`).css("display", "block");
+
 			if (paramStep == "2-02") {
 				step = `02-02`;
 
@@ -337,6 +345,86 @@ $(document).ready(function () {
 				$(`.step0${paramStep}`).css("display", "block");
 			}
 		}
+	};
+
+	const getList = () => {
+		let res = { returnData: JSON.parse(localStorage.getItem("listData")) };
+
+		let data07 = res.returnData.item[1].item[6];
+
+		let data08 = res.returnData.item[1].item[7];
+
+		$(".step07 .detail-box>div").html("");
+
+		$(data07.item).each((idx, e) => {
+			$(".step07 .detail-box>div").append(`
+
+        <div class="title-box">
+
+          <span class="title">${e.title}</span>
+
+        </div>
+
+        <div class="bottom-box">
+
+            <div class="checkbox-box" data-id="${idx}">
+
+            </div>
+
+        </div>
+
+      `);
+
+			$(e.question).each((idxx, ee) => {
+				$(`[data-id=${idx}]`).append(`
+
+          <div>
+
+              <input type="checkbox" id="${e.title}${ee.id}" name="${e.title}" value="${ee.id}">
+
+              <label for="${e.title}${ee.id}">${ee.title}</label>
+
+          </div>
+
+        `);
+			});
+		});
+
+		$(".step08 .detail-box>div").html("");
+
+		$(data08.item).each((idx, e) => {
+			$(".step08 .detail-box>div").append(`
+
+        <div class="title-box">
+
+          <span class="title">${e.title}</span>
+
+        </div>
+
+        <div class="bottom-box">
+
+            <div class="radio-box" data-08id="${idx}">
+
+            </div>
+
+        </div>
+
+      `);
+
+			$(e.question).each((idxx, ee) => {
+				$(`[data-08id=${idx}]`).append(`
+
+        <div>
+
+            <input type="radio" id="${e.title}${ee.id}" name="${e.title}" value="${ee.id}">
+
+            <label for="${e.title}${ee.id}">${ee.title}</label>
+
+        </div>
+
+        `);
+			});
+		});
 	};
 
 	var oldData = null;
@@ -371,6 +459,7 @@ $(document).ready(function () {
 
 			success: function (res) {
 				if (res.returnCode) {
+					handleResponse(res);
 					oldData = res.returnData;
 
 					let data01 = res.returnData.item[paramBigStep].item[0];
@@ -379,10 +468,80 @@ $(document).ready(function () {
 
 					let data03 = res.returnData.item[paramBigStep].item[2];
 
+					let data07 = res.returnData.item[paramBigStep].item[6];
+
+					let data08 = res.returnData.item[paramBigStep].item[7];
+
 					$(".step01 input").each((idx, e) => {
 						if ($(e).val() == data01.item[0].value[0]) {
 							$(e).attr("checked", "true");
 						}
+					});
+
+					$(data07.item[0].value).each((index, item) => {
+						$(`.step07 #pain${item}`).attr("checked", "true");
+					});
+
+					$(data07.item[1].value).each((index, item) => {
+						$(`.step07 #urination${item}`).attr("checked", "true");
+					});
+
+					$.each(data07.item[2].value, (item, text) => {
+						$(`.step07 #ulcer${item}`).attr("checked", "true");
+
+						if (item !== "3") {
+							$(`.step07 #ulcer${item}_text`).val(text);
+						}
+					});
+
+					// 當 "無" 選項被勾選或取消勾選時
+					$("#ulcer1").change(function () {
+						if ($(this).prop("checked")) {
+							// 當 "無" 被勾選時，取消其他選項的勾選
+							$('input[name="ulcer"]').not("#ulcer1").prop("checked", false);
+						}
+					});
+
+					// 如果其他選項被勾選時，取消 "無" 的勾選
+					$('input[name="ulcer"]')
+						.not("#ulcer1")
+						.change(function () {
+							if ($(this).prop("checked")) {
+								$("#ulcer1").prop("checked", false);
+							}
+						});
+
+					$(data07.item[3].value).each((index, item) => {
+						$(`.step07 #ability${item}`).attr("checked", "true");
+					});
+
+					// 當 "皆無" 選項被勾選或取消勾選時
+					$("#ability4").change(function () {
+						if ($(this).prop("checked")) {
+							// 當 "皆無" 被勾選時，取消其他選項的勾選
+							$('input[name="ability"]').not("#ability4").prop("checked", false);
+						}
+					});
+
+					// 如果其他選項被勾選時，取消 "皆無" 的勾選
+					$('input[name="ability"]')
+						.not("#ability4")
+						.change(function () {
+							if ($(this).prop("checked")) {
+								$("#ability4").prop("checked", false);
+							}
+						});
+
+					$(data08.item[0].value).each((index, item) => {
+						$(`.step08 #tube${item}`).attr("checked", "true");
+					});
+
+					$(data08.item[1].value).each((index, item) => {
+						$(`.step08 #turn${item}`).attr("checked", "true");
+					});
+
+					$(data08.item[2].value).each((index, item) => {
+						$(`.step08 #sit${item}`).attr("checked", "true");
 					});
 
 					//正面
@@ -511,6 +670,23 @@ $(document).ready(function () {
 				if (res.returnCode) {
 					handleResponse(res);
 					if (type != "prev") {
+						if (step != "06") {
+							$(".title span span").html(`0${Number(step) + 1}`);
+
+							$(`.step0${Number(step)}`).css("display", "none");
+
+							$(`.step0${Number(step) + 1}`).css("display", "block");
+
+							step = `0${Number(step) + 1}`;
+
+							const url = new URL(window.location.href);
+
+							url.searchParams.set("step", Number(step));
+
+							window.history.replaceState(null, "", url);
+						} else {
+							window.location.href = `../../AssessmentPage/question/Index03.html?workOrderID=${testparams.workOrderID}`;
+						}
 						if (step != "03") {
 							if (step == "01") {
 								//進入正面
