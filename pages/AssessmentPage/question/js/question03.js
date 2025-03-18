@@ -509,6 +509,7 @@ $(document).ready(function () {
 
 			success: function (res) {
 				if (res.returnCode) {
+					handleResponse(res);
 					if (type != "prev") {
 						if (step != "03") {
 							if (step == "01") {

@@ -53,7 +53,6 @@ $(document).ready(function () {
 				localStorage.setItem("listData", JSON.stringify(res.returnData));
 
 				$(".card-box").html("");
-
 				if (res.returnCode) {
 					$(res.returnData.item).each(function (idx, e) {
 						$(".card-box").append(`
@@ -271,6 +270,8 @@ $(document).ready(function () {
 
 			success: function (res) {
 				if (res.returnCode) {
+					handleResponse(res);
+
 					$(res.returnData.item).each((idx, e) => {
 						$(`[data-cardidx=${idx + 1}] .g-container .text`).html(`${e.percent * 100}%`);
 

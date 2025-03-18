@@ -450,6 +450,7 @@ $(document).ready(function () {
 				console.log(res);
 
 				if (res.returnCode) {
+					handleResponse(res);
 					if (type != "prev") {
 						if (step != "06") {
 							$(".title span span").html(`0${Number(step) + 1}`);
@@ -481,9 +482,6 @@ $(document).ready(function () {
 							window.location.href = `../../AssessmentPage/question/Index02.html?workOrderID=${testparams.workOrderID}`;
 						}
 					}
-				} else if (res.returnCode == "003") {
-					new CustomAlert({ content: res.returnMessage });
-					window.location.assign("../LoginPage/index.html");
 				}
 			},
 
