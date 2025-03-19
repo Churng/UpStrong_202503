@@ -191,10 +191,18 @@ body {
 }
 
 .img-box {
-	width: 250px;
-
+	width: 280px;
+	height: 280px;
+	overflow: hidden; /* 隱藏超出範圍的部分 */
+	position: relative;
+	border: 1px solid gray; /* 添加灰色邊框 */
+	border-radius: 15px; /* 圓角邊框 */
+	box-sizing: border-box; /* 確保邊框不影響元素的總大小 */
+	padding: 10px;
 	img {
 		width: 100%;
+		height: 100%;
+		object-fit: contain; /* 圖片會等比例縮小以適應容器 */
 	}
 }
 
@@ -464,8 +472,4 @@ input[type="radio"]:checked~label::after{
 .icon-arrow svg {
 	width: 20px;
 	height: 20px;
-}
-
-.hidden-text {
-	visibility: hidden;
 }
