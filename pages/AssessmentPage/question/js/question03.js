@@ -31,6 +31,54 @@ $(document).ready(function () {
 
 	$(".next").on("click", function () {
 		if (step == "01") {
+			let newData = [{ value: [] }, { value: [] }, { value: {} }, { value: [] }];
+
+			$("input[name='pain']:checked").each((idx, e) => {
+				newData[0].value.push($(e).val());
+			});
+
+			$("input[name='urination']:checked").each((idx, e) => {
+				newData[1].value.push($(e).val());
+			});
+
+			$("input[name='ulcer']:checked").each((idx, e) => {
+				let ulcerValue = $(e).val();
+
+				let ulcerText = $(`#ulcer${ulcerValue}_text`);
+
+				let ulcerTextValue = ulcerText.val();
+
+				if (ulcerTextValue === undefined) {
+					ulcerTextValue = "";
+				}
+
+				newData[2].value[ulcerValue] = ulcerTextValue;
+			});
+
+			$("input[name='ability']:checked").each((idx, e) => {
+				newData[3].value.push($(e).val());
+			});
+
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
+
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
+
+			update();
+		} else if (step == "02") {
+			let newData = [
+				{ value: [$("input[name='tube']:checked").val()] },
+
+				{ value: [$("input[name='turn']:checked").val()] },
+
+				{ value: [$("input[name='sit']:checked").val()] },
+			];
+
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
+
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
+
+			update();
+		} else if (step == "03") {
 			let newData = [{ value: [$("input[name='express']:checked").val()] }];
 
 			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
@@ -42,7 +90,7 @@ $(document).ready(function () {
 			if ($(".step01 input:checked").val() == 1) {
 				window.location.href = `./Index04.html`;
 			}
-		} else if (step == "02") {
+		} else if (step == "04") {
 			let newData = [{ value: [] }];
 
 			let payload = {};
@@ -60,7 +108,7 @@ $(document).ready(function () {
 			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
 			update();
-		} else if (step == "02-02") {
+		} else if (step == "04-02") {
 			let newData = [{ value: [] }];
 
 			let payload = {};
@@ -78,13 +126,13 @@ $(document).ready(function () {
 			oldData.item[paramBigStep].item[2].if_complete = true;
 
 			update();
-		} else if (step == "03") {
+		} else if (step == "05") {
 			update();
 		}
 	});
 
 	$(".prev").on("click", function () {
-		if (step == "01") {
+		if (step == "03") {
 			if ($(".step01 input:checked").val() == 2) {
 				let newData = [{ value: [$("input[name='express']:checked").val()] }];
 
@@ -96,7 +144,7 @@ $(document).ready(function () {
 			} else {
 				window.location.href = `../../AssessmentPage/question/Index03.html?workOrderID=${testparams.workOrderID}`;
 			}
-		} else if (step == "02") {
+		} else if (step == "04") {
 			let newData = [{ value: [] }];
 
 			let payload = {};
@@ -114,7 +162,7 @@ $(document).ready(function () {
 			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
 			update("prev");
-		} else if (step == "02-02") {
+		} else if (step == "04-02") {
 			let newData = [{ value: [] }];
 
 			let payload = {};
@@ -132,7 +180,7 @@ $(document).ready(function () {
 			oldData.item[paramBigStep].item[2].if_complete = true;
 
 			update("prev");
-		} else if (step == "03") {
+		} else if (step == "05") {
 			update("prev");
 		}
 	});
@@ -186,7 +234,7 @@ $(document).ready(function () {
 	var selectId = 0;
 
 	$(".left-box path").on("click", function () {
-		if (step != 3) {
+		if (step != 4) {
 			if ($(this).attr("id")) {
 				selectId = $(this).attr("id");
 
@@ -309,6 +357,8 @@ $(document).ready(function () {
 
 	const getStep = () => {
 		if (paramStep) {
+			console.log(paramStep);
+
 			step = `0${paramStep}`;
 
 			$(".title span span").html(`0${paramStep}`);
@@ -317,8 +367,8 @@ $(document).ready(function () {
 
 			$(`.step0${paramStep}`).css("display", "block");
 
-			if (paramStep == "2-02") {
-				step = `02-02`;
+			if (paramStep == "4-02") {
+				step = `04-02`;
 
 				$(".title span span").html(`02`);
 
@@ -669,7 +719,7 @@ $(document).ready(function () {
 				if (res.returnCode) {
 					handleResponse(res);
 					if (type != "prev") {
-						if (step != "06") {
+						if (step != "01") {
 							$(".title span span").html(`0${Number(step) + 1}`);
 
 							$(`.step0${Number(step)}`).css("display", "none");
@@ -686,8 +736,8 @@ $(document).ready(function () {
 						} else {
 							window.location.href = `../../AssessmentPage/question/Index03.html?workOrderID=${testparams.workOrderID}`;
 						}
-						if (step != "03") {
-							if (step == "01") {
+						if (step != "04") {
+							if (step == "04") {
 								//進入正面
 								console.log("test1");
 								step = "02";
@@ -702,7 +752,7 @@ $(document).ready(function () {
 							} else if (step == "02") {
 								//進入反面
 								console.log("test2");
-								step = "02-02";
+								step = "04-02";
 
 								oldPainColor = null;
 
@@ -721,7 +771,7 @@ $(document).ready(function () {
 								$(".point-box.front").css("display", "none");
 
 								$(".point-box.back").css("display", "flex");
-							} else if (step == "02-02") {
+							} else if (step == "04-02") {
 								//進入雙面
 								console.log("test3");
 								step = "03";
@@ -827,7 +877,7 @@ $(document).ready(function () {
 								$(".step01").css("display", "block");
 
 								$(".step02").css("display", "none");
-							} else if (step == "02-02") {
+							} else if (step == "04-02") {
 								step = "02";
 
 								$(".point-box.back").attr("style", "display: none !important");

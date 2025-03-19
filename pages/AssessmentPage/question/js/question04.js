@@ -25,17 +25,17 @@ $(document).ready(function () {
 
 	let paramBigStep = params.get("bigstep");
 
-	// const getStep = () => {
-	// 	if (paramStep) {
-	// 		step = `0${paramStep}`;
+	const getStep = () => {
+		if (paramStep) {
+			step = `0${paramStep}`;
 
-	// 		$(".title span span").html(`0${paramStep}`);
+			$(".title span span").html(`0${paramStep}`);
 
-	// 		$(".step01").css("display", "none");
+			$(".step01").css("display", "none");
 
-	// 		$(`.step0${paramStep}`).css("display", "block");
-	// 	}
-	// };
+			$(`.step0${paramStep}`).css("display", "block");
+		}
+	};
 
 	const getList = () => {
 		let res = { returnData: JSON.parse(localStorage.getItem("listData")) };
@@ -119,58 +119,58 @@ $(document).ready(function () {
 
 	var oldData = null;
 
-	// const getCheckListRecord = () => {
-	// 	let formData = new FormData();
+	const getCheckListRecord = () => {
+		let formData = new FormData();
 
-	// 	let session_id = sessionStorage.getItem("sessionId");
+		let session_id = sessionStorage.getItem("sessionId");
 
-	// 	let action = "getCheckListRecord";
+		let action = "getCheckListRecord";
 
-	// 	let chsm = "upStrongCheckListApi"; // api文件相關
+		let chsm = "upStrongCheckListApi"; // api文件相關
 
-	// 	chsm = $.md5(session_id + action + chsm);
+		chsm = $.md5(session_id + action + chsm);
 
-	// 	formData.append("session_id", session_id);
+		formData.append("session_id", session_id);
 
-	// 	formData.append("action", action);
+		formData.append("action", action);
 
-	// 	formData.append("chsm", chsm);
+		formData.append("chsm", chsm);
 
-	// 	$.ajax({
-	// 		url: `${window.apiUrl}${window.apicheckList}`,
+		$.ajax({
+			url: `${window.apiUrl}${window.apicheckList}`,
 
-	// 		type: "POST",
+			type: "POST",
 
-	// 		data: formData,
+			data: formData,
 
-	// 		processData: false,
+			processData: false,
 
-	// 		contentType: false,
+			contentType: false,
 
-	// 		success: function (res) {
-	// 			if (res.returnCode) {
-	// 				oldData = res.returnData;
+			success: function (res) {
+				if (res.returnCode) {
+					oldData = res.returnData;
 
-	// 				let data01 = res.returnData.item[3];
+					let data01 = res.returnData.item[3];
 
-	// 				console.log(data01);
+					console.log(data01);
 
-	// 				$.each(data01.item[0].item, (section, sectionValue) => {
-	// 					$.each(sectionValue.value, (subIndex, questionValue) => {
-	// 						$(`input[value=${questionValue}][data-section-id=${section}][data-sub-id=${subIndex}]`).attr(
-	// 							"checked",
-	// 							true
-	// 						);
-	// 					});
-	// 				});
-	// 			}
-	// 		},
-	// 	});
-	// };
+					$.each(data01.item[0].item, (section, sectionValue) => {
+						$.each(sectionValue.value, (subIndex, questionValue) => {
+							$(`input[value=${questionValue}][data-section-id=${section}][data-sub-id=${subIndex}]`).attr(
+								"checked",
+								true
+							);
+						});
+					});
+				}
+			},
+		});
+	};
 
-	// getStep();
+	getStep();
 
-	// getCheckListRecord();
+	getCheckListRecord();
 
 	$(".box").on("click", function () {
 		$(this).toggleClass("active");
@@ -213,13 +213,13 @@ $(document).ready(function () {
 			success: function (res) {
 				console.log(res);
 
-				// if (res.returnCode) {
-				// 	if (type == "prev") {
-				// 		window.location.href = `../../AssessmentPage/question/Index04.html?workOrderID=${testparams.workOrderID}`;
-				// 	} else {
-				// 		window.location.href = `../../AssessmentPage/question/Index05.html?workOrderID=${testparams.workOrderID}`;
-				// 	}
-				// }
+				if (res.returnCode) {
+					if (type == "prev") {
+						window.location.href = `../../AssessmentPage/question/Index04.html?workOrderID=${testparams.workOrderID}`;
+					} else {
+						window.location.href = `../../AssessmentPage/question/Index05.html?workOrderID=${testparams.workOrderID}`;
+					}
+				}
 			},
 
 			error: function () {
@@ -230,8 +230,6 @@ $(document).ready(function () {
 
 	$(".next").on("click", function () {
 		let newData = {};
-
-		console.log(newData);
 
 		for (let i = 0; i < 10; i++) {
 			let questionValues = {};
