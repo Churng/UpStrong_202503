@@ -108,8 +108,7 @@ body {
 
 .bottom-box {
 	display: flex;
-
-	gap: 47px;
+	/* gap: 47px; */
 
 	width: 100%;
 }
@@ -124,6 +123,7 @@ body {
 	height: fit-content;
 
 	gap: 24px;
+	align-items: baseline;
 }
 
 .bottom-box .select-box .box {
@@ -133,7 +133,7 @@ body {
 
 	flex-direction: column;
 
-	align-items: center;
+	align-items: flex-start;
 
 	flex-wrap: wrap;
 
@@ -464,4 +464,8 @@ input[type="radio"]:checked~label::after{
 .icon-arrow svg {
 	width: 20px;
 	height: 20px;
+}
+
+.hidden-text {
+	visibility: hidden;
 }

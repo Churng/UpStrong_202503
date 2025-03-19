@@ -5,8 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>全身關節活動度</title>
-    <link rel="stylesheet" href="./css/question_a04.css">
+    <link rel="stylesheet" href="../../../css/bootstrap-5.3.3.css">
+    <script src="../../../js/bootstrap-5.3.3.js"></script>
     <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="./css/question_a04.css">
+
+
     <script>
         // 確保載入時，使用時間戳。
         let version = Date.now();
@@ -29,9 +33,9 @@
     <div class="content-box">
         <div class="step01">
             <div class="detail-box" style="display: block;">
-                <div>
-                    <div class="bottom-box">
-                        <div class="select-box">
+                <div class="container">
+                    <div class="row bottom-box">
+                        <div class="col select-box">
                             <div class="box">
                                 <div class="img-box">
                                     <img src="../../../assets/testimg.jpg" alt="">
@@ -46,9 +50,10 @@
                                         </svg>
                                     </div>
                                 </div>
+                                <span class="pt-3 hidden-text"></span>
 
 
-                                <span class="pt-3">請選取<span class="text-plus">有受限需加強</span>之關節動作</span>
+
                                 <div class="checkbox-box">
                                     <div class="title-box">
                                         <span>項目</span>
@@ -135,13 +140,33 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- 肩關節 -->
                             <div class="box">
-                                <span class="title">肩關節</span>
+                                <!-- <span class="title">肩關節</span>
                                 <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round"
                                         stroke-linejoin="round" />
-                                </svg>
+                                </svg> -->
+
+                                <div class="img-box">
+                                    <img src="../../../assets/testimg.jpg" alt="">
+                                </div>
+                                <div class="icon-card-container">
+                                    <span class="icon-card-title">肩關節</span>
+                                    <div class="icon-arrow">
+                                        <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#ffffff"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                </div>
+
+
+                                <span class="pt-3">請選取<span class="text-plus">有受限需加強</span>之關節動作</span>
+
+
                                 <div class="checkbox-box">
                                     <div class="title-box">
                                         <span>項目</span>
@@ -254,13 +279,32 @@
                                     </div> -->
                                 </div>
                             </div>
+
+                            <!-- 肘關節 -->
                             <div class="box">
-                                <span class="title">肘關節</span>
+                                <!-- <span class="title">肘關節</span>
                                 <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round"
                                         stroke-linejoin="round" />
-                                </svg>
+                                </svg> -->
+
+                                <div class="img-box">
+                                    <img src="../../../assets/testimg.jpg" alt="">
+                                </div>
+                                <div class="icon-card-container">
+                                    <span class="icon-card-title">肘關節</span>
+                                    <div class="icon-arrow">
+                                        <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#ffffff"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                </div>
+
+
+                                <span class="pt-3">請選取<span class="text-plus">有受限需加強</span>之關節動作</span>
                                 <div class="checkbox-box">
                                     <div class="title-box">
                                         <span>項目</span>
@@ -374,14 +418,30 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="select-box">
+                        <div class="col select-box">
                             <div class="box">
-                                <span class="title">腕關節</span>
+                                <!-- <span class="title">腕關節</span>
                                 <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round"
                                         stroke-linejoin="round" />
-                                </svg>
+                                </svg> -->
+
+                                <div class="img-box">
+                                    <img src="../../../assets/testimg.jpg" alt="">
+                                </div>
+                                <div class="icon-card-container">
+                                    <span class="icon-card-title">腕關節</span>
+                                    <div class="icon-arrow">
+                                        <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#ffffff"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="pt-3">請選取<span class="text-plus">有受限需加強</span>之關節動作</span>
+
                                 <div class="checkbox-box">
                                     <div class="title-box">
                                         <span>項目</span>
@@ -442,13 +502,30 @@
                                     </div> -->
                                 </div>
                             </div>
+                            <!-- 手指 -->
                             <div class="box">
-                                <span class="title">手指</span>
+                                <!-- <span class="title">手指</span>
                                 <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round"
                                         stroke-linejoin="round" />
-                                </svg>
+                                </svg> -->
+
+                                <div class="img-box">
+                                    <img src="../../../assets/testimg.jpg" alt="">
+                                </div>
+                                <div class="icon-card-container">
+                                    <span class="icon-card-title">手指</span>
+                                    <div class="icon-arrow">
+                                        <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#ffffff"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="pt-3">請選取<span class="text-plus">有受限需加強</span>之關節動作</span>
+
                                 <div class="checkbox-box">
                                     <div class="title-box">
                                         <span>項目</span>
@@ -561,13 +638,31 @@
                                     </div> -->
                                 </div>
                             </div>
+                            <!--  軀幹脊柱-->
                             <div class="box">
-                                <span class="title">軀幹脊柱</span>
+                                <!-- <span class="title">軀幹脊柱</span>
                                 <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round"
                                         stroke-linejoin="round" />
-                                </svg>
+                                </svg> -->
+
+                                <div class="img-box">
+                                    <img src="../../../assets/testimg.jpg" alt="">
+                                </div>
+                                <div class="icon-card-container">
+                                    <span class="icon-card-title">軀幹脊柱</span>
+                                    <div class="icon-arrow">
+                                        <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#ffffff"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="pt-3 hidden-text"></span>
+
+
                                 <div class="checkbox-box">
                                     <div class="title-box">
                                         <span>項目</span>
@@ -655,14 +750,31 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="select-box">
+                        <div class="col select-box">
                             <div class="box">
-                                <span class="title">髖關節</span>
+                                <!-- <span class="title">髖關節</span>
                                 <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round"
                                         stroke-linejoin="round" />
-                                </svg>
+                                </svg> -->
+
+
+                                <div class="img-box">
+                                    <img src="../../../assets/testimg.jpg" alt="">
+                                </div>
+                                <div class="icon-card-container">
+                                    <span class="icon-card-title">髖關節</span>
+                                    <div class="icon-arrow">
+                                        <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#ffffff"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="pt-3">請選取<span class="text-plus">有受限需加強</span>之關節動作</span>
+
                                 <div class="checkbox-box">
                                     <div class="title-box">
                                         <span>項目</span>
@@ -801,13 +913,29 @@
                                     </div> -->
                                 </div>
                             </div>
+                            <!-- 膝關節 -->
                             <div class="box">
-                                <span class="title">膝關節</span>
+                                <!-- <span class="title">膝關節</span>
                                 <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round"
                                         stroke-linejoin="round" />
-                                </svg>
+                                </svg> -->
+
+                                <div class="img-box">
+                                    <img src="../../../assets/testimg.jpg" alt="">
+                                </div>
+                                <div class="icon-card-container">
+                                    <span class="icon-card-title">膝關節</span>
+                                    <div class="icon-arrow">
+                                        <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#ffffff"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="pt-3">請選取<span class="text-plus">有受限需加強</span>之關節動作</span>
                                 <div class="checkbox-box">
                                     <div class="title-box">
                                         <span>項目</span>
@@ -894,13 +1022,30 @@
                                     </div> -->
                                 </div>
                             </div>
+                            <!-- 踝關節 -->
                             <div class="box">
-                                <span class="title">踝關節</span>
+                                <!-- <span class="title">踝關節</span>
                                 <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round"
                                         stroke-linejoin="round" />
-                                </svg>
+                                </svg> -->
+
+                                <div class="img-box">
+                                    <img src="../../../assets/testimg.jpg" alt="">
+                                </div>
+                                <div class="icon-card-container">
+                                    <span class="icon-card-title">踝關節</span>
+                                    <div class="icon-arrow">
+                                        <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#ffffff"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="pt-3">請選取<span class="text-plus">有受限需加強</span>之關節動作</span>
+
                                 <div class="checkbox-box">
                                     <div class="title-box">
                                         <span>項目</span>
@@ -961,13 +1106,32 @@
                                     </div> -->
                                 </div>
                             </div>
-                            <div class="box">
-                                <span class="title">腳趾</span>
+                        </div>
+                    </div>
+                    <div class="row bottom-box">
+                        <div class="col select-box">
+                            <div class="box align-left">
+                                <!-- <span class="title">腳趾</span>
                                 <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round"
                                         stroke-linejoin="round" />
-                                </svg>
+                                </svg> -->
+                                <div class="img-box">
+                                    <img src="../../../assets/testimg.jpg" alt="">
+                                </div>
+                                <div class="icon-card-container">
+                                    <span class="icon-card-title">腳趾</span>
+                                    <div class="icon-arrow">
+                                        <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#ffffff"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="pt-3">請選取<span class="text-plus">有受限需加強</span>之關節動作</span>
+
                                 <div class="checkbox-box">
                                     <div class="title-box">
                                         <span>項目</span>
@@ -1029,16 +1193,16 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
+            <div class="next-button">
+                <span class="next">下一步</span>
+            </div>
         </div>
-        <div class="next-button">
-            <span class="next">下一步</span>
-        </div>
-    </div>
-    <script type="text/javascript" src="../../../js/webConfig.js"></script>
-    <script type="text/javascript" src="./js/question04.js"></script>
+        <script type="text/javascript" src="../../../js/webConfig.js"></script>
+        <script type="text/javascript" src="./js/question04.js"></script>
 </body>
 
 </html>
