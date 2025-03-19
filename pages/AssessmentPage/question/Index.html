@@ -5,8 +5,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>基本資料</title>
+
+
   <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" href="../../components/CustomAlert/style.css">
+  <link rel="stylesheet" href="../../../js/bootstrap-5.3.3.js">
+
+
+  <script src="../../../js/bootstrap-5.3.3.js"></script>
   <script src="../../../js/jquery-3.6.0.min.js"></script>
+  <script src="../../../components/CustomAlert/script.js"></script>
 </head>
 
 <body>
@@ -36,7 +44,7 @@
   </div>
 
   <script>
-    
+
     $(document).ready(function () {
       const urlSearchParams = new URLSearchParams(window.location.search);
       const params = Object.fromEntries(urlSearchParams.entries());

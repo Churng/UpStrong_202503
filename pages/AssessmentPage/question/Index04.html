@@ -6,7 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>全身關節活動度</title>
   <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" href="../../../components/CustomAlert/style.css">
+  <link rel="stylesheet" href="../../../js/bootstrap-5.3.3.js">
+
+
+  <script src="../../../js/bootstrap-5.3.3.js"></script>
   <script src="../../../js/jquery-3.6.0.min.js"></script>
+  <script src="../../../components/CustomAlert/script.js"></script>
 </head>
 
 <body>
@@ -40,7 +46,7 @@
 
       $(".home-box").click(() => {
         window.location.href = `../../AssessmentPage/index.html?workOrderID=${params.workOrderID}`;
-      })      
+      })
       $(".button").click(() => {
         window.location.href = `../../AssessmentPage/question/question_a04.html?workOrderID=${params.workOrderID}&step=1&bigstep=3`;
       })
