@@ -146,12 +146,14 @@ body {
 	font-weight: bolder;
 
 	cursor: pointer;
+
+	align-content: center;
 }
 
 .bottom-box .select-box .box .checkbox-box {
 	display: none;
 
-	max-width: 335px;
+	max-width: 280px;
 
 	margin-top: 12px;
 
@@ -400,7 +402,7 @@ input[type="radio"]:checked~label::after{
 
 		min-width: auto;
 
-		padding: 16px 20px;
+		/* padding: 16px 20px; */
 	}
 
 	.content-box .detail-box {
@@ -411,8 +413,11 @@ input[type="radio"]:checked~label::after{
 
 	.bottom-box {
 		flex-wrap: wrap;
+		/* gap: 24px; */
+	}
 
-		gap: 24px;
+	.bottom-box .select-box .box {
+		align-content: center;
 	}
 }
 
