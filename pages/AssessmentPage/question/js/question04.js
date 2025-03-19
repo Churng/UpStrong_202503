@@ -1,394 +1,293 @@
 if (window.consoleToggle) {
+	var console = {};
 
-  var console = {};
-
-  console.log = function () {};
-
+	console.log = function () {};
 } else {
+	var iframe = document.createElement("iframe");
 
-  var iframe = document.createElement("iframe");
+	iframe.style.display = "none";
 
-  iframe.style.display = "none";
+	document.body.appendChild(iframe);
 
-  document.body.appendChild(iframe);
+	console = iframe.contentWindow.console;
 
-  console = iframe.contentWindow.console;
-
-  window.console = console;
-
+	window.console = console;
 }
 
 $(document).ready(function () {
+	var step = "01";
 
-  var step = "01";
+	let params = new URLSearchParams(window.location.search);
+	const testparams = Object.fromEntries(params.entries());
+	let data = { workOrderId: testparams.workOrderID };
 
-  let params = new URLSearchParams(window.location.search);
-  const testparams = Object.fromEntries(params.entries());
-  let data = { workOrderId: testparams.workOrderID };
-  
-  let paramStep = params.get("step");
+	let paramStep = params.get("step");
 
-  let paramBigStep = params.get("bigstep");
+	let paramBigStep = params.get("bigstep");
 
+	// const getStep = () => {
+	// 	if (paramStep) {
+	// 		step = `0${paramStep}`;
 
+	// 		$(".title span span").html(`0${paramStep}`);
 
-  const getStep = () => {
+	// 		$(".step01").css("display", "none");
 
-    if (paramStep) {
+	// 		$(`.step0${paramStep}`).css("display", "block");
+	// 	}
+	// };
 
-      step = `0${paramStep}`;
+	const getList = () => {
+		let res = { returnData: JSON.parse(localStorage.getItem("listData")) };
 
-      $(".title span span").html(`0${paramStep}`);
+		let data01 = res.returnData.item[3].item[0];
 
-      $(".step01").css("display", "none");
+		$(".step01 .select-box").html("");
 
-      $(`.step0${paramStep}`).css("display", "block");
+		$(data01.item).each((idx, e) => {
+			if (idx <= 2) {
+				$($(".step01 .select-box")[0]).append(`
 
-    }
+	                        <div class="box">
 
-  };
+	                        <span class="title">${e.title}</span>
 
+	                        <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 
+	                            <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"/>
 
-  const getList = () => {
+	                        </svg>
 
-    let res = { returnData: JSON.parse(localStorage.getItem("listData")) };
+	                        <div class="checkbox-box" data-idx="${idx}">
 
-    let data01 = res.returnData.item[3].item[0];
+	                            <div class="title-box">
 
-    $(".step01 .select-box").html("");
+	                                <span>項目</span>
 
+	                                <span>左</span>
 
+	                                <span>右</span>
 
-    $(data01.item).each((idx, e) => {
+	                            </div>
 
-      if (idx <= 2) {
+	                        </div>
 
-        $($(".step01 .select-box")[0]).append(`
+	                    </div>
 
-                          <div class="box">
+	                    `);
 
-                          <span class="title">${e.title}</span>
+				$(e.question).each((idxx, ee) => {
+					$(`[data-idx="${idx}`).append(`
 
-                          <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+	                            <div class="checkbox" data-checkbox="${idxx}">
 
-                              <path d="M9.3335 18L15.3335 12L9.3335 6" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"/>
+	                                <span>${ee.title}</span>
 
-                          </svg>
+	                                <div>
 
-                          <div class="checkbox-box" data-idx="${idx}">
+	                                    <input type="checkbox" id="${ee.title}left" name="${ee.title}" value="1">
 
-                              <div class="title-box">
+	                                    <label for="${ee.title}left"></label>
 
-                                  <span>項目</span>
+	                                </div>
 
-                                  <span>左</span>
+	                                <div>
 
-                                  <span>右</span>
+	                                    <input type="checkbox" id="${ee.title}right" name="${ee.title}" value="2">
 
-                              </div>
+	                                    <label for="${ee.title}right"></label>
 
-                          </div>
+	                                </div>
 
-                      </div>
+	                                </div>
 
-                      `);
+	                            `);
+				});
+			}
+		});
 
-        $(e.question).each((idxx, ee) => {
+		getCheckListRecord();
 
-          $(`[data-idx="${idx}`).append(`
+		$(".box").on("click", function () {
+			$(this).toggleClass("active");
+		});
 
-                              <div class="checkbox" data-checkbox="${idxx}">
+		$(".box .checkbox-box").on("click", function (e) {
+			e.stopPropagation();
+		});
+	};
 
-                                  <span>${ee.title}</span>
+	var oldData = null;
 
-                                  <div>
+	// const getCheckListRecord = () => {
+	// 	let formData = new FormData();
 
-                                      <input type="checkbox" id="${ee.title}left" name="${ee.title}" value="1">
+	// 	let session_id = sessionStorage.getItem("sessionId");
 
-                                      <label for="${ee.title}left"></label>
+	// 	let action = "getCheckListRecord";
 
-                                  </div>
+	// 	let chsm = "upStrongCheckListApi"; // api文件相關
 
-                                  <div>
+	// 	chsm = $.md5(session_id + action + chsm);
 
-                                      <input type="checkbox" id="${ee.title}right" name="${ee.title}" value="2">
+	// 	formData.append("session_id", session_id);
 
-                                      <label for="${ee.title}right"></label>
+	// 	formData.append("action", action);
 
-                                  </div>
+	// 	formData.append("chsm", chsm);
 
-                                  </div>
+	// 	$.ajax({
+	// 		url: `${window.apiUrl}${window.apicheckList}`,
 
-                              `);
+	// 		type: "POST",
 
-        });
+	// 		data: formData,
 
-      }
+	// 		processData: false,
 
-    });
+	// 		contentType: false,
 
-    getCheckListRecord();
+	// 		success: function (res) {
+	// 			if (res.returnCode) {
+	// 				oldData = res.returnData;
 
-    $(".box").on("click", function () {
+	// 				let data01 = res.returnData.item[3];
 
-      $(this).toggleClass("active");
+	// 				console.log(data01);
 
-    });
+	// 				$.each(data01.item[0].item, (section, sectionValue) => {
+	// 					$.each(sectionValue.value, (subIndex, questionValue) => {
+	// 						$(`input[value=${questionValue}][data-section-id=${section}][data-sub-id=${subIndex}]`).attr(
+	// 							"checked",
+	// 							true
+	// 						);
+	// 					});
+	// 				});
+	// 			}
+	// 		},
+	// 	});
+	// };
 
-    $(".box .checkbox-box").on("click", function (e) {
+	// getStep();
 
-      e.stopPropagation();
+	// getCheckListRecord();
 
-    });
+	$(".box").on("click", function () {
+		$(this).toggleClass("active");
+	});
 
-  };
+	$(".box .checkbox-box").on("click", function (e) {
+		e.stopPropagation();
+	});
 
+	const update = (type) => {
+		let formData = new FormData();
 
+		let session_id = sessionStorage.getItem("sessionId");
 
-  var oldData = null;
+		let action = "updateCheckListRecord";
 
-  const getCheckListRecord = () => {
+		let chsm = "upStrongCheckListApi"; // api文件相關
 
-    let formData = new FormData();
+		chsm = $.md5(session_id + action + chsm);
 
-    let session_id = sessionStorage.getItem("sessionId");
+		formData.append("session_id", session_id);
 
-    let action = "getCheckListRecord";
+		formData.append("action", action);
 
-    let chsm = "upStrongCheckListApi"; // api文件相關
+		formData.append("chsm", chsm);
 
-    chsm = $.md5(session_id + action + chsm);
+		formData.append("data", JSON.stringify(oldData));
 
+		$.ajax({
+			url: `${window.apiUrl}${window.apicheckList}`,
 
+			type: "POST",
 
-    formData.append("session_id", session_id);
+			data: formData,
 
-    formData.append("action", action);
+			processData: false,
 
-    formData.append("chsm", chsm);
+			contentType: false,
 
-    $.ajax({
+			success: function (res) {
+				console.log(res);
 
-      url: `${window.apiUrl}${window.apicheckList}`,
+				// if (res.returnCode) {
+				// 	if (type == "prev") {
+				// 		window.location.href = `../../AssessmentPage/question/Index04.html?workOrderID=${testparams.workOrderID}`;
+				// 	} else {
+				// 		window.location.href = `../../AssessmentPage/question/Index05.html?workOrderID=${testparams.workOrderID}`;
+				// 	}
+				// }
+			},
 
-      type: "POST",
+			error: function () {
+				$("#error").text("An error occurred. Please try again later.");
+			},
+		});
+	};
 
-      data: formData,
+	$(".next").on("click", function () {
+		let newData = {};
 
-      processData: false,
+		console.log(newData);
 
-      contentType: false,
+		for (let i = 0; i < 10; i++) {
+			let questionValues = {};
 
-      success: function (res) {
+			$(`input[data-section-id=${i}]`).each((inx, e) => {
+				if ($(e).is(":checked")) {
+					let subId = $(e).data("sub-id");
 
-        if (res.returnCode) {
+					if (!questionValues[subId]) {
+						questionValues[subId] = [];
+					}
 
-          oldData = res.returnData;
+					questionValues[subId].push($(e).val());
+				}
+			});
 
-          let data01 = res.returnData.item[3];
+			if (Object.keys(questionValues).length !== 0) {
+				newData[i] = { value: questionValues };
+			}
+		}
 
+		oldData.item[paramBigStep].item[0].item = newData;
+		oldData.item[paramBigStep].item[0].if_complete = true;
 
+		console.log(oldData.item[paramBigStep].item[0].item);
 
-          console.log(data01)
+		update();
+	});
 
+	$(".prev").on("click", function () {
+		let newData = [];
 
+		$(".select-box .checkbox-box").each((idx, e) => {
+			newData.push({ value: [] });
 
-          $.each(data01.item[0].item, (section, sectionValue) => {
+			$(`[data-idx=${idx}] .checkbox`).each((idxx, ee) => {
+				if ($(`[data-idx=${idx}] [data-checkbox=${idxx}] input:checked`).length > 0) {
+					newData[idx].value.push([]);
+				}
 
-            $.each(sectionValue.value, (subIndex, questionValue)=>{
+				$(`[data-idx=${idx}] [data-checkbox=${idxx}] input:checked`).each((idxxx, eee) => {
+					if ($(eee).val()) {
+						newData[idx].value[idxx].push(Number($(eee).val()));
+					}
+				});
+			});
+		});
 
-              $(`input[value=${questionValue}][data-section-id=${section}][data-sub-id=${subIndex}]`).attr('checked', true);
+		oldData.item[paramBigStep].item[0].item = newData;
 
-            })
+		oldData.item[paramBigStep].item[0].if_complete = true;
 
-          })
+		update("prev");
+	});
 
-
-
-        }
-
-      },
-
-    });
-
-  };
-
-  getStep();
-
-  getCheckListRecord();
-
-
-
-  $(".box").on("click", function () {
-
-    $(this).toggleClass("active");
-
-  });
-
-  $(".box .checkbox-box").on("click", function (e) {
-
-    e.stopPropagation();
-
-  });
-
-
-
-  const update = (type) => {
-
-    let formData = new FormData();
-
-    let session_id = sessionStorage.getItem("sessionId");
-
-    let action = "updateCheckListRecord";
-
-    let chsm = "upStrongCheckListApi"; // api文件相關
-
-    chsm = $.md5(session_id + action + chsm);
-
-
-
-    formData.append("session_id", session_id);
-
-    formData.append("action", action);
-
-    formData.append("chsm", chsm);
-
-    formData.append("data", JSON.stringify(oldData));
-
-    $.ajax({
-
-      url: `${window.apiUrl}${window.apicheckList}`,
-
-      type: "POST",
-
-      data: formData,
-
-      processData: false,
-
-      contentType: false,
-
-      success: function (res) {
-
-        if (res.returnCode) {
-
-          if (type == "prev") {
-
-            window.location.href = `../../AssessmentPage/question/Index04.html?workOrderID=${testparams.workOrderID}`;
-
-          } else {
-
-            window.location.href = `../../AssessmentPage/question/Index05.html?workOrderID=${testparams.workOrderID}`;
-
-          }
-
-        }
-
-      },
-
-      error: function () {
-
-        $("#error").text("An error occurred. Please try again later.");
-
-      },
-
-    });
-
-  };
-
-
-
-  $(".next").on("click", function () {
-
-    let newData = {};
-
-    for (let i = 0; i < 10; i++) {
-
-      let questionValues = {};
-
-      $(`input[data-section-id=${i}]`).each((inx, e) => {
-
-        if($(e).is(':checked')){
-
-          let subId = $(e).data('sub-id')
-
-          questionValues[subId] = $(e).val();
-
-        }
-
-      })
-
-      if(Object.keys(questionValues).length !== 0){
-
-        newData[i] = {value: questionValues};
-
-      }
-
-    }
-
-    oldData.item[paramBigStep].item[0].item = newData;
-
-    oldData.item[paramBigStep].item[0].if_complete = true;
-
-    console.log(oldData.item[paramBigStep].item[0].item);
-
-    update();
-
-  });
-
-  $(".prev").on("click", function () {
-
-    let newData = [];
-
-    $(".select-box .checkbox-box").each((idx, e) => {
-
-      newData.push({ value: [] });
-
-      $(`[data-idx=${idx}] .checkbox`).each((idxx, ee) => {
-
-        if (
-
-          $(`[data-idx=${idx}] [data-checkbox=${idxx}] input:checked`).length >
-
-          0
-
-        ) {
-
-          newData[idx].value.push([]);
-
-        }
-
-        $(`[data-idx=${idx}] [data-checkbox=${idxx}] input:checked`).each(
-
-          (idxxx, eee) => {
-
-            if ($(eee).val()) {
-
-              newData[idx].value[idxx].push(Number($(eee).val()));
-
-            }
-
-          }
-
-        );
-
-      });
-
-    });
-
-    oldData.item[paramBigStep].item[0].item = newData;
-
-    oldData.item[paramBigStep].item[0].if_complete = true;
-
-    update("prev");
-
-  });
-
-  $(".home-box").click(() => {
-
-    window.location.href = `../../AssessmentPage/index.html?workOrderID=${testparams.workOrderID}`;
-
-  });
-
+	$(".home-box").click(() => {
+		window.location.href = `../../AssessmentPage/index.html?workOrderID=${testparams.workOrderID}`;
+	});
 });
-
