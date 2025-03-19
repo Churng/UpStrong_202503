@@ -459,7 +459,6 @@ $(document).ready(function () {
 
 			success: function (res) {
 				if (res.returnCode) {
-					handleResponse(res);
 					oldData = res.returnData;
 
 					let data01 = res.returnData.item[paramBigStep].item[0];
@@ -468,9 +467,9 @@ $(document).ready(function () {
 
 					let data03 = res.returnData.item[paramBigStep].item[2];
 
-					let data07 = res.returnData.item[paramBigStep].item[6];
+					let data07 = res.returnData.item[1].item[6];
 
-					let data08 = res.returnData.item[paramBigStep].item[7];
+					let data08 = res.returnData.item[1].item[7];
 
 					$(".step01 input").each((idx, e) => {
 						if ($(e).val() == data01.item[0].value[0]) {
