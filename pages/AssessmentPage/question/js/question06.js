@@ -331,7 +331,7 @@ $(document).ready(function () {
 						});
 					});
 
-					console.log(data01.item[2].value[5]);
+					// console.log(data01.item[2].value[5]);
 
 					$(`#cognition${data01.item[2].value[5]}`).attr("checked", true);
 

@@ -11,6 +11,11 @@ function handleResponse(res) {
 	//重新登入
 	if (res.returnCode === "003") {
 		new CustomAlert({ content: res.returnMessage });
-		window.location.assign("../LoginPage/index.html");
+
+		try {
+			window.location.assign("../../LoginPage/index.html");
+		} catch (e) {
+			window.location.assign("../LoginPage/index.html");
+		}
 	}
 }
