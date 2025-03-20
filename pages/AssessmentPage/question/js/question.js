@@ -128,6 +128,8 @@ $(document).ready(function () {
 			contentType: false,
 
 			success: function (res) {
+				console.log(res);
+
 				if (res.returnCode) {
 					oldData = res.returnData;
 

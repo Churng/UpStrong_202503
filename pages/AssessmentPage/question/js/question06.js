@@ -1,586 +1,448 @@
 if (window.consoleToggle) {
+	var console = {};
 
-  var console = {};
-
-  console.log = function () {};
-
+	console.log = function () {};
 } else {
+	var iframe = document.createElement("iframe");
 
-  var iframe = document.createElement("iframe");
+	iframe.style.display = "none";
 
-  iframe.style.display = "none";
+	document.body.appendChild(iframe);
 
-  document.body.appendChild(iframe);
+	console = iframe.contentWindow.console;
 
-  console = iframe.contentWindow.console;
-
-  window.console = console;
-
+	window.console = console;
 }
 
 $(document).ready(function () {
+	var step = "01";
 
-  var step = "01";
+	let params = new URLSearchParams(window.location.search);
+	const testparams = Object.fromEntries(params.entries());
+	let data = { workOrderId: testparams.workOrderID };
 
-  let params = new URLSearchParams(window.location.search);
-  const testparams = Object.fromEntries(params.entries());
-  let data = { workOrderId: testparams.workOrderID };
-  
-  let paramStep = params.get("step");
+	let paramStep = params.get("step");
 
-  let paramBigStep = params.get("bigstep");
+	let paramBigStep = params.get("bigstep");
 
-  $(".next").on("click", function () {
+	$(".next").on("click", function () {
+		if (step == "01") {
+			let newData = { value: {} };
 
-    if (step == "01") {
+			let mainValue = $("input[name='lv']:checked").val();
 
-      let newData = { value: {}};
+			if (mainValue === "0" || mainValue === "4") {
+				newData.value[mainValue] = "1";
+			} else {
+				let payload = [];
 
+				$(`.lv${mainValue}-sub-list-content:checked`).each((index, subValue) => {
+					payload.push($(subValue).val());
+				});
 
+				newData.value[mainValue] = payload;
+			}
 
-      let mainValue = $("input[name='lv']:checked").val()
+			console.log(newData);
 
-      if (mainValue === '0' || mainValue === '4') {
+			oldData.item[paramBigStep].item[Number(step) - 1].item[1] = newData;
 
-        newData.value[mainValue] = '1';
+			oldData.item[paramBigStep].item[Number(step) - 1].item[2].value[5] = $("[name='cognition']:checked").val();
 
-      } else {
+			oldData.item[paramBigStep].item[Number(step) - 1].item[2].value[6] = $("[name='vision']:checked").val();
 
-        let payload = [];
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-        $(`.lv${mainValue}-sub-list-content:checked`).each((index, subValue)=>{
+			update();
+		} else if (step == "02") {
+			let newData = [];
 
-          payload.push($(subValue).val());
+			for (let i = 0; i < $(`[data-sort]`).length; i++) {
+				newData.push({ value: [] });
+			}
 
-        });
+			$(`[data-sort]`).each((idx, e) => {
+				$(`[data-sort=${idx + 1}] select`).each((idxx, ee) => {
+					newData[idx].value.push(Number($(ee).val()));
+				});
+			});
 
-        newData.value[mainValue] = payload;
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-      }
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
+			update();
+		}
+	});
 
+	$(".prev").on("click", function () {
+		if (step == "01") {
+			let newData = [{ value: [] }];
 
-      console.log(newData);
+			if ($("input[name='lv']:checked").val() == 4) {
+				let payload = [];
 
-      oldData.item[paramBigStep].item[Number(step) - 1].item[1] = newData;
+				$("input[name='lv4_01']:checked").each((idx, e) => {
+					payload.push(Number($(e).val()));
+				});
 
-      oldData.item[paramBigStep].item[Number(step) - 1].item[2].value[5] = $(
+				$("input[name='lv4_02']:checked").each((idx, e) => {
+					payload.push(Number($(e).val()));
+				});
 
-        "[name='cognition']:checked"
+				newData[0].value.push({ 4: payload });
+			} else {
+				newData[0].value.push(Number($("input[name='lv']:checked").val()));
+			}
 
-      ).val();
+			oldData.item[paramBigStep].item[Number(step) - 1].item[1] = newData;
 
-      oldData.item[paramBigStep].item[Number(step) - 1].item[2].value[6] = $(
+			oldData.item[paramBigStep].item[Number(step) - 1].item[2].value[5] = $("[name='cognition']:checked").val();
 
-        "[name='vision']:checked"
+			oldData.item[paramBigStep].item[Number(step) - 1].item[2].value[6] = $("[name='vision']:checked").val();
 
-      ).val();
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
+			update("prev");
+		} else if (step == "02") {
+			let newData = [];
 
-      update();
+			for (let i = 0; i < $(`[data-sort]`).length; i++) {
+				newData.push({ value: [] });
+			}
 
-    } else if (step == "02") {
+			$(`[data-sort]`).each((idx, e) => {
+				$(`[data-sort=${idx + 1}] select`).each((idxx, ee) => {
+					newData[idx].value.push(Number($(ee).val()));
+				});
+			});
 
-      let newData = [];
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 
-      for (let i = 0; i < $(`[data-sort]`).length; i++) {
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-        newData.push({ value: [] });
+			update("prev");
+		}
+	});
 
-      }
+	const getStep = () => {
+		if (paramStep) {
+			step = `0${paramStep}`;
 
-      $(`[data-sort]`).each((idx, e) => {
+			$(".title span span").html(`0${paramStep}`);
 
-        $(`[data-sort=${idx + 1}] select`).each((idxx, ee) => {
+			$(".step01").css("display", "none");
 
-          newData[idx].value.push(Number($(ee).val()));
+			$(`.step0${paramStep}`).css("display", "block");
+		}
 
-        });
+		$(`[name="lv"]`).click(() => {
+			$(`[name="lv4_01"]`).prop("checked", false);
 
-      });
+			$(`[name="lv4_02"]`).prop("checked", false);
+		});
+	};
 
+	const getList = () => {
+		let formData = new FormData();
 
+		let session_id = sessionStorage.getItem("sessionId");
 
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
+		let action = "getCheckListByStep";
 
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
+		let chsm = "upStrongCheckListApi"; // api文件相關
 
-      update();
+		let data = { data: "8" };
 
-    }
+		chsm = $.md5(session_id + action + chsm);
 
-  });
+		formData.append("session_id", session_id);
 
-  $(".prev").on("click", function () {
+		formData.append("action", action);
 
-    if (step == "01") {
+		formData.append("chsm", chsm);
 
-      let newData = [{ value: [] }];
+		formData.append("data", JSON.stringify(data));
 
+		$.ajax({
+			url: `${window.apiUrl}${window.apicheckList}`,
 
+			type: "POST",
 
-      if ($("input[name='lv']:checked").val() == 4) {
+			data: formData,
 
-        let payload = [];
+			processData: false,
 
-        $("input[name='lv4_01']:checked").each((idx, e) => {
+			contentType: false,
 
-          payload.push(Number($(e).val()));
+			success: function (res) {
+				console.log(res);
 
-        });
+				let data02 = res.returnData.item[5].item[1];
 
-        $("input[name='lv4_02']:checked").each((idx, e) => {
+				$(".step02 .list-box").html("");
 
-          payload.push(Number($(e).val()));
-
-        });
-
-        newData[0].value.push({ 4: payload });
-
-      } else {
-
-        newData[0].value.push(Number($("input[name='lv']:checked").val()));
-
-      }
-
-
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item[1] = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item[2].value[5] = $(
-
-        "[name='cognition']:checked"
-
-      ).val();
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item[2].value[6] = $(
-
-        "[name='vision']:checked"
-
-      ).val();
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update("prev");
-
-    } else if (step == "02") {
-
-      let newData = [];
-
-      for (let i = 0; i < $(`[data-sort]`).length; i++) {
-
-        newData.push({ value: [] });
-
-      }
-
-      $(`[data-sort]`).each((idx, e) => {
-
-        $(`[data-sort=${idx + 1}] select`).each((idxx, ee) => {
-
-          newData[idx].value.push(Number($(ee).val()));
-
-        });
-
-      });
-
-
-
-      oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-      oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-      update("prev");
-
-    }
-
-  });
-
-
-
-  const getStep = () => {
-
-    if (paramStep) {
-
-      step = `0${paramStep}`;
-
-      $(".title span span").html(`0${paramStep}`);
-
-      $(".step01").css("display", "none");
-
-      $(`.step0${paramStep}`).css("display", "block");
-
-    }
-
-    $(`[name="lv"]`).click(() => {
-
-      $(`[name="lv4_01"]`).prop("checked", false);
-
-      $(`[name="lv4_02"]`).prop("checked", false);
-
-    });
-
-  };
-
-
-
-  const getList = () => {
-
-    let res = { returnData: JSON.parse(localStorage.getItem("listData")) };
-
-    let data02 = res.returnData.item[5].item[1];
-
-    $(".step02 .list-box").html("");
-
-    $(data02.item).each((idx, e) => {
-
-      $(".step02 .list-box").append(`
-
-          <div class="list">
-
-            <div class="top-box">
-
-                <div class="left-box">
-
-                    <span>${e.title}</span>
-
-                    <span>推薦</span>
-
+				$(data02.item).each((idx, e) => {
+					$(".step02 .list-box").append(`
+    
+              <div class="list">
+    
+                <div class="top-box">
+    
+                    <div class="left-box">
+    
+                        <span>${e.title}</span>
+    
+                        <span>推薦</span>
+    
+                    </div>
+    
+                    <div class="right-box">
+    
+                        <span>0</span>
+    
+                        <span>0</span>
+    
+                        <svg class="arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    
+                            <path d="M9 18L15 12L9 6" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"/>
+    
+                        </svg>
+    
+                    </div>
+    
                 </div>
-
-                <div class="right-box">
-
-                    <span>0</span>
-
-                    <span>0</span>
-
-                    <svg class="arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-                        <path d="M9 18L15 12L9 6" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"/>
-
-                    </svg>
-
+    
+                <div class="btm-box" data-sort="${e.sort}">
+    
                 </div>
-
+    
             </div>
+    
+          `);
 
-            <div class="btm-box" data-sort="${e.sort}">
-
-            </div>
-
-        </div>
-
-      `);
-
-
-
-      $(e.question).each((idxx, ee) => {
-
-        $(`[data-sort="${e.sort}"]`).append(`
-
-          <div>
-
-              <div class="left-box">
-
-                  <span>${ee.title}</span>
-
-                  <span class="type01">推薦</span>
-
+					$(e.question).each((idxx, ee) => {
+						$(`[data-sort="${e.sort}"]`).append(`
+    
+              <div>
+    
+                  <div class="left-box">
+    
+                      <span>${ee.title}</span>
+    
+                      <span class="${ee.tag ? "type01" : ""}">${ee.tag}</span>
+    
+                  </div>
+    
+                  <div class="right-box">
+    
+                      <select>
+    
+                          <option value="0">請選擇</option>
+    
+                          <option value="1">使用中</option>
+    
+                          <option value="2">建議添增</option>
+    
+                      </select>
+    
+                  </div>
+    
               </div>
+    
+            `);
+					});
+				});
 
-              <div class="right-box">
+				getCheckListRecord();
 
-                  <select>
+				$(".step02 .list-box .list").on("click", function () {
+					$(this).toggleClass("active");
+				});
 
-                      <option value="0">請選擇</option>
+				$(".step02 .list-box .btm-box").on("click", function (e) {
+					e.stopPropagation();
+				});
+			},
+		});
+	};
 
-                      <option value="1">使用中</option>
+	getList();
 
-                      <option value="2">建議添增</option>
+	var oldData = null;
 
-                  </select>
+	const getCheckListRecord = () => {
+		let formData = new FormData();
 
-              </div>
+		let session_id = sessionStorage.getItem("sessionId");
 
-          </div>
+		let action = "getCheckListRecord";
 
-        `);
+		let chsm = "upStrongCheckListApi"; // api文件相關
 
-      });
+		chsm = $.md5(session_id + action + chsm);
 
-    });
+		formData.append("session_id", session_id);
 
-    getCheckListRecord();
+		formData.append("action", action);
 
-    $(".step02 .list-box .list").on("click", function () {
+		formData.append("chsm", chsm);
 
-      $(this).toggleClass("active");
+		formData.append("data", JSON.stringify(data));
 
-    });
+		$.ajax({
+			url: `${window.apiUrl}${window.apicheckList}`,
 
-    $(".step02 .list-box .btm-box").on("click", function (e) {
+			type: "POST",
 
-      e.stopPropagation();
+			data: formData,
 
-    });
+			processData: false,
 
-  };
+			contentType: false,
 
+			success: function (res) {
+				if (res.returnCode) {
+					oldData = res.returnData;
 
+					let data01 = res.returnData.item[paramBigStep].item[0];
+					let data02 = res.returnData.item[paramBigStep].item[1];
+					$(".user-detail .name").html(data01.item[0].value[0]);
 
-  var oldData = null;
+					$(".user-detail .id").html(data01.item[0].value[1]);
 
-  const getCheckListRecord = () => {
+					let responseRadioIndex = Object.keys(data01.item[1].value)[0];
 
-    let formData = new FormData();
+					let radioValues = data01.item[1].value[responseRadioIndex];
 
-    let session_id = sessionStorage.getItem("sessionId");
+					$(`#lv${responseRadioIndex}`).attr("checked", true);
 
-    let action = "getCheckListRecord";
+					if (typeof radioValues === "object") {
+						$.each(radioValues, (level, checkedItem) => {
+							$(`#lv${responseRadioIndex}_${checkedItem}`).attr("checked", true);
+						});
+					}
 
-    let chsm = "upStrongCheckListApi"; // api文件相關
+					$(data01.item[2].value).each((idx, e) => {
+						$(".other-box .text").each((idxx, ee) => {
+							if (idx == idxx) {
+								$(ee).text(e);
+							}
+						});
+					});
 
-    chsm = $.md5(session_id + action + chsm);
+					console.log(data01.item[2].value[5]);
 
+					$(`#cognition${data01.item[2].value[5]}`).attr("checked", true);
 
+					$(`#vision${data01.item[2].value[6]}`).attr("checked", true);
 
-    formData.append("session_id", session_id);
+					$("[data-sort] select").each((idx, e) => {
+						$(data02.item).each((idxx, ee) => {
+							$(ee.value).each((idxxx, eee) => {
+								if ($(`[data-sort=${idxx + 1}] select`)[idxxx]) {
+									if (idxx == idxx) {
+										$($(`[data-sort=${idxx + 1}] select`)[idxxx]).val(eee);
+									}
+								}
+							});
+						});
+					});
+				}
+			},
+		});
+	};
 
-    formData.append("action", action);
+	getStep();
 
-    formData.append("chsm", chsm);
+	getCheckListRecord();
 
-    $.ajax({
+	$("input[name='lv']").on("change", function () {
+		$("input[name='lv-sub']").prop("checked", false);
+	});
 
-      url: `${window.apiUrl}${window.apicheckList}`,
+	$(".step02 .list-box .list").on("click", function () {
+		$(this).toggleClass("active");
+	});
 
-      type: "POST",
+	$(".step02 .list-box .btm-box").on("click", function (e) {
+		e.stopPropagation();
+	});
 
-      data: formData,
+	const update = (type) => {
+		let formData = new FormData();
 
-      processData: false,
+		let session_id = sessionStorage.getItem("sessionId");
 
-      contentType: false,
+		let action = "updateCheckListRecord";
 
-      success: function (res) {
+		let chsm = "upStrongCheckListApi"; // api文件相關
 
-        if (res.returnCode) {
+		chsm = $.md5(session_id + action + chsm);
 
-          oldData = res.returnData;
-          
-          
-          let data01 = res.returnData.item[paramBigStep].item[0];
-          let data02 = res.returnData.item[paramBigStep].item[1];
-          $(".user-detail .name").html(data01.item[0].value[0]);
-         
-          $(".user-detail .id").html(data01.item[0].value[1]);
+		formData.append("session_id", session_id);
 
+		formData.append("action", action);
 
+		formData.append("chsm", chsm);
 
-          let responseRadioIndex = Object.keys(data01.item[1].value)[0];
+		formData.append("data", JSON.stringify(oldData));
+		console.log("傳過去的資料:" + JSON.stringify(oldData));
 
-          let radioValues = data01.item[1].value[responseRadioIndex];
+		$.ajax({
+			url: `${window.apiUrl}${window.apicheckList}`,
 
-          
+			type: "POST",
 
-          $(`#lv${responseRadioIndex}`).attr('checked', true);
+			data: formData,
 
-          if (typeof radioValues === 'object'){
+			processData: false,
 
-            $.each(radioValues, (level, checkedItem)=>{
+			contentType: false,
 
-              $(`#lv${responseRadioIndex}_${checkedItem}`).attr('checked', true);
+			success: function (res) {
+				if (res.returnCode) {
+					if (type != "prev") {
+						if (step != "02") {
+							$(".title span span").html(`0${Number(step) + 1}`);
 
-            })
+							$(`.step0${Number(step)}`).css("display", "none");
 
-          }
+							$(`.step0${Number(step) + 1}`).css("display", "block");
 
+							step = `0${Number(step) + 1}`;
 
+							const url = new URL(window.location.href);
 
-          $(data01.item[2].value).each((idx, e) => {
+							url.searchParams.set("step", Number(step));
 
-            $(".other-box .text").each((idxx, ee) => {
+							window.history.replaceState(null, "", url);
+						} else {
+							window.location.href = `../../AssessmentPage/index.html?workOrderID=${testparams.workOrderID}`;
+						}
+					} else {
+						if (step != "01") {
+							$(".title span span").html(`0${Number(step) - 1}`);
 
-              if (idx == idxx) {
+							$(`.step0${Number(step)}`).css("display", "none");
 
-                $(ee).text(e);
+							$(`.step0${Number(step) - 1}`).css("display", "block");
 
-              }
+							step = `0${Number(step) - 1}`;
+						} else {
+							window.location.href = `../../AssessmentPage/question/Index06.html?workOrderID=${testparams.workOrderID}`;
+						}
+					}
+				}
+			},
 
-            });
+			error: function (e) {
+				alert(e);
+			},
+		});
+	};
 
-          });
-
-
-
-          console.log(data01.item[2].value[5])
-
-          $(`#cognition${data01.item[2].value[5]}`).attr("checked", true);
-
-          $(`#vision${data01.item[2].value[6]}`).attr("checked", true);
-
-
-
-          $("[data-sort] select").each((idx, e) => {
-
-            $(data02.item).each((idxx, ee) => {
-
-              $(ee.value).each((idxxx, eee) => {
-
-                if ($(`[data-sort=${idxx + 1}] select`)[idxxx]) {
-
-                  if (idxx == idxx) {
-
-                    $($(`[data-sort=${idxx + 1}] select`)[idxxx]).val(eee);
-
-                  }
-
-                }
-
-              });
-
-            });
-
-          });
-
-        }
-
-      },
-
-    });
-
-  };
-
-  getStep();
-
-  getCheckListRecord();
-
-
-
-  $("input[name='lv']").on('change', function(){
-
-    $("input[name='lv-sub']").prop('checked', false);
-
-  })
-
-
-
-  $(".step02 .list-box .list").on("click", function () {
-
-    $(this).toggleClass("active");
-
-  });
-
-  $(".step02 .list-box .btm-box").on("click", function (e) {
-
-    e.stopPropagation();
-
-  });
-
-
-
-  const update = (type) => {
-
-    let formData = new FormData();
-
-    let session_id = sessionStorage.getItem("sessionId");
-
-    let action = "updateCheckListRecord";
-
-    let chsm = "upStrongCheckListApi"; // api文件相關
-
-    chsm = $.md5(session_id + action + chsm);
-
-
-
-    formData.append("session_id", session_id);
-
-    formData.append("action", action);
-
-    formData.append("chsm", chsm);
-
-    formData.append("data", JSON.stringify(oldData));
-    console.log("傳過去的資料:"+JSON.stringify(oldData))
-
-    $.ajax({
-
-      url: `${window.apiUrl}${window.apicheckList}`,
-
-      type: "POST",
-
-      data: formData,
-
-      processData: false,
-
-      contentType: false,
-
-      success: function (res) {
-
-        if (res.returnCode) {
-
-          if (type != "prev") {
-
-            if (step != "02") {
-
-              $(".title span span").html(`0${Number(step) + 1}`);
-
-              $(`.step0${Number(step)}`).css("display", "none");
-
-              $(`.step0${Number(step) + 1}`).css("display", "block");
-
-              step = `0${Number(step) + 1}`;
-
-              const url = new URL(window.location.href); 
-
-              url.searchParams.set('step', Number(step));
-
-              window.history.replaceState(null, '', url);
-
-            } else {
-              
-              window.location.href = `../../AssessmentPage/index.html?workOrderID=${testparams.workOrderID}`;
-
-            }
-
-          } else {
-
-            if (step != "01") {
-
-              $(".title span span").html(`0${Number(step) - 1}`);
-
-              $(`.step0${Number(step)}`).css("display", "none");
-
-              $(`.step0${Number(step) - 1}`).css("display", "block");
-
-              step = `0${Number(step) - 1}`;
-
-            } else {
-
-              window.location.href = `../../AssessmentPage/question/Index06.html?workOrderID=${testparams.workOrderID}`;
-
-            }
-
-          }
-
-        }
-
-      },
-
-      error: function (e) {
-
-        alert(e);
-
-      },
-
-    });
-
-  };
-
-  $(".home-box").click(() => {
-
-    window.location.href = `../../AssessmentPage/index.html?workOrderID=${testparams.workOrderID}`;
-
-  });
-
+	$(".home-box").click(() => {
+		window.location.href = `../../AssessmentPage/index.html?workOrderID=${testparams.workOrderID}`;
+	});
 });
-
