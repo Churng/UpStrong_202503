@@ -457,54 +457,26 @@ $(document).ready(function () {
 								$(`[data-list-id=8]`).val(e.value);
 							}
 						} else {
-							// 其他情況處理
-							if (e.id == 7) {
-								let additionalText = "";
-								// 根據 e.value 顯示對應文字
-								if (e.choice == 1) {
-									additionalText = "（駕電動輪椅）";
-								} else if (e.choice == 2) {
-									additionalText = "（自推輪椅）";
-								}
-
-								// 更新顯示
-								$(`[data-past=${e.id}]`).append(`
-									<span class="past-box" data-pastScore="${e.pastnum}">
-										${e.value !== null ? e.value : 0} ${additionalText}
-									</span>
+							// 處理其他 id 的情況
+							if (e.id == 0) {
+								$(".right-box .date-box").append(`
+									<span class="past-box">${e.date}</span>
 								`);
-							} else if (e.id == 8) {
-								// 當 e.id == 8 時，顯示 value 和 choic 中的值
-								let additionalText = e.choice !== null ? e.choice : ""; // 如果 choic 有值就顯示，沒有則顯示 "無值"
-
-								// 更新顯示，將 value 和 additionalText 都顯示出來
 								$(`[data-past=${e.id}]`).append(`
-									<span class="past-box" data-pastScore="${e.pastnum}">
-										${e.value !== null ? e.value : 0} (${additionalText})
-									</span>
+									<span class="past-box">${e.value}</span>
 								`);
+								$(`[data-list-id=0]`).val(e.value);
+
+								// 同樣動態生成 id
+								// $(`[data-past=${e.id}]`).append(`
+								// 	<textarea id="textarea_${e.id}">${e.value}</textarea>
+								// `);
 							} else {
-								// 處理其他 id 的情況
-								if (e.id == 0) {
-									$(".right-box .date-box").append(`
-										<span class="past-box">${e.date}</span>
-									`);
-									$(`[data-past=${e.id}]`).append(`
-										<span class="past-box">${e.value}</span>
-									`);
-									$(`[data-list-id=0]`).val(e.value);
-
-									// 同樣動態生成 id
-									// $(`[data-past=${e.id}]`).append(`
-									// 	<textarea id="textarea_${e.id}">${e.value}</textarea>
-									// `);
-								} else {
-									$(`[data-past=${e.id}]`).append(`
-										<span class="past-box" data-pastScore="${e.pastnum}">
-											${e.value !== null ? e.value : 0}
-										</span>
-									`);
-								}
+								$(`[data-past=${e.id}]`).append(`
+									<span class="past-box" data-pastScore="${e.pastnum}">
+										${e.value !== null ? e.value : 0}
+									</span>
+								`);
 							}
 						}
 					});
