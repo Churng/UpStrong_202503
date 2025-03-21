@@ -278,7 +278,7 @@ $(document).ready(function () {
 
 	$(".button-box button").on("click", function () {
 		if (testdata.text()) {
-			console.log(testdata.text());
+			// console.log(testdata.text());
 
 			targetScore = targetScore + Number($("[name='level']:checked").val() - Number(testdata.text()));
 		} else {
@@ -345,6 +345,8 @@ $(document).ready(function () {
 
 		formData.append("chsm", chsm);
 
+		formData.append("data", JSON.stringify(data));
+
 		$.ajax({
 			url: `${window.apiUrl}${window.apicheckList}`,
 
@@ -359,10 +361,11 @@ $(document).ready(function () {
 			success: function (res) {
 				handleResponse(res);
 				if (res.returnCode) {
+					//教練名稱
 					if (res.assessmentor) {
 						$(".coach-name span:first").text(res.assessmentor);
 					}
-					console.log(res);
+					// console.log(res);
 
 					oldData = res.returnData;
 
@@ -370,7 +373,7 @@ $(document).ready(function () {
 
 					let data02 = res.returnData.item[paramBigStep].item[1].item[0].value; //粗大動作功能分級 02/02
 
-					console.log(data02);
+					// console.log(data02);
 
 					if (typeof data01.item[0].value[0] !== "object") {
 						$(`#lv${data01.item[0].value[0]}`).attr("checked", true);
@@ -390,56 +393,137 @@ $(document).ready(function () {
 						return acc;
 					}, {});
 
+					console.log(sortedTableData);
+
 					const transformedData = Object.entries(sortedTableData).flatMap(([idx, obj]) =>
-						Object.keys(obj).map((key, idxx) => ({
-							id: idx,
+						Object.keys(obj).map((key, idxx) => {
+							// 判斷 idx == 7 或 idx == 8 的情況，並取得對應的 value
+							let choice;
+							if (idx == 7) {
+								choice = obj.value; // 取得第 7 項的 value
+							} else if (idx == 8) {
+								choice = obj.value; // 取得第 8 項的 value，這裡假設是字串
+							} else {
+								choice = Object.values(obj)[idxx]; // 其他情況取對應的 value
+							}
 
-							date: key,
-
-							value: Object.values(obj)[idxx],
-
-							pastnum: idxx,
-						}))
+							const transformedObject = {
+								id: idx, // idx 這是要用來做判斷的值
+								date: key,
+								value: Object.values(obj)[idxx],
+								pastnum: idxx,
+								choice: choice,
+							};
+							return transformedObject;
+						})
 					);
 
+					// 	$(transformedData).each((idx, e) => {
+					// 		console.log("test:", e);
+					// 		console.log("test:", e.id);
+
+					// 		if (e.date == "target") {
+					// 			//目標值
+					// 			if (e.id == 0) {
+					// 				$(".left-box .lv-box .target-box").text(e.value);
+					// 			} else {
+					// 				$(`[data-target=${e.id}] .select-box`).text(e.value);
+					// 			}
+					// 		} else if (e.date == "value") {
+					// 			//輸入框
+					// 			if (e.id == 7) {
+					// 				$(`#radio0${e.value}`).attr("checked", true);
+					// 			}
+					// 			if (e.id == 8) {
+					// 				$(`[data-list-id=8]`).val(e.value);
+					// 			}
+					// 		} else if (e.date != "target") {
+					// 			if (e.id == 0) {
+					// 				$(".right-box .date-box").append(`
+					//   <span class="past-box">${e.date}</span>
+					// `);
+					// 				$(`[data-past=${e.id}]`).append(`
+					//   <span class="past-box">${e.value}</span>
+					// `);
+					// 				$(`[data-list-id=0]`).val(e.value);
+					// 			} else {
+					// 				$(`[data-past=${e.id}]`).append(`
+					//   <span class="past-box" data-pastScore="${e.pastnum}">${e.value !== null ? e.value : 0}</span>
+					// `);
+					// 			}
+					// 		}
+					// 	});
+
+					//填充空白
+					// console.log(Object.keys(data02))
+					// let lengthOfRecord = Object.keys(data02[0]).length;
+
 					$(transformedData).each((idx, e) => {
-						console.log("test:", e);
+						// console.log("test:", e);
+						// console.log("test:", e.id);
 
 						if (e.date == "target") {
-							//目標值
+							// 目標值
 							if (e.id == 0) {
 								$(".left-box .lv-box .target-box").text(e.value);
 							} else {
 								$(`[data-target=${e.id}] .select-box`).text(e.value);
 							}
 						} else if (e.date == "value") {
-							//輸入框
+							// 輸入框
 							if (e.id == 7) {
 								$(`#radio0${e.value}`).attr("checked", true);
 							}
 							if (e.id == 8) {
 								$(`[data-list-id=8]`).val(e.value);
 							}
-						} else if (e.date != "target") {
-							if (e.id == 0) {
-								$(".right-box .date-box").append(`
-                  <span class="past-box">${e.date}</span>
-                `);
+						} else {
+							// 其他情況處理
+							if (e.id == 7) {
+								let additionalText = "";
+								// 根據 e.value 顯示對應文字
+								if (e.choice == 1) {
+									additionalText = "（駕電動輪椅）";
+								} else if (e.choice == 2) {
+									additionalText = "（自推輪椅）";
+								}
+
+								// 更新顯示
 								$(`[data-past=${e.id}]`).append(`
-                  <span class="past-box">${e.value}</span>
-                `);
-								$(`[data-list-id=0]`).val(e.value);
+									<span class="past-box" data-pastScore="${e.pastnum}">
+										${e.value !== null ? e.value : 0} ${additionalText}
+									</span>
+								`);
+							} else if (e.id == 8) {
+								// 當 e.id == 8 時，顯示 value 和 choic 中的值
+								let additionalText = e.choice !== null ? e.choice : ""; // 如果 choic 有值就顯示，沒有則顯示 "無值"
+
+								// 更新顯示，將 value 和 additionalText 都顯示出來
+								$(`[data-past=${e.id}]`).append(`
+									<span class="past-box" data-pastScore="${e.pastnum}">
+										${e.value !== null ? e.value : 0} (${additionalText})
+									</span>
+								`);
 							} else {
-								$(`[data-past=${e.id}]`).append(`
-                  <span class="past-box" data-pastScore="${e.pastnum}">${e.value !== null ? e.value : 0}</span>
-                `);
+								// 處理其他 id 的情況
+								if (e.id == 0) {
+									$(".right-box .date-box").append(`
+										<span class="past-box">${e.date}</span>
+									`);
+									$(`[data-past=${e.id}]`).append(`
+										<span class="past-box">${e.value}</span>
+									`);
+									$(`[data-list-id=0]`).val(e.value);
+								} else {
+									$(`[data-past=${e.id}]`).append(`
+										<span class="past-box" data-pastScore="${e.pastnum}">
+											${e.value !== null ? e.value : 0}
+										</span>
+									`);
+								}
 							}
 						}
 					});
-
-					//填充空白
-					// console.log(Object.keys(data02))
-					// let lengthOfRecord = Object.keys(data02[0]).length;
 
 					let firstKey = Object.keys(data02)[0];
 					let lengthOfRecord = Object.keys(data02[firstKey]).length;
@@ -452,7 +536,7 @@ $(document).ready(function () {
 						}
 
 						if (!data02[idx - 1]) {
-							console.log(idx, data02[idx - 1]);
+							// console.log(idx, data02[idx - 1]);
 
 							for (let i = 0; i < lengthOfRecord - 1; i++) {
 								$(e).append(`
@@ -467,16 +551,33 @@ $(document).ready(function () {
 					//總分
 
 					$("[data-target] .target-box").each((idx, e) => {
+						// console.log(e);
+
 						if (idx != 0) {
 							targetScore = targetScore + Number($(e).text());
+							console.log(targetScore);
 						}
 					});
 
 					$(".right-box .score .past-box").each((idx, e) => {
+						console.log(e);
+
 						for (let i = 0; i < Object.keys(data02).length - 1; i++) {
 							$(`[data-pastscore=${i + 1}]`).each((idxx, ee) => {
+								console.log(ee);
 								if (i == idx) {
-									$(e).text(Number($(e).text()) + Number($(ee).text()));
+									// 取得兩個元素的文字，並將它們去掉非數字部分
+									const value1 = $(e).text().trim();
+									const value2 = $(ee).text().trim();
+
+									// 使用正則表達式提取數字部分
+									const num1 = parseFloat(value1.replace(/[^0-9.-]+/g, "")); // 提取數字部分
+									const num2 = parseFloat(value2.replace(/[^0-9.-]+/g, "")); // 提取數字部分
+
+									// 如果提取的數字有效，進行加法運算
+									if (!isNaN(num1) && !isNaN(num2)) {
+										$(e).text(num1 + num2);
+									}
 								}
 							});
 						}
