@@ -259,40 +259,57 @@ $(document).ready(function () {
 
 	//彈出視窗
 	var testdata = null;
+	var savedData = {}; // 存儲所有填寫的數據
+	// var targetScore = 0;
 
-	$(".select-box").on("click", function (e) {
+	function showPopupBox(target, text) {
 		$(".popup-box-bg").css("display", "block");
-
-		testdata = null;
-
-		testdata = $(this);
+		testdata = $(text);
 
 		if (testdata.text()) {
 			$(`#level${testdata.text()}`).prop("checked", true);
 		}
-	});
 
-	$(".popup-box .close-box").on("click", function () {
+		const textarea = $(".popup-box textarea");
+		textarea.attr("id", `popupTextArea_${target}`);
+		textarea.val(savedData[target] || "");
+	}
+
+	function closePopupBox() {
 		$(".popup-box-bg").css("display", "none");
-	});
+	}
 
-	$(".button-box button").on("click", function () {
-		if (testdata.text()) {
-			// console.log(testdata.text());
+	function saveDataAndClose() {
+		if (!testdata) return;
 
-			targetScore = targetScore + Number($("[name='level']:checked").val() - Number(testdata.text()));
-		} else {
-			targetScore = targetScore + Number($("[name='level']:checked").val());
-		}
+		const target = testdata.closest(".table-box").attr("data-target");
+		const textarea = $(`#popupTextArea_${target}`);
 
-		testdata.text($("[name='level']:checked").val());
+		// if (textarea.val().trim() === "") {
+		// 	alert("請填寫內容後再提交！");
+		// 	return;
+		// }
 
+		savedData[target] = textarea.val();
+
+		const selectedValue = Number($("[name='level']:checked").val());
+		const previousValue = Number(testdata.text()) || 0;
+		targetScore += selectedValue - previousValue;
+
+		testdata.text(selectedValue);
 		$("#level1").prop("checked", true);
-
-		$(".popup-box-bg").css("display", "none");
-
 		$(".left-box .score .target-box").text(`${targetScore}分`);
+
+		closePopupBox();
+	}
+
+	$(".select-box").on("click", function () {
+		const target = $(this).closest(".table-box").attr("data-target");
+		showPopupBox(target, this);
 	});
+
+	$(".popup-box .close-box").on("click", closePopupBox);
+	$(".button-box button").on("click", saveDataAndClose);
 
 	const getStep = () => {
 		if (paramStep) {
@@ -393,8 +410,6 @@ $(document).ready(function () {
 						return acc;
 					}, {});
 
-					console.log(sortedTableData);
-
 					const transformedData = Object.entries(sortedTableData).flatMap(([idx, obj]) =>
 						Object.keys(obj).map((key, idxx) => {
 							// 判斷 idx == 7 或 idx == 8 的情況，並取得對應的 value
@@ -418,46 +433,6 @@ $(document).ready(function () {
 						})
 					);
 
-					// 	$(transformedData).each((idx, e) => {
-					// 		console.log("test:", e);
-					// 		console.log("test:", e.id);
-
-					// 		if (e.date == "target") {
-					// 			//目標值
-					// 			if (e.id == 0) {
-					// 				$(".left-box .lv-box .target-box").text(e.value);
-					// 			} else {
-					// 				$(`[data-target=${e.id}] .select-box`).text(e.value);
-					// 			}
-					// 		} else if (e.date == "value") {
-					// 			//輸入框
-					// 			if (e.id == 7) {
-					// 				$(`#radio0${e.value}`).attr("checked", true);
-					// 			}
-					// 			if (e.id == 8) {
-					// 				$(`[data-list-id=8]`).val(e.value);
-					// 			}
-					// 		} else if (e.date != "target") {
-					// 			if (e.id == 0) {
-					// 				$(".right-box .date-box").append(`
-					//   <span class="past-box">${e.date}</span>
-					// `);
-					// 				$(`[data-past=${e.id}]`).append(`
-					//   <span class="past-box">${e.value}</span>
-					// `);
-					// 				$(`[data-list-id=0]`).val(e.value);
-					// 			} else {
-					// 				$(`[data-past=${e.id}]`).append(`
-					//   <span class="past-box" data-pastScore="${e.pastnum}">${e.value !== null ? e.value : 0}</span>
-					// `);
-					// 			}
-					// 		}
-					// 	});
-
-					//填充空白
-					// console.log(Object.keys(data02))
-					// let lengthOfRecord = Object.keys(data02[0]).length;
-
 					$(transformedData).each((idx, e) => {
 						// console.log("test:", e);
 						// console.log("test:", e.id);
@@ -466,6 +441,10 @@ $(document).ready(function () {
 							// 目標值
 							if (e.id == 0) {
 								$(".left-box .lv-box .target-box").text(e.value);
+
+								// $(`[data-past=${e.id}]`).append(`
+								// 	<textarea id="textarea_${e.id}">${e.value}</textarea>
+								// `);
 							} else {
 								$(`[data-target=${e.id}] .select-box`).text(e.value);
 							}
@@ -514,6 +493,11 @@ $(document).ready(function () {
 										<span class="past-box">${e.value}</span>
 									`);
 									$(`[data-list-id=0]`).val(e.value);
+
+									// 同樣動態生成 id
+									// $(`[data-past=${e.id}]`).append(`
+									// 	<textarea id="textarea_${e.id}">${e.value}</textarea>
+									// `);
 								} else {
 									$(`[data-past=${e.id}]`).append(`
 										<span class="past-box" data-pastScore="${e.pastnum}">
@@ -555,16 +539,12 @@ $(document).ready(function () {
 
 						if (idx != 0) {
 							targetScore = targetScore + Number($(e).text());
-							console.log(targetScore);
 						}
 					});
 
 					$(".right-box .score .past-box").each((idx, e) => {
-						console.log(e);
-
 						for (let i = 0; i < Object.keys(data02).length - 1; i++) {
 							$(`[data-pastscore=${i + 1}]`).each((idxx, ee) => {
-								console.log(ee);
 								if (i == idx) {
 									// 取得兩個元素的文字，並將它們去掉非數字部分
 									const value1 = $(e).text().trim();
