@@ -412,30 +412,30 @@ $(document).ready(function () {
 
 					const transformedData = Object.entries(sortedTableData).flatMap(([idx, obj]) =>
 						Object.keys(obj).map((key, idxx) => {
-							// 判斷 idx == 7 或 idx == 8 的情況，並取得對應的 value
-							let choice;
-							if (idx == 7) {
-								choice = obj.value; // 取得第 7 項的 value
-							} else if (idx == 8) {
-								choice = obj.value; // 取得第 8 項的 value，這裡假設是字串
-							} else {
-								choice = Object.values(obj)[idxx]; // 其他情況取對應的 value
-							}
-
+							// 建立基本的 transformedObject
 							const transformedObject = {
 								id: idx, // idx 這是要用來做判斷的值
 								date: key,
 								value: Object.values(obj)[idxx],
 								pastnum: idxx,
-								choice: choice,
 							};
+
+							// 如果 idx 為 7 或 8，則動態添加對應屬性
+							if (idx == 7) {
+								transformedObject.option = obj.value; // 取得第 7 項的 value
+							} else if (idx == 8) {
+								transformedObject.description = obj.value; // 取得第 8 項的 value
+							}
+
 							return transformedObject;
 						})
 					);
 
+					// console.log(transformedData);
+
 					$(transformedData).each((idx, e) => {
-						// console.log("test:", e);
-						// console.log("test:", e.id);
+						console.log("test:", e);
+						// console.log("test:", e.date);
 
 						if (e.date == "target") {
 							// 目標值
@@ -466,11 +466,6 @@ $(document).ready(function () {
 									<span class="past-box">${e.value}</span>
 								`);
 								$(`[data-list-id=0]`).val(e.value);
-
-								// 同樣動態生成 id
-								// $(`[data-past=${e.id}]`).append(`
-								// 	<textarea id="textarea_${e.id}">${e.value}</textarea>
-								// `);
 							} else {
 								$(`[data-past=${e.id}]`).append(`
 									<span class="past-box" data-pastScore="${e.pastnum}">
