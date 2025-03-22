@@ -95,29 +95,6 @@ $(document).ready(function () {
 				}
 
 				// 遍歷日期框的值，存入對應的過去值
-				// dateBoxValues.forEach((date, idx) => {
-				// 	if (pastValues[idx] !== 0) {
-				// 		if (i === 0) {
-				// 			if (!obj[date]) obj[date] = {}; // 確保日期是一個物件
-				// 			obj[date]["0"] = pastValues[idx];
-				// 		} else {
-				// 			if (!obj[date]) obj[date] = {}; // 確保日期是一個物件
-				// 			obj[date]["0"] = Number(pastValues[idx]) || 0; // 存入 "0" 位置，並轉為數字
-
-				// 			// 不管有沒有補充說明，"1" 的位置都要存在
-				// 			obj[date]["1"] = savedData.hasOwnProperty(i) ? savedData[i] : ""; // 補充說明（如果沒有則為空字串）
-				// 		}
-				// 	}
-				// });
-
-				// // 設定當天日期
-				// if (!obj[formattedDate]) obj[formattedDate] = {};
-				// obj[formattedDate]["0"] = targetValue || 0; // 存入 "0" 位置，並轉為數字
-
-				// // 不管有沒有補充說明，"1" 的位置都要存在
-				// obj[formattedDate]["1"] = savedData.hasOwnProperty(i) ? savedData[i] : ""; // 補充說明（如果沒有則為空字串）
-
-				// 遍歷日期框的值，存入對應的過去值
 				dateBoxValues.forEach((date, idx) => {
 					if (pastValues[idx] !== 0) {
 						if (i === 0) {
@@ -148,7 +125,16 @@ $(document).ready(function () {
 					obj[formattedDate]["1"] = ""; // 如果沒有補充說明，則設為空字串
 				}
 				console.log(savedData.hasOwnProperty(i.toString()));
-				console.log(savedData[i.toString()]);
+
+				if (i === 0) {
+					if (!obj[formattedDate]) obj[formattedDate] = {}; // 確保 formattedDate 是一個物件
+					obj[formattedDate]["0"] = targetValue2; // 存入目標值
+				} else {
+					if (targetValue !== 0) {
+						if (!obj[formattedDate]) obj[formattedDate] = {}; // 確保 formattedDate 是一個物件
+						obj[formattedDate]["0"] = targetValue; // 存入目標值
+					}
+				}
 
 				// 處理 id=7 和 id=8 的特殊情況
 				if (i === 7) {
@@ -448,7 +434,7 @@ $(document).ready(function () {
 					// console.log(transformedData);
 
 					$(transformedData).each((idx, e) => {
-						// console.log("test:", e);
+						console.log("test:", e);
 						// console.log(e.isSpecial);
 
 						// 單獨處理 id=7 和 id=8 的資料
@@ -471,17 +457,22 @@ $(document).ready(function () {
 						} else if (e.date != "target") {
 							// 處理其他 id 的資料
 							if (e.id == 0) {
+								//項目日期
 								$(".right-box .date-box").append(`
 									<span class="past-box">${e.date}</span>
 								`);
+								//功能分級-紀錄
 								$(`[data-past=${e.id}]`).append(`
-									<span class="past-box">${e.value}</span>
+									<span class="past-box">${e.value[0]}</span>
 								`);
-								$(`[data-list-id=0]`).val(e.value);
+								//功能分級
+								$(`[data-list-id=0]`).val(e.value[0]);
 							} else {
 								if (e.date !== "option" && e.date !== "description") {
 									$(`[data-past=${e.id}]`).append(`
-										<span class="past-box" data-pastScore="${e.pastnum}">${e.value !== null ? e.value : 0}</span>
+										<span class="past-box" data-pastScore="${e.pastnum}">${e.value[0] !== null ? e.value[0] : 0} ${
+										e.value[1] !== "" ? `(${e.value[1]})` : ""
+									}</span>
 									`);
 								}
 							}
@@ -491,6 +482,7 @@ $(document).ready(function () {
 					let firstKey = Object.keys(data02)[0];
 					let lengthOfRecord = Object.keys(data02[firstKey]).length;
 
+					//最後一行總分
 					$(".right-box .table-box").each((idx, e) => {
 						if (idx === 0 || idx === 1) {
 							// if(idx === 0 || idx === 1 || idx === 2 || idx === 3) {
@@ -500,13 +492,10 @@ $(document).ready(function () {
 
 						if (!data02[idx - 1]) {
 							// console.log(idx, data02[idx - 1]);
-
 							for (let i = 0; i < lengthOfRecord - 1; i++) {
 								$(e).append(`
-
-                    <span class="past-box" data-test=${i}>0</span>
-
-                  `);
+							    <span class="past-box" data-test=${i}>0</span>
+							  `);
 							}
 						}
 					});
