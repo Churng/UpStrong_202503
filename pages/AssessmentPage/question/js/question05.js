@@ -125,13 +125,13 @@ $(document).ready(function () {
 				if (i === 7) {
 					$(`input[data-list-id=7]`).each((inx, e) => {
 						if ($(e).is(":checked")) {
-							obj["value"] = Number($(e).val());
+							obj["option"] = Number($(e).val());
 						}
 					});
 				}
 
 				if (i === 8) {
-					obj["value"] = $(`input[data-list-id=8]`).val();
+					obj["description"] = $(`input[data-list-id=8]`).val();
 				}
 
 				newData[i] = obj;
@@ -285,11 +285,6 @@ $(document).ready(function () {
 		const target = testdata.closest(".table-box").attr("data-target");
 		const textarea = $(`#popupTextArea_${target}`);
 
-		// if (textarea.val().trim() === "") {
-		// 	alert("請填寫內容後再提交！");
-		// 	return;
-		// }
-
 		savedData[target] = textarea.val();
 
 		const selectedValue = Number($("[name='level']:checked").val());
@@ -376,6 +371,8 @@ $(document).ready(function () {
 			contentType: false,
 
 			success: function (res) {
+				console.log(res);
+
 				handleResponse(res);
 				if (res.returnCode) {
 					//教練名稱
@@ -410,54 +407,43 @@ $(document).ready(function () {
 						return acc;
 					}, {});
 
+					console.log(sortedTableData);
+
 					const transformedData = Object.entries(sortedTableData).flatMap(([idx, obj]) =>
-						Object.keys(obj).map((key, idxx) => {
-							// 建立基本的 transformedObject
-							const transformedObject = {
-								id: idx, // idx 這是要用來做判斷的值
-								date: key,
-								value: Object.values(obj)[idxx],
-								pastnum: idxx,
-							};
-
-							// 如果 idx 為 7 或 8，則動態添加對應屬性
-							if (idx == 7) {
-								transformedObject.option = obj.value; // 取得第 7 項的 value
-							} else if (idx == 8) {
-								transformedObject.description = obj.value; // 取得第 8 項的 value
-							}
-
-							return transformedObject;
-						})
+						Object.keys(obj).map((key, idxx) => ({
+							id: idx,
+							date: key,
+							value: Object.values(obj)[idxx],
+							pastnum: idxx,
+							isSpecial: idx === "7" || idx === "8", // 標記 id=7 和 id=8
+						}))
 					);
 
-					// console.log(transformedData);
+					console.log(transformedData);
 
 					$(transformedData).each((idx, e) => {
-						console.log("test:", e);
-						// console.log("test:", e.date);
+						// console.log("test:", e);
+						// console.log(e.isSpecial);
+
+						// 單獨處理 id=7 和 id=8 的資料
+						if (e.date == "option") {
+							console.log(e.id == "option");
+							if (e.id == 7) {
+								$(`#radio0${e.value}`).attr("checked", true);
+							}
+						} else if (e.date == "description") {
+							$(`[data-list-id=8]`).val(e.value); // 設置 input
+						}
 
 						if (e.date == "target") {
 							// 目標值
 							if (e.id == 0) {
 								$(".left-box .lv-box .target-box").text(e.value);
-
-								// $(`[data-past=${e.id}]`).append(`
-								// 	<textarea id="textarea_${e.id}">${e.value}</textarea>
-								// `);
 							} else {
 								$(`[data-target=${e.id}] .select-box`).text(e.value);
 							}
-						} else if (e.date == "value") {
-							// 輸入框
-							if (e.id == 7) {
-								$(`#radio0${e.value}`).attr("checked", true);
-							}
-							if (e.id == 8) {
-								$(`[data-list-id=8]`).val(e.value);
-							}
-						} else {
-							// 處理其他 id 的情況
+						} else if (e.date != "target") {
+							// 處理其他 id 的資料
 							if (e.id == 0) {
 								$(".right-box .date-box").append(`
 									<span class="past-box">${e.date}</span>
@@ -467,11 +453,11 @@ $(document).ready(function () {
 								`);
 								$(`[data-list-id=0]`).val(e.value);
 							} else {
-								$(`[data-past=${e.id}]`).append(`
-									<span class="past-box" data-pastScore="${e.pastnum}">
-										${e.value !== null ? e.value : 0}
-									</span>
-								`);
+								if (e.date !== "option" && e.date !== "description") {
+									$(`[data-past=${e.id}]`).append(`
+										<span class="past-box" data-pastScore="${e.pastnum}">${e.value !== null ? e.value : 0}</span>
+									`);
+								}
 							}
 						}
 					});
@@ -499,11 +485,9 @@ $(document).ready(function () {
 						}
 					});
 
-					//總分
+					//總分非數字篩選掉
 
 					$("[data-target] .target-box").each((idx, e) => {
-						// console.log(e);
-
 						if (idx != 0) {
 							targetScore = targetScore + Number($(e).text());
 						}
