@@ -27,64 +27,9 @@ $(document).ready(function () {
 
 	$(".next").on("click", function () {
 		if (step == "01") {
-			let newData = [{ value: [$("input[name='express']:checked").val()] }];
+			//step07
+			console.log("step07");
 
-			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-			update();
-
-			if ($(".step01 input:checked").val() == 1) {
-				window.location.href = `./Index04.html`;
-			}
-		} else if (step == "02") {
-			let newData = [{ value: [] }];
-
-			let payload = {};
-
-			$(".front path").each((idx, e) => {
-				if ($(e).attr("class") && $(e).attr("class").includes("used")) {
-					const score = Number($(e).attr("data-sroce"));
-
-					// 檢查 score 是否為 0，如果是 0 則跳過不儲存
-					if (score === 0) {
-						return; // 跳過此次迴圈
-					}
-
-					// 如果 score 不為 0，則將 id 和 score 存入 payload
-					payload[$(e).attr("id")] = score;
-				}
-			});
-
-			newData[0].value.push(payload);
-
-			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
-
-			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
-
-			update();
-		} else if (step == "02-02") {
-			let newData = [{ value: [] }];
-
-			let payload = {};
-
-			$(".back path").each((idx, e) => {
-				if ($(e).attr("class") && $(e).attr("class").includes("used")) {
-					payload[$(e).attr("id")] = Number($(e).attr("data-sroce"));
-				}
-			});
-
-			newData[0].value.push(payload);
-
-			oldData.item[paramBigStep].item[2].item = newData;
-
-			oldData.item[paramBigStep].item[2].if_complete = true;
-
-			update();
-		} else if (step == "03") {
-			update();
-		} else if (step == "07") {
 			let newData = [{ value: [] }, { value: [] }, { value: {} }, { value: [] }];
 
 			$("input[name='pain']:checked").each((idx, e) => {
@@ -113,12 +58,16 @@ $(document).ready(function () {
 				newData[3].value.push($(e).val());
 			});
 
-			oldData.item[1].item[Number(step) - 1].item = newData;
+			console.log(newData, "newData");
+			console.log(oldData, "oldData");
 
-			oldData.item[1].item[Number(step) - 1].if_complete = true;
+			oldData.item[1].item[6].item = newData;
+
+			oldData.item[1].item[6].if_complete = true;
 
 			update();
-		} else if (step == "08") {
+		} else if (step == "02") {
+			//step08
 			let newData = [
 				{ value: [$("input[name='tube']:checked").val()] },
 
@@ -127,10 +76,72 @@ $(document).ready(function () {
 				{ value: [$("input[name='sit']:checked").val()] },
 			];
 
-			oldData.item[1].item[Number(step) - 1].item = newData;
+			oldData.item[1].item[7].item = newData;
 
-			oldData.item[1].item[Number(step) - 1].if_complete = true;
+			oldData.item[1].item[7].if_complete = true;
 
+			update();
+		} else if (step == "03") {
+			//step01
+			// step01 邏輯
+			let newData = [{ value: [$("input[name='express']:checked").val()] }];
+
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
+			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
+
+			update();
+
+			if ($(".step03 input:checked").val() == 1) {
+				window.location.href = `./Index04.html`;
+			}
+		} else if (step == "04") {
+			let newData = [{ value: [] }];
+			console.log(newData);
+
+			let payload = {};
+
+			$(".front path").each((idx, e) => {
+				if ($(e).attr("class") && $(e).attr("class").includes("used")) {
+					const score = Number($(e).attr("data-sroce"));
+
+					// 檢查 score 是否為 0，如果是 0 則跳過不儲存
+					if (score === 0) {
+						return; // 跳過此次迴圈
+					}
+
+					// 如果 score 不為 0，則將 id 和 score 存入 payload
+					payload[$(e).attr("id")] = score;
+				}
+			});
+
+			newData[0].value.push(payload);
+			console.log("payload", payload);
+
+			// oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
+
+			// oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
+
+			update();
+		} else if (step == "04-02") {
+			console.log("Current step:", step);
+			let newData = [{ value: [] }];
+
+			let payload = {};
+
+			$(".back path").each((idx, e) => {
+				if ($(e).attr("class") && $(e).attr("class").includes("used")) {
+					payload[$(e).attr("id")] = Number($(e).attr("data-sroce"));
+				}
+			});
+
+			newData[0].value.push(payload);
+
+			oldData.item[paramBigStep].item[2].item = newData;
+
+			oldData.item[paramBigStep].item[2].if_complete = true;
+
+			update();
+		} else if (step == "05") {
 			update();
 		}
 	});
@@ -141,6 +152,44 @@ $(document).ready(function () {
 
 	$(".prev").on("click", function () {
 		if (step == "01") {
+			let newData = [{ value: [] }, { value: [] }, { value: [] }, { value: [] }];
+
+			$("input[name='pain']:checked").each((idx, e) => {
+				newData[0].value.push($(e).val());
+			});
+
+			$("input[name='urination']:checked").each((idx, e) => {
+				newData[1].value.push($(e).val());
+			});
+
+			$("input[name='ulcer']:checked").each((idx, e) => {
+				newData[2].value.push($(e).val());
+			});
+
+			$("input[name='ability']:checked").each((idx, e) => {
+				newData[3].value.push($(e).val());
+			});
+
+			oldData.item[1].item[6].item = newData;
+
+			oldData.item[1].item[6].if_complete = true;
+
+			update("prev");
+		} else if (step == "02") {
+			let newData = [
+				{ value: [$("input[name='tube']:checked").val()] },
+
+				{ value: [$("input[name='turn']:checked").val()] },
+
+				{ value: [$("input[name='sit']:checked").val()] },
+			];
+
+			oldData.item[1].item[7].item = newData;
+
+			oldData.item[1].item[7].if_complete = true;
+
+			update("prev");
+		} else if (step == "03") {
 			if ($(".step01 input:checked").val() == 2) {
 				let newData = [{ value: [$("input[name='express']:checked").val()] }];
 
@@ -152,7 +201,7 @@ $(document).ready(function () {
 			} else {
 				window.location.href = `../../AssessmentPage/question/Index03.html?workOrderID=${testparams.workOrderID}`;
 			}
-		} else if (step == "02") {
+		} else if (step == "04") {
 			let newData = [{ value: [] }];
 
 			let payload = {};
@@ -178,7 +227,7 @@ $(document).ready(function () {
 			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
 			update("prev");
-		} else if (step == "02-02") {
+		} else if (step == "04-02") {
 			let newData = [{ value: [] }];
 
 			let payload = {};
@@ -196,45 +245,7 @@ $(document).ready(function () {
 			oldData.item[paramBigStep].item[2].if_complete = true;
 
 			update("prev");
-		} else if (step == "03") {
-			update("prev");
-		} else if (step == "07") {
-			let newData = [{ value: [] }, { value: [] }, { value: [] }, { value: [] }];
-
-			$("input[name='pain']:checked").each((idx, e) => {
-				newData[0].value.push($(e).val());
-			});
-
-			$("input[name='urination']:checked").each((idx, e) => {
-				newData[1].value.push($(e).val());
-			});
-
-			$("input[name='ulcer']:checked").each((idx, e) => {
-				newData[2].value.push($(e).val());
-			});
-
-			$("input[name='ability']:checked").each((idx, e) => {
-				newData[3].value.push($(e).val());
-			});
-
-			oldData.item[1].item[6].item = newData;
-
-			oldData.item[1].item[6].if_complete = true;
-
-			update("prev");
-		} else if (step == "08") {
-			let newData = [
-				{ value: [$("input[name='tube']:checked").val()] },
-
-				{ value: [$("input[name='turn']:checked").val()] },
-
-				{ value: [$("input[name='sit']:checked").val()] },
-			];
-
-			oldData.item[1].item[7].item = newData;
-
-			oldData.item[1].item[7].if_complete = true;
-
+		} else if (step == "05") {
 			update("prev");
 		}
 	});
@@ -421,14 +432,14 @@ $(document).ready(function () {
 
 	const getStep = () => {
 		if (paramStep) {
-			if (paramStep == "2-02") {
-				step = `02-02`;
+			if (paramStep == "4-02") {
+				step = `04-02`;
 
-				$(".title span span").html(`02`);
+				$(".title span span").html(`04`);
 
-				$(".step01").css("display", "none");
+				$(".step03").css("display", "none");
 
-				$(".step02").css("display", "block");
+				$(".step04").css("display", "block");
 
 				$(".front").attr("style", "display: none ");
 				$(".back").css("display", "block");
@@ -438,7 +449,7 @@ $(document).ready(function () {
 
 				$(".title span span").html(`0${paramStep}`);
 
-				$(".step01").css("display", "none");
+				$(".step04").css("display", "none");
 
 				$(".back").css("display", "none");
 				$(".point-box.back").attr("style", "display: none !important");
@@ -480,6 +491,8 @@ $(document).ready(function () {
 
 			success: function (res) {
 				if (res.returnCode) {
+					console.log(res);
+
 					oldData = res.returnData;
 
 					let data01 = res.returnData.item[paramBigStep].item[0];
@@ -492,7 +505,9 @@ $(document).ready(function () {
 
 					let data08 = res.returnData.item[1].item[7];
 
-					$(".step01 input").each((idx, e) => {
+					console.log(data07, "data07");
+
+					$(".step03 input").each((idx, e) => {
 						if ($(e).val() == data01.item[0].value[0]) {
 							$(e).attr("checked", "true");
 						}
@@ -500,18 +515,18 @@ $(document).ready(function () {
 
 					// 07、08
 					$(data07.item[0].value).each((index, item) => {
-						$(`.step07 #pain${item}`).attr("checked", "true");
+						$(`.step01 #pain${item}`).attr("checked", "true");
 					});
 
 					$(data07.item[1].value).each((index, item) => {
-						$(`.step07 #urination${item}`).attr("checked", "true");
+						$(`.step01 #urination${item}`).attr("checked", "true");
 					});
 
 					$.each(data07.item[2].value, (item, text) => {
-						$(`.step07 #ulcer${item}`).attr("checked", "true");
+						$(`.step01 #ulcer${item}`).attr("checked", "true");
 
 						if (item !== "3") {
-							$(`.step07 #ulcer${item}_text`).val(text);
+							$(`.step01 #ulcer${item}_text`).val(text);
 						}
 					});
 
@@ -533,7 +548,7 @@ $(document).ready(function () {
 						});
 
 					$(data07.item[3].value).each((index, item) => {
-						$(`.step07 #ability${item}`).attr("checked", "true");
+						$(`.step01 #ability${item}`).attr("checked", "true");
 					});
 
 					// 當 "皆無" 選項被勾選或取消勾選時
@@ -554,15 +569,15 @@ $(document).ready(function () {
 						});
 
 					$(data08.item[0].value).each((index, item) => {
-						$(`.step08 #tube${item}`).attr("checked", "true");
+						$(`.step02 #tube${item}`).attr("checked", "true");
 					});
 
 					$(data08.item[1].value).each((index, item) => {
-						$(`.step08 #turn${item}`).attr("checked", "true");
+						$(`.step02 #turn${item}`).attr("checked", "true");
 					});
 
 					$(data08.item[2].value).each((index, item) => {
-						$(`.step08 #sit${item}`).attr("checked", "true");
+						$(`.step02 #sit${item}`).attr("checked", "true");
 					});
 
 					//正面
@@ -675,6 +690,18 @@ $(document).ready(function () {
 
 	getStep();
 
+	/**
+	 * 更新 URL 中的 search 參數並替換當前歷史記錄
+	 * @param {string} paramName - 要更新的參數名稱
+	 * @param {string|number} paramValue - 參數的新值
+	 * @param {string} [url=window.location.href] - 可選的基準 URL (預設當前頁面 URL)
+	 */
+	function updateUrlParam(paramName, paramValue, url = window.location.href) {
+		const urlObj = new URL(url);
+		urlObj.searchParams.set(paramName, paramValue);
+		window.history.replaceState(null, "", urlObj);
+	}
+
 	const update = (type) => {
 		let formData = new FormData();
 
@@ -711,108 +738,73 @@ $(document).ready(function () {
 				if (res.returnCode) {
 					if (type != "prev") {
 						if (step == "01") {
-							// 進入正面
-							console.log("test1");
+							// 進入 step07
 							step = "02";
 
 							$(".title span span").html("02");
 
 							$(".step01").css("display", "none");
 
-							$(".step02").css("display", "block");
+							$(".step02").css("display", "block"); // 隱藏 step03
 
-							$(".point-box.back").attr("style", "display: none !important");
+							updateUrlParam("step", 2);
 						} else if (step == "02") {
-							// 進入反面
-							console.log("test2");
-							step = "02-02";
-
-							oldPainColor = null;
-
-							$(".title span span").html("02");
-
-							$(".left-box .front").css("display", "none");
-
-							$(".left-box .back").css("display", "block");
-
-							$(".right-box").css("display", "none");
-
-							$(".front").css("display", "none");
-
-							$(".left-box").css("width", "100%");
-
-							$(".point-box.front").css("display", "none");
-
-							$(".point-box.back").css("display", "flex");
-						} else if (step == "02-02") {
-							// 進入雙面
-							console.log("test3");
+							// 進入 step08
 							step = "03";
-
-							$(".next-button").addClass("step03box");
-
-							$(".right-box").addClass("step03box");
-
-							$(".bottom-box").addClass("step03box");
-
-							$(".point-box.back").attr("style", "display: none !important");
-
-							$(".right-box").css("display", "block");
-
-							$(".left-box").css("width", "45%");
-
-							$(".left-box .front").css("display", "flex");
-
-							$(".left-box .back").css("display", "flex");
 
 							$(".title span span").html("03");
 
-							$(".left-box").addClass("style02");
+							$(".step02").css("display", "none");
 
-							$(".left-box .tips").css("display", "none");
-
-							$(".detail-box .ChosePart").css("display", "none");
-
-							$(".left-box .left").css("display", "none");
-
-							$(".left-box .right").css("display", "none");
-
-							$(".left-box .step03box .front .num").html(frontTotalScore);
-
-							$(".left-box .step03box .back .num").html(backTotalScore);
-
-							$(".left-box .step03box .total-box").html("總共" + (backTotalScore + frontTotalScore) + "分");
-
-							$(".color-box").css("display", "none");
-
-							$(".step02box").css("display", "none");
-
-							$(".step03box").css("display", "flex");
-
-							$(".left-box .step03box").css("display", "block");
+							$(".step03").css("display", "block");
 						} else if (step == "03") {
-							// 進入 step07
-							step = "07";
-
+							// 從 step03 進入 step04（正面）
+							console.log("test1: 進入正面");
+							step = "04";
 							$(".title span span").html("04");
-
-							$(".step02").css("display", "none"); // 隱藏 step03
-
-							$(".step07").css("display", "block"); // 顯示 step07
-
-							console.log("進入 step07");
-						} else if (step == "07") {
-							// 進入 step08
-							step = "08";
-
-							$(".title span span").html("05");
-
-							$(".step07").css("display", "none"); // 隱藏 step07
-
-							$(".step08").css("display", "block"); // 顯示 step08
-
-							console.log("進入 step08");
-						} else {
+							$(".step03").css("display", "none");
+							$(".step04").css("display", "block"); // 顯示 step04
+							$(".point-box.back").attr("style", "display: none !important");
+						} else if (step == "04") {
+							// 從 step04 進入 step04-02（反面）
+							console.log("test2: 進入反面");
+							step = "04-02";
+							oldPainColor = null;
+							$(".title span span").html("04");
+							$(".left-box .front").css("display", "none");
+							$(".left-box .back").css("display", "block");
+							$(".right-box").css("display", "none");
+							$(".front").css("display", "none");
+							$(".left-box").css("width", "100%");
+							$(".point-box.front").css("display", "none");
+							$(".point-box.back").css("display", "flex");
+						} else if (step == "04-02") {
+							// 從 step04-02 進入 step05（雙面總分）
+							console.log("test3: 進入雙面總分");
+							step = "05";
+							$(".next-button").addClass("step03box");
+							$(".right-box").addClass("step03box");
+							$(".bottom-box").addClass("step03box");
+							$(".point-box.back").attr("style", "display: none !important");
+							$(".right-box").css("display", "block");
+							$(".left-box").css("width", "45%");
+							$(".left-box .front").css("display", "flex");
+							$(".left-box .back").css("display", "flex");
+							$(".title span span").html("05"); // 修改為 05 以反映總分步驟
+							$(".left-box").addClass("style02");
+							$(".left-box .tips").css("display", "none");
+							$(".detail-box .ChosePart").css("display", "none");
+							$(".left-box .left").css("display", "none");
+							$(".left-box .right").css("display", "none");
+							$(".left-box .step03box .front .num").html(frontTotalScore);
+							$(".left-box .step03box .back .num").html(backTotalScore);
+							$(".left-box .step03box .total-box").html("總共" + (backTotalScore + frontTotalScore) + "分");
+							$(".color-box").css("display", "none");
+							$(".step02box").css("display", "none");
+							$(".step03box").css("display", "flex");
+							$(".left-box .step03box").css("display", "block");
+						} else if (step == "05") {
+							// step05 結束後跳轉
 							window.location.href = `../../AssessmentPage/question/Index04.html?workOrderID=${testparams.workOrderID}`;
 						}
 					} else {

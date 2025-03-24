@@ -51,6 +51,15 @@ $(document).ready(function () {
 
 			success: function (res) {
 				localStorage.setItem("listData", JSON.stringify(res.returnData));
+				const pageMapping = {
+					"question_a02.html?step=7&bigstep=1": "question_a03.html?l?step=1&bigstep=2",
+					"question_a02.html?step=8&bigstep=1": "question_a03.html?l?step=2&bigstep=2",
+				};
+
+				let currentUrl = window.location.pathname + window.location.search;
+				if (pageMapping[currentUrl]) {
+					window.location.href = pageMapping[currentUrl];
+				}
 
 				$(".card-box").html("");
 				if (res.returnCode) {
