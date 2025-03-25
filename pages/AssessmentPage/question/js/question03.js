@@ -103,6 +103,7 @@ $(document).ready(function () {
 			processData: false,
 			contentType: false,
 			success: function (res) {
+				handleResponse(res);
 				if (res.returnCode) {
 					oldData = res.returnData;
 					let data01 = res.returnData.item[paramBigStep].item[0];
@@ -216,7 +217,7 @@ $(document).ready(function () {
 
 	// Update checklist record
 	const update = (type) => {
-		console.log(oldData);
+		// console.log(oldData);
 
 		let formData = new FormData();
 		let session_id = sessionStorage.getItem("sessionId");
@@ -239,6 +240,9 @@ $(document).ready(function () {
 			processData: false,
 			contentType: false,
 			success: function (res) {
+				handleResponse(res);
+				console.log(res);
+
 				if (res.returnCode) {
 					if (type != "prev") {
 						// Next button logic

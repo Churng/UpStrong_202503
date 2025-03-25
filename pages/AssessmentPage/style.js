@@ -19,6 +19,26 @@ $(document).ready(function () {
 	const params = Object.fromEntries(urlSearchParams.entries());
 	let data = { workOrderId: params.workOrderID };
 
+	// 獲取當前頁面的路徑和參數
+	const currentPath = window.location.pathname;
+	const currentParams = new URLSearchParams(window.location.search);
+	const targetPath = "/pages/AssessmentPage/question/question_a02.html";
+	const redirectUrlBase = "/pages/AssessmentPage/question/question_a03.html";
+
+	console.log(currentPath);
+	console.log(currentParams);
+	console.log(targetPath);
+
+	// 檢查路徑和特定參數（忽略workOrderID）
+	if (currentPath === targetPath && currentParams.get("step") === "7" && currentParams.get("bigstep") === "1") {
+		// 保留當前的workOrderID並用於跳轉
+		const redirectUrl = `${redirectUrlBase}?workOrderID=${params.workOrderID}&step=1&bigstep=2`;
+		console.log("ok");
+
+		window.location.href = redirectUrl;
+		return; // 如果跳轉就結束執行
+	}
+
 	const getList = () => {
 		let formData = new FormData();
 
@@ -51,19 +71,12 @@ $(document).ready(function () {
 
 			success: function (res) {
 				localStorage.setItem("listData", JSON.stringify(res.returnData));
-				const pageMapping = {
-					"question_a02.html?step=7&bigstep=1": "question_a03.html?l?step=1&bigstep=2",
-					"question_a02.html?step=8&bigstep=1": "question_a03.html?l?step=2&bigstep=2",
-				};
-
-				let currentUrl = window.location.pathname + window.location.search;
-				if (pageMapping[currentUrl]) {
-					window.location.href = pageMapping[currentUrl];
-				}
 
 				$(".card-box").html("");
 				if (res.returnCode) {
 					$(res.returnData.item).each(function (idx, e) {
+						console.log(e);
+
 						$(".card-box").append(`
 
                             <div class="card" data-cardidx="${idx}">
@@ -207,6 +220,8 @@ $(document).ready(function () {
 				}
 
 				$(".card .list").on("click", (e) => {
+					console.log(e);
+
 					if ($($(e)[0].target).attr("data-listidx") == 2 && $($(e)[0].target).attr("data-listurl") == 2) {
 						window.location.href = `./question/question_a0${
 							Number($($(e)[0].target).attr("data-listurl")) + 1
@@ -229,6 +244,8 @@ $(document).ready(function () {
 
 	$(".card .list").on("click", (e) => {
 		let sectionId = $($(e)[0].target).attr("data-listurl");
+		console.log(e);
+		console.log(sectionId);
 
 		if ($($(e)[0].target).attr("data-listidx") == 2 && $($(e)[0].target).attr("data-listurl") == 2) {
 			window.location.href = `./question/question_a0${
@@ -293,6 +310,8 @@ $(document).ready(function () {
 						$(e.item).each((idxx, ee) => {
 							if (ee.if_complete) {
 								$($(`[data-cardidx=${idx + 1}] [data-listidx=${idxx + 1}] img`)[0]).attr("src", "./images/checked.png");
+								$($(`[data-cardidx=${3}] [data-listidx=${7}] img`)[0]).attr("src", "./images/checked.png");
+								$($(`[data-cardidx=${3}] [data-listidx=${8}] img`)[0]).attr("src", "./images/checked.png");
 							}
 						});
 					});
