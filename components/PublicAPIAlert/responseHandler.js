@@ -12,6 +12,6 @@ function handleResponse(res) {
 	if (res.returnCode === "003") {
 		new CustomAlert({ content: res.returnMessage });
 
-		window.location.assign("/LoginPage/index.html"); // 從根目錄開始
+		window.location.assign("../LoginPage/index.html"); // 從根目錄開始
 	}
 }
