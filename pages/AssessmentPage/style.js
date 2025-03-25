@@ -291,27 +291,27 @@ $(document).ready(function () {
 		}
 	});
 
-	// $(".card .list").on("click", (e) => {
-	// 	let sectionId = $($(e)[0].target).attr("data-listurl");
-	// 	console.log(e);
-	// 	console.log(sectionId);
+	$(".card .list").on("click", (e) => {
+		let sectionId = $($(e)[0].target).attr("data-listurl");
+		// console.log(e);
+		// console.log(sectionId);
 
-	// 	if ($($(e)[0].target).attr("data-listidx") == 2 && $($(e)[0].target).attr("data-listurl") == 2) {
-	// 		window.location.href = `./question/question_a0${
-	// 			Number($($(e)[0].target).attr("data-listurl")) + 1
-	// 		}.html?step=2&bigstep=${Number($($(e)[0].target).attr("data-listurl"))}`;
-	// 	} else if ($($(e)[0].target).attr("data-listidx") == 3 && $($(e)[0].target).attr("data-listurl") == 2) {
-	// 		window.location.href = `./question/question_a0${
-	// 			Number($($(e)[0].target).attr("data-listurl")) + 1
-	// 		}.html?step=2-02&bigstep=${Number($($(e)[0].target).attr("data-listurl"))}`;
-	// 	} else {
-	// 		window.location.href = `./question/question_a0${
-	// 			Number($($(e)[0].target).attr("data-listurl")) + 1
-	// 		}.html?workOrderID=${params.workOrderID}&step=${Number($($(e)[0].target).attr("data-listidx"))}&bigstep=${Number(
-	// 			$($(e)[0].target).attr("data-listurl")
-	// 		)}`;
-	// 	}
-	// });
+		if ($($(e)[0].target).attr("data-listidx") == 2 && $($(e)[0].target).attr("data-listurl") == 2) {
+			window.location.href = `./question/question_a0${
+				Number($($(e)[0].target).attr("data-listurl")) + 1
+			}.html?step=2&bigstep=${Number($($(e)[0].target).attr("data-listurl"))}`;
+		} else if ($($(e)[0].target).attr("data-listidx") == 3 && $($(e)[0].target).attr("data-listurl") == 2) {
+			window.location.href = `./question/question_a0${
+				Number($($(e)[0].target).attr("data-listurl")) + 1
+			}.html?step=2-02&bigstep=${Number($($(e)[0].target).attr("data-listurl"))}`;
+		} else {
+			window.location.href = `./question/question_a0${
+				Number($($(e)[0].target).attr("data-listurl")) + 1
+			}.html?workOrderID=${params.workOrderID}&step=${Number($($(e)[0].target).attr("data-listidx"))}&bigstep=${Number(
+				$($(e)[0].target).attr("data-listurl")
+			)}`;
+		}
+	});
 
 	const getCheckListRecord = () => {
 		let formData = new FormData();
