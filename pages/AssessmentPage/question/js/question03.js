@@ -68,6 +68,7 @@ $(document).ready(function () {
 			if (paramStep == "4-02") {
 				step = "04-02";
 				$(".title span span").html("04");
+				$(".step01").css("display", "none");
 				$(".step03").css("display", "none");
 				$(".step04").css("display", "block");
 				$(".front").attr("style", "display: none ");
@@ -77,6 +78,7 @@ $(document).ready(function () {
 				step = `0${paramStep}`;
 				$(".title span span").html(`0${paramStep}`);
 				$(".step04").css("display", "none");
+				$(".step01").css("display", "none");
 				$(".back").css("display", "none");
 				$(".point-box.back").attr("style", "display: none !important");
 				$(`.step0${paramStep}`).css("display", "block");
@@ -241,7 +243,6 @@ $(document).ready(function () {
 			contentType: false,
 			success: function (res) {
 				handleResponse(res);
-				console.log(res);
 
 				if (res.returnCode) {
 					if (type != "prev") {

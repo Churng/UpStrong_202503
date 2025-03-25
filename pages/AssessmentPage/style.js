@@ -19,26 +19,6 @@ $(document).ready(function () {
 	const params = Object.fromEntries(urlSearchParams.entries());
 	let data = { workOrderId: params.workOrderID };
 
-	// 獲取當前頁面的路徑和參數
-	const currentPath = window.location.pathname;
-	const currentParams = new URLSearchParams(window.location.search);
-	const targetPath = "/pages/AssessmentPage/question/question_a02.html";
-	const redirectUrlBase = "/pages/AssessmentPage/question/question_a03.html";
-
-	console.log(currentPath);
-	console.log(currentParams);
-	console.log(targetPath);
-
-	// 檢查路徑和特定參數（忽略workOrderID）
-	if (currentPath === targetPath && currentParams.get("step") === "7" && currentParams.get("bigstep") === "1") {
-		// 保留當前的workOrderID並用於跳轉
-		const redirectUrl = `${redirectUrlBase}?workOrderID=${params.workOrderID}&step=1&bigstep=2`;
-		console.log("ok");
-
-		window.location.href = redirectUrl;
-		return; // 如果跳轉就結束執行
-	}
-
 	const getList = () => {
 		let formData = new FormData();
 
@@ -242,27 +222,96 @@ $(document).ready(function () {
 		});
 	};
 
-	$(".card .list").on("click", (e) => {
-		let sectionId = $($(e)[0].target).attr("data-listurl");
-		console.log(e);
-		console.log(sectionId);
+	// 加入 getNextPage 函數
+	function getNextPage(currentUrl) {
+		const urlParts = currentUrl.split("?");
+		const path = urlParts[0];
+		const params = new URLSearchParams(urlParts[1]);
 
-		if ($($(e)[0].target).attr("data-listidx") == 2 && $($(e)[0].target).attr("data-listurl") == 2) {
-			window.location.href = `./question/question_a0${
-				Number($($(e)[0].target).attr("data-listurl")) + 1
-			}.html?step=2&bigstep=${Number($($(e)[0].target).attr("data-listurl"))}`;
-		} else if ($($(e)[0].target).attr("data-listidx") == 3 && $($(e)[0].target).attr("data-listurl") == 2) {
-			window.location.href = `./question/question_a0${
-				Number($($(e)[0].target).attr("data-listurl")) + 1
-			}.html?step=2-02&bigstep=${Number($($(e)[0].target).attr("data-listurl"))}`;
+		const currentQuestionMatch = path.match(/question_a(\d+)\.html/);
+		if (!currentQuestionMatch) return null;
+		const currentNum = parseInt(currentQuestionMatch[1]);
+		const nextNum = currentNum + 1;
+		const nextQuestion = `question_a${nextNum.toString().padStart(2, "0")}.html`;
+		const nextPath = path.replace(/question_a\d+\.html/, nextQuestion);
+
+		params.set("step", "1");
+		const currentBigStep = parseInt(params.get("bigstep"));
+		params.set("bigstep", currentBigStep + 1);
+
+		return `${nextPath}?${params.toString()}`;
+	}
+	$(".card .list").on("click", (e) => {
+		const $target = $(e.currentTarget);
+		const listIdx = Number($target.attr("data-listidx"));
+		const listUrl = Number($target.attr("data-listurl"));
+		const urlSearchParams = new URLSearchParams(window.location.search);
+		const params = Object.fromEntries(urlSearchParams.entries());
+
+		// 調試輸出
+		console.log("target element:", $target[0]);
+		console.log("data-listidx:", $target.attr("data-listidx"), "parsed:", listIdx);
+		console.log("data-listurl:", $target.attr("data-listurl"), "parsed:", listUrl);
+
+		// 檢查是否為 NaN
+		if (isNaN(listIdx) || isNaN(listUrl)) {
+			console.error("Invalid listIdx or listUrl, cannot proceed with navigation.");
+			return;
+		}
+
+		// 特殊情況處理
+		if (listIdx === 2 && listUrl === 2) {
+			window.location.href = `./question/question_a0${listUrl + 1}.html?workOrderID=${
+				params.workOrderID
+			}&step=4&bigstep=${listUrl}`;
+		} else if (listIdx === 3 && listUrl === 2) {
+			window.location.href = `./question/question_a0${listUrl + 1}.html?workOrderID=${
+				params.workOrderID
+			}&step=4-02&bigstep=${listUrl}`;
+		} else if (listIdx === 7 && listUrl === 1) {
+			window.location.href = `./question/question_a03.html?workOrderID=${params.workOrderID}&step=1&bigstep=2`;
+		} else if (listIdx === 8 && listUrl === 1) {
+			window.location.href = `./question/question_a03.html?workOrderID=${params.workOrderID}&step=2&bigstep=2`;
+		} else if (listIdx === 1 && listUrl === 2) {
+			window.location.href = `./question/question_a03.html?workOrderID=${params.workOrderID}&step=3&bigstep=2`;
+		} else if (listIdx === 2 && listUrl === 2) {
+			window.location.href = `./question/question_a03.html?workOrderID=${params.workOrderID}&step=4&bigstep=2`;
 		} else {
-			window.location.href = `./question/question_a0${
-				Number($($(e)[0].target).attr("data-listurl")) + 1
-			}.html?workOrderID=${params.workOrderID}&step=${Number($($(e)[0].target).attr("data-listidx"))}&bigstep=${Number(
-				$($(e)[0].target).attr("data-listurl")
-			)}`;
+			// 使用 getNextPage 處理一般情況
+			const currentUrl = window.location.href;
+			const nextUrl = getNextPage(currentUrl);
+			if (nextUrl) {
+				window.location.href = nextUrl;
+			} else {
+				// 預設跳轉邏輯
+				window.location.href = `./question/question_a0${listUrl + 1}.html?workOrderID=${params.workOrderID}&step=${
+					listIdx + 1
+				}&bigstep=${listUrl}`;
+			}
 		}
 	});
+
+	// $(".card .list").on("click", (e) => {
+	// 	let sectionId = $($(e)[0].target).attr("data-listurl");
+	// 	console.log(e);
+	// 	console.log(sectionId);
+
+	// 	if ($($(e)[0].target).attr("data-listidx") == 2 && $($(e)[0].target).attr("data-listurl") == 2) {
+	// 		window.location.href = `./question/question_a0${
+	// 			Number($($(e)[0].target).attr("data-listurl")) + 1
+	// 		}.html?step=2&bigstep=${Number($($(e)[0].target).attr("data-listurl"))}`;
+	// 	} else if ($($(e)[0].target).attr("data-listidx") == 3 && $($(e)[0].target).attr("data-listurl") == 2) {
+	// 		window.location.href = `./question/question_a0${
+	// 			Number($($(e)[0].target).attr("data-listurl")) + 1
+	// 		}.html?step=2-02&bigstep=${Number($($(e)[0].target).attr("data-listurl"))}`;
+	// 	} else {
+	// 		window.location.href = `./question/question_a0${
+	// 			Number($($(e)[0].target).attr("data-listurl")) + 1
+	// 		}.html?workOrderID=${params.workOrderID}&step=${Number($($(e)[0].target).attr("data-listidx"))}&bigstep=${Number(
+	// 			$($(e)[0].target).attr("data-listurl")
+	// 		)}`;
+	// 	}
+	// });
 
 	const getCheckListRecord = () => {
 		let formData = new FormData();
