@@ -8,24 +8,12 @@ function convertToEmbed(url) {
 }
 
 $(document).ready(function () {
-	//判斷身份隱藏按鈕
-	const savedUserType = JSON.parse(sessionStorage.getItem("userType"));
-	console.log(typeof savedUserType);
-
-	if (savedUserType == 1) {
-		$(".coach-edit").css("visibility", "hidden");
-	} else {
-		$(".coach-edit").css("visibility", "visible");
-	}
 	let formData = new FormData();
 
 	let session_id = sessionStorage.getItem("sessionId");
-	let action = "getRecommendMatchDataListById";
+	let action = "getDefaultRecommendMatchDataListById";
 	let chsm = "upStrongRecommendApi";
 	chsm = $.md5(session_id + action + chsm);
-
-	console.log(session_id);
-	console.log(chsm);
 
 	const urlSearchParams = new URLSearchParams(window.location.search);
 	const params = Object.fromEntries(urlSearchParams.entries());
@@ -36,11 +24,6 @@ $(document).ready(function () {
 	formData.append("chsm", chsm);
 	formData.append("data", JSON.stringify(data));
 
-	// 測試用
-	// for (let pair of formData.entries()) {
-	//     console.log(pair[0] + ': ' + pair[1]);
-	// }
-
 	// 發送 API 請求
 	$.ajax({
 		url: `${window.apiUrl}${window.apirecommend}`,
@@ -49,7 +32,6 @@ $(document).ready(function () {
 		processData: false,
 		contentType: false,
 		success: function (res) {
-			handleResponse(res);
 			console.log(res);
 
 			if (res.returnCode == "1" && res.returnData) {
@@ -57,22 +39,28 @@ $(document).ready(function () {
 				let recommendData = res.returnData;
 				$("#title").append(res.returnData.title); //標題
 
-				// console.log("回傳資料:"+ response) //回傳資料
+				// console.log("回傳資料:"+ res) //回傳資料
 				// recommendData.sort((a, b) => a.order - b.order); //根據order排序
 				recommendData.forEach((item) => {
+					console.log(item);
+
 					let contentHTML = "";
-					if (item.type === "word") {
+					if (item.matchTypeName === "文字") {
 						//純文字
 						contentHTML = `
                             <div class="recommendation-item  mb-5 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title">${item.content}</h5>
-                                    <p class="card-text">${item.url}</p>
+                                <div class="card-body d-flex align-items-start">
+									<input type="checkbox" name="" id="" class="recommendation-checkbox">
+									<div class="card-box">
+									   <h5 class="card-title">${item.checkItemName}</h5>
+                                    <p class="card-text">${item.content}</p>
                                     <p class="card-text">${item.description}</p>
+									</div>
+                                 
                                 </div>
                             </div>
                         `;
-					} else if (item.type === "image") {
+					} else if (item.type === "圖片") {
 						//圖片
 						contentHTML = `
                         <div class="recommendation-item mb-5 shadow-sm">
@@ -100,18 +88,13 @@ $(document).ready(function () {
 					// 將內容塞到html
 					recommendationContainer.append(contentHTML);
 				});
-				//     // }
 			} else {
 				console.error("API 回應異常:", res.message);
 			}
 		},
 		error: function (xhr, status, error) {
+			// 處理錯誤
 			console.error("API 呼叫失敗:", error);
 		},
-	});
-
-	//進入編輯頁面
-	document.querySelector(".btn.coach-edit").addEventListener("click", function () {
-		window.location.href = `../AssessmentRecommendationEditor/index.html?workOrderID=${params.workOrderID}`;
 	});
 });
