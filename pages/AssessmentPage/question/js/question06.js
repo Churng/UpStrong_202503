@@ -389,7 +389,16 @@ $(document).ready(function () {
 		formData.append("chsm", chsm);
 
 		formData.append("data", JSON.stringify(oldData));
-		console.log("傳過去的資料:" + JSON.stringify(oldData));
+
+		formData.append(
+			"data",
+			JSON.stringify({
+				...oldData,
+				workOrderId: testparams.workOrderID,
+			})
+		);
+
+		// console.log("傳過去的資料:" + JSON.stringify(oldData));
 
 		$.ajax({
 			url: `${window.apiUrl}${window.apicheckList}`,

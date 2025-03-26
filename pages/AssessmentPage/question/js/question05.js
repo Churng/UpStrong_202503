@@ -570,7 +570,15 @@ $(document).ready(function () {
 
 		formData.append("data", JSON.stringify(oldData));
 
-		console.log("SendData:" + JSON.stringify(oldData));
+		formData.append(
+			"data",
+			JSON.stringify({
+				...oldData,
+				workOrderId: testparams.workOrderID,
+			})
+		);
+
+		// console.log("SendData:" + JSON.stringify(oldData));
 
 		$.ajax({
 			url: `${window.apiUrl}${window.apicheckList}`,
