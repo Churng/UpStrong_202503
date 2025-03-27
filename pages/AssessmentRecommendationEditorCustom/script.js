@@ -301,8 +301,8 @@ function sendSingleData(dataItem, workOrderId) {
 		contentType: false, // 必要！讓瀏覽器自動設置Content-Type
 		success: function (res) {
 			console.log(res);
-
-			return;
+			successResponse(res);
+			window.location.href = `../AssessmentRecommendation/index.html?workOrderID=${params.workOrderID}`;
 		},
 		error: function (xhr, status, error) {
 			console.error("API呼叫失敗:", error);
@@ -324,10 +324,7 @@ document.querySelector(".next-button").addEventListener("click", function () {
 	});
 
 	Promise.all(allRequests)
-		.then(() => {
-			// return;
-			window.location.href = `../AssessmentRecommendation/index.html?workOrderID=${params.workOrderID}`;
-		})
+		.then(() => {})
 		.catch((error) => {
 			console.error("資料傳送錯誤:", error);
 		});
