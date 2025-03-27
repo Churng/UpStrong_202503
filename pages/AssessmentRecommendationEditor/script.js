@@ -19,9 +19,6 @@ $(document).ready(function () {
 	let chsm = "upStrongRecommendApi";
 	chsm = $.md5(session_id + action + chsm);
 
-	console.log(session_id);
-	console.log(chsm);
-
 	const urlSearchParams = new URLSearchParams(window.location.search);
 	const params = Object.fromEntries(urlSearchParams.entries());
 	let data = { workOrderId: params.workOrderID };
@@ -117,67 +114,45 @@ $(document).ready(function () {
 		},
 	});
 
-	$(".next").on("click", function () {
-		// 找出所有狀態有變化的checkbox
-		const changedCheckboxes = $(".isMatch-checkbox").filter(function () {
-			const checkboxId = $(this).data("id");
-			return checkboxInitialStates[checkboxId] !== $(this).is(":checked");
-		});
+	$(".next")
+		.off("click")
+		.on("click", function (e) {
+			e.preventDefault();
 
-		// 如果沒有checkbox被改變，直接跳轉
-		if (changedCheckboxes.length === 0) {
-			window.location.href = `../AssessmentRecommendationEditorCustom/index.html?workOrderID=${params.workOrderID}`;
-			return;
-		}
+			// 找出有變更的 checkbox
+			const $checkboxes = $(".isMatch-checkbox");
+			let changedItems = [];
 
-		const requests = [];
+			$checkboxes.each(function () {
+				const $checkbox = $(this);
+				const checkboxId = $checkbox.data("id").toString();
+				const isNowChecked = $checkbox.is(":checked");
+				const wasInitiallyChecked = checkboxInitialStates[checkboxId];
 
-		changedCheckboxes.each(function () {
-			const checkbox = $(this);
-			const recommendId = checkbox.data("id").toString();
-			const isNowChecked = checkbox.is(":checked");
-			const originalItem = recommendData.find((item) => item.id.toString() === recommendId);
-
-			if (!originalItem) return;
-
-			const requestData = {
-				workOrderId: params.workOrderID,
-				action: isNowChecked ? "set" : "delete",
-			};
-
-			if (isNowChecked) {
-				// 處理set操作的資料
-				let checkListIds = "";
-				if (Array.isArray(originalItem.checkListId)) {
-					checkListIds = originalItem.checkListId.join("&");
-				} else if (originalItem.checkListId) {
-					checkListIds = originalItem.checkListId.toString();
+				// 只有狀態改變時才加入處理陣列
+				if (isNowChecked !== wasInitiallyChecked) {
+					changedItems.push({
+						checkbox: $checkbox,
+						recommendId: checkboxId,
+						isNowChecked: isNowChecked,
+					});
+					// 更新初始狀態，避免後續重複觸發
+					checkboxInitialStates[checkboxId] = isNowChecked;
 				}
+			});
 
-				Object.assign(requestData, {
-					isMatch: true,
-					content: originalItem.content || "",
-					url: originalItem.url || "",
-					description: originalItem.description || "",
-					checkListId: checkListIds,
-					checkItemName: originalItem.checkItemName || "",
-					matchType: originalItem.matchType || "",
-					recommendOrder: originalItem.recommendOrder !== undefined ? originalItem.recommendOrder : 0,
-					matchCondition: originalItem.matchCondition || "",
-					sourceRecommendId: originalItem.sourceRecommendId || "",
-				});
-			} else {
-				// 處理delete操作的資料
-				Object.assign(requestData, {
-					recommendId: recommendId,
-				});
+			console.log(changedItems);
+
+			// 如果沒有變更，直接跳轉
+			if (changedItems.length === 0) {
+				window.location.href = `../AssessmentRecommendationEditorCustom/index.html?workOrderID=${params.workOrderID}`;
+				return;
 			}
 
-			requests.push(sendRecommendationRequest(requestData));
-
-			// 執行所有請求
-			Promise.all(requests)
+			// 按順序逐一處理 API 請求
+			processRequestsSequentially(changedItems)
 				.then(() => {
+					console.log("所有請求處理完成");
 					window.location.href = `../AssessmentRecommendationEditorCustom/index.html?workOrderID=${params.workOrderID}`;
 				})
 				.catch((error) => {
@@ -185,9 +160,51 @@ $(document).ready(function () {
 					alert("部分更新失敗，請稍後再試");
 				});
 		});
-	});
 
-	// 封裝API請求函數
+	// 封裝逐一處理請求的函數
+	function processRequestsSequentially(items) {
+		return items.reduce((promise, item) => {
+			return promise.then(() => {
+				const originalItem = recommendData.find((data) => data.id.toString() === item.recommendId);
+				if (!originalItem) return Promise.resolve(); // 若無資料，跳過
+
+				const requestData = {
+					workOrderId: params.workOrderID,
+					action: item.isNowChecked ? "set" : "delete",
+				};
+
+				if (item.isNowChecked) {
+					let checkListIds = "";
+					if (Array.isArray(originalItem.checkListId)) {
+						checkListIds = originalItem.checkListId.join("&");
+					} else if (originalItem.checkListId) {
+						checkListIds = originalItem.checkListId.toString();
+					}
+
+					Object.assign(requestData, {
+						isMatch: true,
+						content: originalItem.content || "",
+						url: originalItem.url || "",
+						description: originalItem.description || "",
+						checkListId: checkListIds,
+						checkItemName: originalItem.checkItemName || "",
+						matchType: originalItem.matchType || "",
+						recommendOrder: originalItem.recommendOrder !== undefined ? originalItem.recommendOrder : 0,
+						matchCondition: originalItem.matchCondition || "",
+						sourceRecommendId: originalItem.sourceRecommendId || "",
+					});
+				} else {
+					Object.assign(requestData, {
+						recommendId: item.recommendId,
+					});
+				}
+
+				return sendRecommendationRequest(requestData);
+			});
+		}, Promise.resolve());
+	}
+
+	// 原有的 API 請求函數
 	function sendRecommendationRequest(data) {
 		return new Promise((resolve, reject) => {
 			let formData = new FormData();
