@@ -58,12 +58,26 @@ document.addEventListener("click", function (e) {
 	const isAddButton = button.querySelector(".bi-plus-circle-fill");
 	const isTrashButton = button.querySelector(".bi-trash");
 
+	// 計算同類型的區塊數量
+	const sectionType = [...containerClasses].find((cls) => currentSection.matches(cls));
+	const allSections = document.querySelectorAll(sectionType);
+	const sectionCount = allSections.length;
+
+	// 控制垃圾桶按鈕的 pointer-events
+	const trashButton = currentSection.querySelector(".btn-icon .bi-trash")?.parentElement;
+	if (trashButton) {
+		trashButton.style.pointerEvents = sectionCount === 1 ? "none" : "auto";
+		// 可選：添加視覺提示
+		trashButton.style.opacity = sectionCount === 1 ? "0.5" : "1";
+	}
+
 	if (isAddButton) {
 		addNewSection(currentSection);
 		isAddButton.style.display = "none";
 	}
 
-	if (isTrashButton) {
+	if (isTrashButton && sectionCount > 1) {
+		// 只在有多於一個區塊時執行刪除
 		const prevSection = currentSection.previousElementSibling;
 		currentSection.remove();
 		if (prevSection) {
@@ -72,7 +86,6 @@ document.addEventListener("click", function (e) {
 		}
 	}
 });
-
 // 新增區塊函數
 function addNewSection(currentSection) {
 	const newSection = currentSection.cloneNode(true);
@@ -312,8 +325,8 @@ document.querySelector(".next-button").addEventListener("click", function () {
 
 	Promise.all(allRequests)
 		.then(() => {
-			return;
-			// window.location.href = `../AssessmentRecommendationEditorCustom/index.html?workOrderID=${params.workOrderID}`;
+			// return;
+			window.location.href = `../AssessmentRecommendation/index.html?workOrderID=${params.workOrderID}`;
 		})
 		.catch((error) => {
 			console.error("資料傳送錯誤:", error);
