@@ -8,17 +8,9 @@ function convertToEmbed(url) {
 }
 
 $(document).ready(function () {
-	//跳轉頁面
-	if ($(".next-button").length === 0) {
-		console.error("找不到 .next-button 元素，請檢查 HTML 是否正確");
-		return;
-	}
-	$(".next-button").on("click", function () {
-		window.location.href = `../AssessmentRecommendationEditorCustom/index.html?workOrderID=${params.workOrderID}`;
-	});
-
 	var oldData = null;
 	let recommendData = null;
+	let checkboxInitialStates = {}; // To store initial checkbox states
 
 	//取得套用清單
 	let formData = new FormData();
@@ -55,42 +47,38 @@ $(document).ready(function () {
 				recommendData = res.returnData;
 				$("#title").append(res.returnData.title); //標題
 
-				// console.log("回傳資料:"+ res) //回傳資料
-				// recommendData.sort((a, b) => a.order - b.order); //根據order排序
 				recommendData.forEach((item) => {
 					let contentHTML = "";
 					if (item.matchTypeName === "文字") {
 						//純文字
 						contentHTML = `
-                            <div class="recommendation-item style01  mb-5 shadow-sm">
+                            <div class="recommendation-item style01 mb-5 shadow-sm">
                                 <div class="card-body d-flex align-items-start checkbox-box">
-								<input type="checkbox" id="check_${item.id}" name="check_${item.id}" value="${item.checkListId}" ${
-							item.isMatch ? "checked" : ""
-						}>
-                                <label for="check_${item.id}"></label>
-									<div class="card-box">
-                                    <p class="card-text">${item.content}</p>
-									</div>
-                                 
+                                    <input type="checkbox" class="isMatch-checkbox" id="${item.id}" 
+                                        name="${item.id}" value="${item.checkListId}" 
+                                        data-id="${item.id}" ${item.isMatch ? "checked" : ""}>
+                                    <label for="${item.id}"></label>
+                                    <div class="card-box">
+                                        <p class="card-text">${item.content}</p>
+                                    </div>
                                 </div>
                             </div>
                         `;
 					} else if (item.matchTypeName === "圖片") {
 						//圖片
 						contentHTML = `
-                        <div class="recommendation-item mb-5 shadow-sm">
+                            <div class="recommendation-item mb-5 shadow-sm">
                                 <div class="card-body d-flex align-items-start checkbox-box">
-									<input type="checkbox" id="check_${item.id}" name="check_${item.id}" value=""${item.checkListId}"" ${
-							item.isMatch ? "checked" : ""
-						}>
-                                	<label for="check_${item.id}"></label>
-									<div class="card-box">
-                                    <img src="${item.url}" alt="${
+                                    <input type="checkbox" class="isMatch-checkbox" id="${item.id}" 
+                                        name="${item.id}" value="${item.checkListId}" 
+                                        data-id="${item.id}" ${item.isMatch ? "checked" : ""}>
+                                    <label for="${item.id}"></label>
+                                    <div class="card-box">
+                                        <img src="${item.url}" alt="${
 							item.description
 						}" class="img-fluid mb-3" style="width: 300px;">
-                                    <p class="card-text">${item.description}</p>
-									</div>
-                                    
+                                        <p class="card-text">${item.description}</p>
+                                    </div>
                                 </div>
                             </div>
                         `;
@@ -98,16 +86,17 @@ $(document).ready(function () {
 						//嵌入Youtube影片
 						var URL = convertToEmbed(item.url);
 						contentHTML = `
-                            <div class="recommendation-item  mb-5 shadow-sm">
-                                 <div class="card-body d-flex align-items-start checkbox-box">
-									<input type="checkbox" id="check_${item.id}" name="check_${item.id}" value="${item.checkListId}" ${
-							item.isMatch ? "checked" : ""
-						}>
-                                	<label for="check_${item.id}"></label>
-									<div class="card-box">
-                                    <iframe class="mb-3 w-100" height="315" src="${URL}" title="YouTube video" frameborder="0" allowfullscreen style="width: 300px;"></iframe>
-                                    <p class="card-text">${item.description}</p></div>
-                                   
+                            <div class="recommendation-item mb-5 shadow-sm">
+                                <div class="card-body d-flex align-items-start checkbox-box">
+                                    <input type="checkbox" class="isMatch-checkbox" id="${item.id}" 
+                                        name="${item.id}" value="${item.checkListId}" 
+                                        data-id="${item.id}" ${item.isMatch ? "checked" : ""}>
+                                    <label for="${item.id}"></label>
+                                    <div class="card-box">
+                                        <iframe class="mb-3 w-100" height="315" src="${URL}" 
+                                            title="YouTube video" frameborder="0" allowfullscreen style="width: 300px;"></iframe>
+                                        <p class="card-text">${item.description}</p>
+                                    </div>
                                 </div>
                             </div>
                         `;
@@ -115,84 +104,118 @@ $(document).ready(function () {
 
 					// 將內容塞到html
 					recommendationContainer.append(contentHTML);
+
+					// Store initial checkbox state
+					checkboxInitialStates[item.id] = item.isMatch;
 				});
 			} else {
 				console.error("API 回應異常:", res.message);
 			}
 		},
 		error: function (xhr, status, error) {
-			// 處理錯誤
 			console.error("API 呼叫失敗:", error);
 		},
 	});
 
-	// $(".next").on("click", function () {
-	// 	// 收集所有被勾選的項目
-	// 	let data = [];
+	$(".next").on("click", function () {
+		// 找出所有狀態有變化的checkbox
+		const changedCheckboxes = $(".isMatch-checkbox").filter(function () {
+			const checkboxId = $(this).data("id");
+			return checkboxInitialStates[checkboxId] !== $(this).is(":checked");
+		});
 
-	// 	// 遍歷所有 checkbox
-	// 	$('input[type="checkbox"]:checked').each(function () {
-	// 		const id = $(this).attr("id").replace("check_", "");
-	// 		const checkListId = $(this).val();
-	// 		const item = recommendData.find((item) => item.id == id);
+		// 如果沒有checkbox被改變，直接跳轉
+		if (changedCheckboxes.length === 0) {
+			window.location.href = `../AssessmentRecommendationEditorCustom/index.html?workOrderID=${params.workOrderID}`;
+			return;
+		}
 
-	// 		if (item) {
-	// 			// 符合您要求的格式，但保留完整原始資料
-	// 			data.push({
-	// 				action: "set",
-	// 				id: item.id, // 或 checkListId，依後端需求
-	// 				recommendId: item.id, // 預設值
-	// 				checkListId: checkListId,
-	// 				checkItemName: item.checkItemName,
-	// 				matchType: item.matchTypeName,
-	// 				content: item.content,
-	// 				description: item.description,
-	// 				recommendOrder: item.recommendOrder,
-	// 				url: item.url,
-	// 				matchCondition: item.matchCondition,
-	// 			});
-	// 		}
-	// 	});
+		const requests = [];
 
-	// 	// 準備最終傳送資料
-	// 	let postData = {
-	// 		data,
-	// 	};
+		changedCheckboxes.each(function () {
+			const checkbox = $(this);
+			const recommendId = checkbox.data("id").toString();
+			const isNowChecked = checkbox.is(":checked");
+			const originalItem = recommendData.find((item) => item.id.toString() === recommendId);
 
-	// 	console.log("傳送資料:", postData);
-	// 	update(postData);
-	// });
-	// const update = (data) => {
-	// 	let formData = new FormData();
-	// 	let session_id = sessionStorage.getItem("sessionId");
-	// 	let action = "setRecommendMatchDataById";
-	// 	let chsm = "upStrongRecommendApi";
-	// 	chsm = $.md5(session_id + action + chsm);
+			if (!originalItem) return;
 
-	// 	formData.append("session_id", session_id);
-	// 	formData.append("action", action);
-	// 	formData.append("chsm", chsm);
-	// 	formData.append("data", JSON.stringify(data));
+			const requestData = {
+				workOrderId: params.workOrderID,
+				action: isNowChecked ? "set" : "delete",
+			};
 
-	// 	$.ajax({
-	// 		url: `${window.apiUrl}${window.apirecommend}`,
-	// 		type: "POST",
-	// 		data: formData,
-	// 		processData: false,
-	// 		contentType: false,
-	// 		success: function (res) {
-	// 			console.log(res);
+			if (isNowChecked) {
+				// 處理set操作的資料
+				let checkListIds = "";
+				if (Array.isArray(originalItem.checkListId)) {
+					checkListIds = originalItem.checkListId.join("&");
+				} else if (originalItem.checkListId) {
+					checkListIds = originalItem.checkListId.toString();
+				}
 
-	// 			if (res.returnCode == "1") {
-	// 				window.location.href = `../AssessmentRecommendationEditorCustom/index.html?workOrderID=${params.workOrderID}`;
-	// 			} else {
-	// 				console.error("API 回應異常:", res.message);
-	// 			}
-	// 		},
-	// 		error: function (e) {
-	// 			console.error("API 呼叫失敗:", e);
-	// 			alert("更新失敗，請稍後再試");
-	// 		},
-	// 	});
-	// };
+				Object.assign(requestData, {
+					isMatch: true,
+					content: originalItem.content || "",
+					url: originalItem.url || "",
+					description: originalItem.description || "",
+					checkListId: checkListIds,
+					checkItemName: originalItem.checkItemName || "",
+					matchType: originalItem.matchType || "",
+					recommendOrder: originalItem.recommendOrder !== undefined ? originalItem.recommendOrder : 0,
+					matchCondition: originalItem.matchCondition || "",
+					sourceRecommendId: originalItem.sourceRecommendId || "",
+				});
+			} else {
+				// 處理delete操作的資料
+				Object.assign(requestData, {
+					recommendId: recommendId,
+				});
+			}
+
+			requests.push(sendRecommendationRequest(requestData));
+
+			// 執行所有請求
+			Promise.all(requests)
+				.then(() => {
+					window.location.href = `../AssessmentRecommendationEditorCustom/index.html?workOrderID=${params.workOrderID}`;
+				})
+				.catch((error) => {
+					console.error("更新失敗:", error);
+					alert("部分更新失敗，請稍後再試");
+				});
+		});
+	});
+
+	// 封裝API請求函數
+	function sendRecommendationRequest(data) {
+		return new Promise((resolve, reject) => {
+			let formData = new FormData();
+			formData.append("session_id", sessionStorage.getItem("sessionId"));
+			formData.append("action", "setRecommendMatchDataById");
+			formData.append(
+				"chsm",
+				$.md5(sessionStorage.getItem("sessionId") + "setRecommendMatchDataById" + "upStrongRecommendApi")
+			);
+			formData.append("data", JSON.stringify(data));
+
+			$.ajax({
+				url: `${window.apiUrl}${window.apirecommend}`,
+				type: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				success: function (res) {
+					if (res.returnCode === "1") {
+						resolve();
+					} else {
+						reject(res.message);
+					}
+				},
+				error: function (error) {
+					reject(error);
+				},
+			});
+		});
+	}
 });
