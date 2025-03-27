@@ -686,7 +686,8 @@ body {
 .footer {
 	text-align: center;
 	width: 100%;
-	position: relative;
+	position: absolute;
+	bottom: 0;
 }
 @media (max-width: 500px) {
 	.footer {
