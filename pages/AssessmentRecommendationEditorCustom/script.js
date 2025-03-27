@@ -2,6 +2,9 @@
 let collectedData = [];
 let imageFiles = []; // 在全域範圍初始化 imageFiles
 
+const urlSearchParams = new URLSearchParams(window.location.search);
+const params = Object.fromEntries(urlSearchParams.entries());
+
 // 檢查是否為 YouTube 分享網址並轉為嵌入格式
 function convertToEmbed(url) {
 	if (url.includes("youtu.be")) {
@@ -173,54 +176,86 @@ bindImageUpload(document.querySelector(".addpic-box"), "imageUpload");
 // 收集資料
 function collectAllData() {
 	collectedData = [];
-	imageFiles = []; // 重置圖片檔案陣列
+	imageFiles = [];
 
-	document.querySelectorAll(".textarea-box").forEach((box) => {
+	// 收集文字區塊資料
+	document.querySelectorAll(".textarea-box").forEach((box, index) => {
 		const content = box.querySelector(".recommendation-textarea").value;
 		if (content) {
 			collectedData.push({
+				id: "",
+				isMatch: true,
 				content: content,
 				description: "",
 				url: "",
+				checkListId: "",
+				checkItemName: "",
+				matchType: "1",
+				recommendOrder: index + 1, // 根據順序設定值
+				matchCondition: "",
 				action: "set",
+				workOrderId: params.workOrderID,
 			});
 		}
 	});
 
-	document.querySelectorAll(".ytlink-box").forEach((box) => {
+	// 收集圖片區塊資料
+	document.querySelectorAll(".addpic-box").forEach((box, index) => {
+		const description = box.querySelector(".addpic-textarea").value;
+		const fileInput = box.querySelector("#imageUpload");
+		const previewImage = box.querySelector(".preview-image");
+		const imageFile = fileInput.files[0];
+
+		if (imageFile || description) {
+			collectedData.push({
+				id: "",
+				isMatch: true,
+				content: "",
+				description: description || "",
+				url: previewImage ? previewImage.src : "",
+				checkListId: "",
+				checkItemName: "",
+				matchType: "2",
+				recommendOrder: index + 1, // 根據順序設定值
+				matchCondition: "",
+				action: "set",
+				workOrderId: params.workOrderID,
+				recommendPhoto: imageFile || null,
+			});
+
+			if (imageFile) {
+				imageFiles.push({
+					file: imageFile,
+					description: description || "",
+				});
+			}
+		}
+	});
+
+	// 收集YouTube區塊資料
+	document.querySelectorAll(".ytlink-box").forEach((box, index) => {
 		const url = box.querySelector(".ytlink-input").value;
 		if (url) {
 			collectedData.push({
+				id: "",
+				isMatch: true,
 				content: "",
 				description: "",
 				url: convertToEmbed(url),
+				checkListId: "",
+				checkItemName: "",
+				matchType: "3",
+				recommendOrder: index + 1, // 根據順序設定值
+				matchCondition: "",
 				action: "set",
+				workOrderId: params.workOrderID,
 			});
 		}
 	});
 
 	return collectedData;
 }
-
-// Next 按鈕 AJAX 請求
-// 修改 Next 按鈕事件處理器
-document.querySelector(".next-button").addEventListener("click", function () {
-	const dataToSend = collectAllData();
-	const urlSearchParams = new URLSearchParams(window.location.search);
-	const params = Object.fromEntries(urlSearchParams.entries());
-
-	// 逐一傳送每筆資料
-	dataToSend.forEach((dataItem) => {
-		sendSingleData(dataItem, params.workOrderID);
-	});
-
-	// 如果有圖片，也單獨傳送
-	imageFiles.forEach((image, index) => {
-		sendSingleImage(image, params.workOrderID, index);
-	});
-});
-
-// 單筆資料傳送函數
+// 單筆資料傳送函數（含圖片上傳）
 function sendSingleData(dataItem, workOrderId) {
 	let formData = new FormData();
 	let session_id = sessionStorage.getItem("sessionId");
@@ -228,63 +263,59 @@ function sendSingleData(dataItem, workOrderId) {
 	let chsm = "upStrongRecommendApi";
 	chsm = $.md5(session_id + action + chsm);
 
-	// 單筆資料結構
-	let singleData = {
-		workOrderId: workOrderId,
-		content: dataItem.content,
-		description: dataItem.description,
-		url: dataItem.url,
-		action: dataItem.action,
-	};
-
+	// 基本資料
 	formData.append("action", action);
 	formData.append("session_id", session_id);
 	formData.append("chsm", chsm);
-	formData.append("data", JSON.stringify(singleData));
+
+	// 如果有圖片檔案，添加到FormData
+	if (dataItem.recommendPhoto instanceof File) {
+		formData.append("recommendPhoto", dataItem.recommendPhoto);
+
+		// 移除資料中的檔案對象（因為已經單獨添加）
+		let dataWithoutFile = { ...dataItem };
+		delete dataWithoutFile.recommendPhoto;
+		formData.append("data", JSON.stringify(dataWithoutFile));
+	} else {
+		formData.append("data", JSON.stringify(dataItem));
+	}
 
 	$.ajax({
 		url: `${window.apiUrl}${window.apirecommend}`,
 		type: "POST",
 		data: formData,
-		processData: false,
-		contentType: false,
+		processData: false, // 必要！防止jQuery處理FormData
+		contentType: false, // 必要！讓瀏覽器自動設置Content-Type
 		success: function (res) {
+			console.log(res);
+
 			return;
-			console.log("單筆資料 API 回應:", res);
-			handleResponse(res);
 		},
 		error: function (xhr, status, error) {
-			console.error("單筆資料 API 呼叫失敗:", error);
+			console.error("API呼叫失敗:", error);
+			alert("圖片上傳失敗，請稍後再試");
 		},
 	});
 }
 
-// 單張圖片傳送函數
-function sendSingleImage(image, workOrderId, index) {
-	let formData = new FormData();
-	let session_id = sessionStorage.getItem("sessionId");
-	let action = "setRecommendMatchDataById";
-	let chsm = "upStrongRecommendApi";
-	chsm = $.md5(session_id + action + chsm);
+// Next按鈕點擊處理
+document.querySelector(".next-button").addEventListener("click", function () {
+	const dataToSend = collectAllData();
 
-	formData.append("action", action);
-	formData.append("session_id", session_id);
-	formData.append("chsm", chsm);
-	formData.append("workOrderId", workOrderId);
-	formData.append("recommendPhoto", image.file);
-	formData.append("recommendPhotoDescription", image.description);
-
-	$.ajax({
-		url: `${window.apiUrl}${window.apirecommend}`,
-		type: "POST",
-		data: formData,
-		processData: false,
-		contentType: false,
-		success: function (res) {
-			console.log("圖片上傳 API 回應:", res);
-		},
-		error: function (xhr, status, error) {
-			console.error("圖片上傳 API 呼叫失敗:", error);
-		},
+	// 使用Promise.all確保所有請求完成
+	const allRequests = dataToSend.map((dataItem) => {
+		return new Promise((resolve) => {
+			sendSingleData(dataItem, params.workOrderID);
+			resolve();
+		});
 	});
-}
+
+	Promise.all(allRequests)
+		.then(() => {
+			return;
+			// window.location.href = `../AssessmentRecommendationEditorCustom/index.html?workOrderID=${params.workOrderID}`;
+		})
+		.catch((error) => {
+			console.error("資料傳送錯誤:", error);
+		});
+});
