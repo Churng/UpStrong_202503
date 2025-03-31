@@ -8,6 +8,15 @@ function convertToEmbed(url) {
 }
 
 $(document).ready(function () {
+	//判斷身份隱藏按鈕
+	const savedUserType = JSON.parse(sessionStorage.getItem("userType"));
+	console.log(typeof savedUserType);
+
+	if (savedUserType == 1) {
+		$(".coach-edit").css("visibility", "hidden");
+	} else {
+		$(".coach-edit").css("visibility", "visible");
+	}
 	let formData = new FormData();
 
 	let session_id = sessionStorage.getItem("sessionId");
