@@ -153,7 +153,7 @@ $(document).ready(function () {
 
 		let chsm = "upStrongCheckListApi"; // api文件相關
 
-		let data = { step: "8" };
+		let data = { step: "6" };
 
 		chsm = $.md5(session_id + action + chsm);
 
@@ -178,12 +178,14 @@ $(document).ready(function () {
 
 			success: function (res) {
 				console.log("getList response received:", res); // 確認回應
+
 				let data02 = res.returnData.item[5].item[1];
 
 				$(".step02 .list-box").html("");
 
 				$(data02.item).each((idx, e) => {
-					console.log(e);
+					// console.log(e);
+					console.log(e.question);
 
 					$(".step02 .list-box").append(`
     
@@ -256,7 +258,7 @@ $(document).ready(function () {
 					});
 				});
 
-				getCheckListRecord();
+				// getCheckListRecord();
 
 				$(".step02 .list-box .list").on("click", function () {
 					$(this).toggleClass("active");
@@ -340,6 +342,8 @@ $(document).ready(function () {
 					$(`#vision${data01.item[2].value[6]}`).attr("checked", true);
 
 					$("[data-sort] select").each((idx, e) => {
+						console.log("data02.item:", data02.item);
+						console.log("Select counts:", $(`[data-sort] select`).length);
 						$(data02.item).each((idxx, ee) => {
 							$(ee.value).each((idxxx, eee) => {
 								if ($(`[data-sort=${idxx + 1}] select`)[idxxx]) {
