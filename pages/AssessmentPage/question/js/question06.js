@@ -57,12 +57,12 @@ $(document).ready(function () {
 		} else if (step == "02") {
 			let newData = [];
 
-			for (let i = 0; i < $(`[data-sort]`).length; i++) {
+			for (let i = 0; i < $(`[data-index]`).length; i++) {
 				newData.push({ value: [] });
 			}
 
-			$(`[data-sort]`).each((idx, e) => {
-				$(`[data-sort=${idx + 1}] select`).each((idxx, ee) => {
+			$(`[data-index]`).each((idx, e) => {
+				$(`[data-index=${idx + 1}] select`).each((idxx, ee) => {
 					newData[idx].value.push(Number($(ee).val()));
 				});
 			});
@@ -107,12 +107,12 @@ $(document).ready(function () {
 		} else if (step == "02") {
 			let newData = [];
 
-			for (let i = 0; i < $(`[data-sort]`).length; i++) {
+			for (let i = 0; i < $(`[data-index]`).length; i++) {
 				newData.push({ value: [] });
 			}
 
-			$(`[data-sort]`).each((idx, e) => {
-				$(`[data-sort=${idx + 1}] select`).each((idxx, ee) => {
+			$(`[data-index]`).each((idx, e) => {
+				$(`[data-index=${idx + 1}] select`).each((idxx, ee) => {
 					newData[idx].value.push(Number($(ee).val()));
 				});
 			});
@@ -184,8 +184,8 @@ $(document).ready(function () {
 				$(".step02 .list-box").html("");
 
 				$(data02.item).each((idx, e) => {
-					// console.log(e);
-					console.log(e.question);
+					console.log(e);
+					// console.log(e.question);
 
 					$(".step02 .list-box").append(`
     
@@ -217,7 +217,7 @@ $(document).ready(function () {
     
                 </div>
     
-                <div class="btm-box" data-sort="${e.sort}">
+                <div class="btm-box" data-index="${idx}"">
     
                 </div>
     
@@ -226,7 +226,7 @@ $(document).ready(function () {
           `);
 
 					$(e.question).each((idxx, ee) => {
-						$(`[data-sort="${e.sort}"]`).append(`
+						$(`[data-index="${idx}"]`).append(`
     
               <div>
     
@@ -341,14 +341,12 @@ $(document).ready(function () {
 
 					$(`#vision${data01.item[2].value[6]}`).attr("checked", true);
 
-					$("[data-sort] select").each((idx, e) => {
-						console.log("data02.item:", data02.item);
-						console.log("Select counts:", $(`[data-sort] select`).length);
+					$("[data-index] select").each((idx, e) => {
 						$(data02.item).each((idxx, ee) => {
 							$(ee.value).each((idxxx, eee) => {
-								if ($(`[data-sort=${idxx + 1}] select`)[idxxx]) {
+								if ($(`[data-index=${idxx + 1}] select`)[idxxx]) {
 									if (idxx == idxx) {
-										$($(`[data-sort=${idxx + 1}] select`)[idxxx]).val(eee);
+										$($(`[data-index=${idxx + 1}] select`)[idxxx]).val(eee);
 									}
 								}
 							});
