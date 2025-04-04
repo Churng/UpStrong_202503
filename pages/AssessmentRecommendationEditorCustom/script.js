@@ -248,12 +248,13 @@ function collectAllData() {
 	// 收集YouTube區塊資料
 	document.querySelectorAll(".ytlink-box").forEach((box, index) => {
 		const url = box.querySelector(".ytlink-input").value;
+		const videodescription = box.querySelector(".yttext-input").value;
 		if (url) {
 			collectedData.push({
 				id: "",
 				isMatch: true,
 				content: "",
-				description: "",
+				description: videodescription,
 				url: convertToEmbed(url),
 				checkListId: "",
 				checkItemName: "",
