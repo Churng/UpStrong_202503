@@ -108,8 +108,11 @@ $(document).ready(function () {
 				handleResponse(res);
 				if (res.returnCode) {
 					oldData = res.returnData;
+					//是否
 					let data01 = res.returnData.item[paramBigStep].item[0];
+					//正面
 					let data02 = res.returnData.item[paramBigStep].item[1];
+					//背面
 					let data03 = res.returnData.item[paramBigStep].item[2];
 					let data07 = res.returnData.item[1].item[6];
 					let data08 = res.returnData.item[1].item[7];
@@ -469,8 +472,8 @@ $(document).ready(function () {
 			update();
 		} else if (step == "03") {
 			let newData = [{ value: [$("input[name='express']:checked").val()] }];
-			oldData.item[paramBigStep].item[2].item = newData;
-			oldData.item[paramBigStep].item[2].if_complete = true;
+			oldData.item[paramBigStep].item[0].item = newData;
+			oldData.item[paramBigStep].item[0].if_complete = true;
 			update();
 
 			if ($(".step03 input:checked").val() == 1) {
