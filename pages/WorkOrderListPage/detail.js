@@ -53,7 +53,7 @@ $(document).ready(function () {
 
 			success: function (res) {
 				console.log(res);
-
+				handleResponse(res);
 				let data = res.returnData.workOrderDetailData;
 				$(".main-box").html("");
 
