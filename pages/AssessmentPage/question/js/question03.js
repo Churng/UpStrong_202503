@@ -43,12 +43,12 @@ $(document).ready(function () {
 	console.log(data);
 
 	// Initialize slider
-	const initSlider = () => {
+	const silder = (initialValue = 0) => {
 		$("#slider-range-max").slider({
 			range: "max",
 			min: 0,
 			max: 10,
-			value: 0,
+			value: initialValue, // 使用傳入的初始值
 			slide: function (event, ui) {
 				selectNum = ui.value;
 			},
@@ -200,6 +200,7 @@ $(document).ready(function () {
 						const score = Object.values(data02.item[0].value[0])[i];
 						if (score === 0) continue;
 						frontData.push({ id: id, score: score });
+						$(`#${id}`).attr("data-initial-score", score);
 					}
 
 					$(".front path").each((idx, e) => {
@@ -230,6 +231,7 @@ $(document).ready(function () {
 						const score = Object.values(data03.item[0].value[0])[i];
 						if (score === 0) continue;
 						backData.push({ id: id, score: score });
+						$(`#${id}`).attr("data-initial-score", score);
 					}
 
 					$(".back path").each((idx, e) => {
@@ -594,20 +596,33 @@ $(document).ready(function () {
 		if (step != 3) {
 			if ($(this).attr("id")) {
 				selectId = $(this).attr("id");
-				initSlider();
+
+				// 檢查該部位是否已有分數
+				let initialScore = $(this).attr("data-sroce") || $(this).attr("data-initial-score") || 0;
+				initialScore = parseInt(initialScore); // 確保是數字
+
+				// 初始化滑塊並傳入初始值
+				silder(initialScore);
+
 				$(".right-box .title-box .num").html($(this).attr("id"));
 
+				// console.log(selectData);
+
+				//沒有選過顏色
 				if (selectData && !$(selectData).attr("class").includes("used")) {
 					$(selectData).css("fill", "#fff");
 				}
 
+				//選過顏色
 				if ($(this).attr("class").includes("used")) {
+					//選擇其他區域恢復顏色
 					if (selectData && $(selectData).attr("class").includes("used")) {
 						$(selectData).css("fill", oldPainColor);
 					}
-					oldPainColor = $(this).css("fill");
+					oldPainColor = $(this).css("fill"); //記錄選過的顏色
 				} else if (!$(this).attr("class").includes("used")) {
 					if (selectData && $(selectData).attr("class").includes("used")) {
+						//選擇其他區域恢復顏色
 						$(selectData).css("fill", oldPainColor);
 					}
 				}
