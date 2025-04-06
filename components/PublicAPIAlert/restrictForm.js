@@ -1,5 +1,7 @@
 // 身份判斷與表單控制功能
 function restrictFormByIdentity(userType) {
+	console.log(userType);
+
 	// 定義需要禁用的元素選擇器
 	const disableSelectors = [
 		'input[type="text"]',
@@ -58,6 +60,6 @@ window.restrictFormByIdentity = restrictFormByIdentity;
 // DOM 載入後執行
 document.addEventListener("DOMContentLoaded", function () {
 	// 模擬使用者類型 (實際應從後端獲取)
-	const currentUserType = 1;
+	const currentUserType = sessionStorage.getItem("userType");
 	restrictFormByIdentity(currentUserType);
 });
