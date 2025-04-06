@@ -184,7 +184,7 @@ $(document).ready(function () {
 				$(".step02 .list-box").html("");
 
 				$(data02.item).each((idx, e) => {
-					console.log(e);
+					// console.log(e);
 					// console.log(e.question);
 
 					$(".step02 .list-box").append(`
@@ -311,11 +311,15 @@ $(document).ready(function () {
 
 					let data01 = res.returnData.item[paramBigStep].item[0];
 					let data02 = res.returnData.item[paramBigStep].item[1];
+
+					// console.log("data01.item[2].value:", data01.item[2].value);
+					// console.log(data01.item[1].value);
+
 					$(".user-detail .name").html(data01.item[0].value[0]);
 
 					$(".user-detail .id").html(data01.item[0].value[1]);
 
-					let responseRadioIndex = Object.keys(data01.item[1].value)[0];
+					let responseRadioIndex = Object.keys(data01.item[1].value);
 
 					let radioValues = data01.item[1].value[responseRadioIndex];
 
@@ -328,6 +332,8 @@ $(document).ready(function () {
 					}
 
 					$(data01.item[2].value).each((idx, e) => {
+						console.log(e);
+
 						$(".other-box .text").each((idxx, ee) => {
 							if (idx == idxx) {
 								$(ee).text(e);
