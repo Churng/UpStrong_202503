@@ -51,21 +51,28 @@ $(document).ready(function () {
 		} else if (step == "02") {
 			let newData = [];
 
+			// 初始化 newData 結構
 			for (let i = 0; i < $(`[data-index]`).length; i++) {
 				newData.push({ value: [] });
 			}
 
+			// 收集資料，使用正確的 data-index
 			$(`[data-index]`).each((idx, e) => {
-				$(`[data-index=${idx + 1}] select`).each((idxx, ee) => {
-					newData[idx].value.push(Number($(ee).val()));
+				let currentIndex = $(e).attr("data-index"); // 直接獲取 data-index
+				console.log(`處理 data-index=${currentIndex}`);
+				$(`[data-index="${currentIndex}"] select`).each((idxx, ee) => {
+					let selectedValue = Number($(ee).val());
+					// console.log(`select[${idxx}] 的值: ${selectedValue}`);
+					newData[idx].value.push(selectedValue);
 				});
 			});
 
-			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
+			console.log("step2 生成的資料:", JSON.stringify(newData));
 
+			oldData.item[paramBigStep].item[Number(step) - 1].item = newData;
 			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
-			update();
+			update(); // 確保調用 update
 		}
 	});
 
@@ -139,7 +146,7 @@ $(document).ready(function () {
 
 	const getList = () => {
 		let formData = new FormData();
-		console.log("getList started");
+		// console.log("getList started");
 
 		let session_id = sessionStorage.getItem("sessionId");
 
@@ -254,6 +261,8 @@ $(document).ready(function () {
 
 				// getCheckListRecord();
 
+				// console.log("生成的 step2 DOM:", $(".step02 .list-box").html());
+
 				$(".step02 .list-box .list").on("click", function () {
 					$(this).toggleClass("active");
 				});
@@ -307,7 +316,7 @@ $(document).ready(function () {
 
 					let data01 = res.returnData.item[paramBigStep].item[0];
 					let data02 = res.returnData.item[paramBigStep].item[1];
-					console.log("完整的 data01 結構:", JSON.stringify(data01, null, 2));
+					// console.log("完整的 data01 結構:", JSON.stringify(data01, null, 2));
 					// console.log("data01.item[2].value:", data01.item[2].value);
 					// console.log(data01.item[1].value);
 
@@ -358,17 +367,20 @@ $(document).ready(function () {
 
 					$(`#vision${data01.item[2].value[6]}`).attr("checked", true);
 
-					$("[data-index] select").each((idx, e) => {
-						$(data02.item).each((idxx, ee) => {
-							$(ee.value).each((idxxx, eee) => {
-								if ($(`[data-index=${idxx + 1}] select`)[idxxx]) {
-									if (idxx == idxx) {
-										$($(`[data-index=${idxx + 1}] select`)[idxxx]).val(eee);
+					// step2 資料回顯
+					if (data02?.item) {
+						$(data02.item).each((idx, item) => {
+							if (item.value && Array.isArray(item.value)) {
+								// console.log(`處理 data-index=${idx}, 值: ${JSON.stringify(item.value)}`);
+								$(`[data-index="${idx}"] select`).each((idxx, select) => {
+									if (idxx < item.value.length) {
+										$(select).val(item.value[idxx]);
+										// console.log(`設置 data-index=${idx} 的第 ${idxx} 個 select 值為 ${item.value[idxx]}`);
 									}
-								}
-							});
+								});
+							}
 						});
-					});
+					}
 				}
 			},
 		});
@@ -417,7 +429,7 @@ $(document).ready(function () {
 			})
 		);
 
-		// console.log("傳過去的資料:" + JSON.stringify(oldData));
+		console.log("傳過去的資料:" + JSON.stringify(oldData));
 
 		$.ajax({
 			url: `${window.apiUrl}${window.apicheckList}`,
