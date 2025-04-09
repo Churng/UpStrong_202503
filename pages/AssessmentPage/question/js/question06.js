@@ -177,7 +177,7 @@ $(document).ready(function () {
 			contentType: false,
 
 			success: function (res) {
-				console.log("getList response received:", res); // 確認回應
+				// console.log("getList response received:", res);
 
 				let data02 = res.returnData.item[5].item[1];
 
@@ -306,12 +306,14 @@ $(document).ready(function () {
 			contentType: false,
 
 			success: function (res) {
+				handleResponse(res);
 				if (res.returnCode) {
 					oldData = res.returnData;
+					console.log(oldData);
 
 					let data01 = res.returnData.item[paramBigStep].item[0];
 					let data02 = res.returnData.item[paramBigStep].item[1];
-
+					console.log("完整的 data01 結構:", JSON.stringify(data01, null, 2));
 					// console.log("data01.item[2].value:", data01.item[2].value);
 					// console.log(data01.item[1].value);
 
@@ -319,20 +321,49 @@ $(document).ready(function () {
 
 					$(".user-detail .id").html(data01.item[0].value[1]);
 
-					let responseRadioIndex = Object.keys(data01.item[1].value);
+					//區塊二資料
 
-					let radioValues = data01.item[1].value[responseRadioIndex];
+					// 取得 item[1]
+					let valueData = data01?.item?.[1];
 
-					$(`#lv${responseRadioIndex}`).attr("checked", true);
-
-					if (typeof radioValues === "object") {
-						$.each(radioValues, (level, checkedItem) => {
-							$(`#lv${responseRadioIndex}_${checkedItem}`).attr("checked", true);
-						});
+					// 根據 item[1] 的類型，提取 value
+					if (Array.isArray(valueData)) {
+						// 第一種情況：item[1] 是陣列，例如 [{ "value": [2] }]
+						valueData = valueData[0]?.value;
+					} else {
+						// 第二種情況：item[1] 是物件，例如 { "value": {"4": "1"} }
+						valueData = valueData?.value;
 					}
 
+					if (valueData === undefined) {
+						console.log("valueData 是 undefined，請檢查 data01 結構");
+						return;
+					}
+
+					// 處理提取出的 value
+					if (Array.isArray(valueData)) {
+						// 處理陣列格式，例如 [2]
+						const responseValue = valueData[0];
+						if (responseValue !== undefined) {
+							$(`#lv${responseValue}`).prop("checked", true);
+						} else {
+							console.log("陣列中的值是 undefined");
+						}
+					} else if (typeof valueData === "object" && valueData !== null) {
+						// 處理物件格式，例如 {"4": "1"}
+						const [id, value] = Object.entries(valueData)[0] || [];
+						if (id && value === "1") {
+							$(`#lv${id}`).prop("checked", true);
+						} else {
+							console.log("物件格式無效，沒有可用的 id 或 value 不等於 '1'");
+						}
+					} else {
+						console.log("valueData 格式不支援:", valueData);
+					}
+					//區塊三資料
+
 					$(data01.item[2].value).each((idx, e) => {
-						console.log(e);
+						// console.log(e);
 
 						$(".other-box .text").each((idxx, ee) => {
 							if (idx == idxx) {
@@ -340,8 +371,6 @@ $(document).ready(function () {
 							}
 						});
 					});
-
-					// console.log(data01.item[2].value[5]);
 
 					$(`#cognition${data01.item[2].value[5]}`).attr("checked", true);
 
