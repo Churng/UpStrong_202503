@@ -28,29 +28,23 @@ $(document).ready(function () {
 	$(".next").on("click", function () {
 		if (step == "01") {
 			let newData = { value: {} };
-
 			let mainValue = $("input[name='lv']:checked").val();
 
 			if (mainValue === "0" || mainValue === "4") {
-				newData.value[mainValue] = "1";
+				newData.value[mainValue] = "1"; // 分級一和五
 			} else {
 				let payload = [];
-
 				$(`.lv${mainValue}-sub-list-content:checked`).each((index, subValue) => {
 					payload.push($(subValue).val());
 				});
-
-				newData.value[mainValue] = payload;
+				newData.value[mainValue] = payload; // 分級二、三、四
 			}
 
-			console.log(newData);
+			// console.log("生成的新資料:", JSON.stringify(newData));
 
 			oldData.item[paramBigStep].item[Number(step) - 1].item[1] = newData;
-
 			oldData.item[paramBigStep].item[Number(step) - 1].item[2].value[5] = $("[name='cognition']:checked").val();
-
 			oldData.item[paramBigStep].item[Number(step) - 1].item[2].value[6] = $("[name='vision']:checked").val();
-
 			oldData.item[paramBigStep].item[Number(step) - 1].if_complete = true;
 
 			update();
@@ -323,42 +317,30 @@ $(document).ready(function () {
 
 					//區塊二資料
 
-					// 取得 item[1]
-					let valueData = data01?.item?.[1];
-
-					// 根據 item[1] 的類型，提取 value
-					if (Array.isArray(valueData)) {
-						// 第一種情況：item[1] 是陣列，例如 [{ "value": [2] }]
-						valueData = valueData[0]?.value;
-					} else {
-						// 第二種情況：item[1] 是物件，例如 { "value": {"4": "1"} }
-						valueData = valueData?.value;
-					}
+					let valueData = data01?.item?.[1]?.value;
 
 					if (valueData === undefined) {
 						console.log("valueData 是 undefined，請檢查 data01 結構");
 						return;
 					}
 
-					// 處理提取出的 value
-					if (Array.isArray(valueData)) {
-						// 處理陣列格式，例如 [2]
-						const responseValue = valueData[0];
-						if (responseValue !== undefined) {
-							$(`#lv${responseValue}`).prop("checked", true);
+					// 根據資料格式處理
+					const [key, val] = Object.entries(valueData)[0] || [];
+					if (key && val) {
+						if (key === "0" || key === "4") {
+							// 分級一和五的處理
+							if (val === "1") {
+								$(`#lv${key}`).prop("checked", true);
+							}
 						} else {
-							console.log("陣列中的值是 undefined");
+							// 分級二、三、四的處理
+							$(`#lv${key}`).prop("checked", true);
+							if (Array.isArray(val)) {
+								val.forEach((subVal) => {
+									$(`.lv${key}-sub-list-content[value="${subVal}"]`).prop("checked", true);
+								});
+							}
 						}
-					} else if (typeof valueData === "object" && valueData !== null) {
-						// 處理物件格式，例如 {"4": "1"}
-						const [id, value] = Object.entries(valueData)[0] || [];
-						if (id && value === "1") {
-							$(`#lv${id}`).prop("checked", true);
-						} else {
-							console.log("物件格式無效，沒有可用的 id 或 value 不等於 '1'");
-						}
-					} else {
-						console.log("valueData 格式不支援:", valueData);
 					}
 					//區塊三資料
 
