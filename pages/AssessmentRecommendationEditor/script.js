@@ -216,6 +216,13 @@ $(document).ready(function () {
 			);
 			formData.append("data", JSON.stringify(data));
 
+			// 印出請求內容
+			// console.log("發送 API 請求:", {
+			// 	url: `${window.apiUrl}${window.apirecommend}`,
+			// 	data: JSON.stringify(data),
+			// 	formData: [...formData.entries()], // 查看 FormData 內容
+			// });
+
 			$.ajax({
 				url: `${window.apiUrl}${window.apirecommend}`,
 				type: "POST",
@@ -224,6 +231,8 @@ $(document).ready(function () {
 				contentType: false,
 				success: function (res) {
 					if (res.returnCode === "1") {
+						console.log(res);
+
 						resolve();
 					} else {
 						reject(res.message);
