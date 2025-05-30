@@ -167,13 +167,13 @@ h2 {
 
 	height: 25px;
 
-	color: #67bae7;
+	color: #1eabb8;
 
 	font-size: 14px;
 
 	border-radius: 4px;
 
-	border: solid 1px #67bae7;
+	border: solid 1px #1eabb8;
 
 	background-color: #fff;
 
@@ -322,13 +322,13 @@ h2 {
 
 	border-radius: 4px;
 
-	border: solid 1px #67bae7;
+	border: solid 1px #1eabb8;
 
 	background-color: #fff;
 
 	cursor: pointer;
 
-	color: #1493d8;
+	color: #1eabb8;
 }
 
 .box02 .record-box .type-box span::after {
