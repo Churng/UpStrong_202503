@@ -51,7 +51,7 @@ function restrictFormByIdentity(userType) {
 					else {
 						el.readOnly = true;
 						el.disabled = true;
-						el.style.backgroundColor = "#f0f0f0";
+						el.style.backgroundColor = "transparent";
 						el.style.cursor = "not-allowed";
 					}
 				});
