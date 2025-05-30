@@ -790,3 +790,9 @@ body {
 		font-size: 16px;
 	}
 }
+
+.step02 .list-box select {
+	transition: background-color 0.3s ease; /* 平滑過渡效果 */
+	border: 1px solid #ccc; /* 可選：確保 select 邊框可見 */
+	padding: 5px; /* 可選：改善視覺效果 */
+}

@@ -144,6 +144,33 @@ $(document).ready(function () {
 		});
 	};
 
+	// 定義設置 select 背景顏色的函數
+	const setSelectBackground = (selectElement) => {
+		const value = $(selectElement).val(); // 獲取 <select> 的選中值
+		switch (value) {
+			case "1":
+				$(selectElement).css({
+					"background-color": "#0DA9DA",
+					color: "white",
+				});
+				break;
+			case "2":
+				$(selectElement).css("background-color", "#59BD40");
+
+				$(selectElement).css({
+					"background-color": "#59BD40",
+					color: "white",
+				});
+				break;
+			default:
+				$(selectElement).css({
+					"background-color": "transparent",
+					color: "#654f00",
+				});
+				break;
+		}
+	};
+
 	const getList = () => {
 		let formData = new FormData();
 		// console.log("getList started");
@@ -270,6 +297,16 @@ $(document).ready(function () {
 				$(".step02 .list-box .btm-box").on("click", function (e) {
 					e.stopPropagation();
 				});
+
+				// 初始化所有 select 的背景色
+				$(".step02 .list-box select").each(function () {
+					setSelectBackground(this);
+				});
+
+				// 為 select 添加 change 事件監聽器
+				$(".step02 .list-box select").on("change", function () {
+					setSelectBackground(this);
+				});
 			},
 		});
 	};
@@ -369,6 +406,20 @@ $(document).ready(function () {
 					$(`#cognition${data01.item[2].value[5]}`).attr("checked", true);
 
 					$(`#vision${data01.item[2].value[6]}`).attr("checked", true);
+
+					// 資料回顯並設置背景色
+					if (data02?.item) {
+						$(data02.item).each((idx, item) => {
+							if (item.value && Array.isArray(item.value)) {
+								$(`[data-index="${idx}"] select`).each((idxx, select) => {
+									if (idxx < item.value.length) {
+										$(select).val(item.value[idxx]);
+										setSelectBackground(select);
+									}
+								});
+							}
+						});
+					}
 
 					// step2 資料回顯
 					if (data02?.item) {
