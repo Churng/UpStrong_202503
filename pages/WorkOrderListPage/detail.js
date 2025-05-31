@@ -160,9 +160,9 @@ $(document).ready(function () {
 
             <span class="${data.PhotoSign == true ? " active" : ""}">照片簽到</span>
 
-            <span class="">服務紀錄</span>
+            <span class="ServiceRecordlink">服務紀錄</span>
 
-            <span class="link ${data.AssessmentScale == true ? " active" : ""}">評估量表</span>
+            <span class="AssessmentPagelink ${data.AssessmentScale == true ? " active" : ""}">評估量表</span>
 
 
             <span class="AssessmentRecommendation ${
@@ -245,9 +245,15 @@ $(document).ready(function () {
 					});
 				});
 
-				$(".link").click(() => {
+				//四個頁面連結
+				$(".AssessmentPagelink").click(() => {
 					console.log(params);
 					window.location.href = `../AssessmentPage/index.html?workOrderID=${params.orderid}`;
+				});
+
+				$(".ServiceRecordlink").click(() => {
+					console.log(params);
+					window.location.href = `../ServiceRecord/index.html?workOrderID=${params.orderid}`;
 				});
 
 				//列印toggle
