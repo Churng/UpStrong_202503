@@ -58,6 +58,15 @@ $(document).ready(function () {
 				$(".main-box").html("");
 
 				$(".main-box").append(`
+					<div class="printerbutton">
+						<button class="printerbutton-toggle">列印</button>
+						<ul class="printerbutton-menu">
+							<li>服務紀錄</li>
+							<li>訓練指引</li>
+							<li>初評評估量表</li>
+							<li>生活功能評估表</li>
+						</ul>
+					</div>
              <div class="banner">
       <img src="../../assets/workOrderListPage-detail/banner_0.png" alt="">
     </div>
@@ -240,6 +249,14 @@ $(document).ready(function () {
 					console.log(params);
 					window.location.href = `../AssessmentPage/index.html?workOrderID=${params.orderid}`;
 				});
+
+				//列印toggle
+
+				$(".printerbutton-toggle").on("click", function () {
+					$(this).toggleClass("active");
+					$(this).closest(".printerbutton").toggleClass("open");
+				});
+
 				$(".AssessmentRecommendation").click(() => {
 					window.location.href = `../AssessmentRecommendation/index.html?workOrderID=${params.orderid}`;
 				});
