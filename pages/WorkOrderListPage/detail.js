@@ -158,7 +158,7 @@ $(document).ready(function () {
 
           <div class="type-box">
 
-            <span class="${data.PhotoSign == true ? " active" : ""}">照片簽到</span>
+            <span class="ServiceCheckInlink${data.PhotoSign == true ? " active" : ""}">照片簽到</span>
 
             <span class="ServiceRecordlink">服務紀錄</span>
 
@@ -254,6 +254,11 @@ $(document).ready(function () {
 				$(".ServiceRecordlink").click(() => {
 					console.log(params);
 					window.location.href = `../ServiceRecord/index.html?workOrderID=${params.orderid}`;
+				});
+
+				$(".ServiceCheckInlink").click(() => {
+					console.log(params);
+					window.location.href = `../ServiceCheckIn/index.html?workOrderID=${params.orderid}`;
 				});
 
 				//列印toggle
