@@ -5,14 +5,11 @@
 .main-box {
 	max-width: 980px !important;
 	min-height: calc(100vh - 90px);
-
-	background: #fff !important;
-
 	margin: auto;
 }
 
 .content {
-	width: 500px;
+	width: 600px;
 	margin: 0 auto;
 }
 
@@ -70,6 +67,14 @@ h2 {
 	color: #292929;
 }
 
+.subtitle-box .title {
+	display: block;
+
+	font-size: 16px;
+
+	color: #292929;
+}
+
 .title-box .text {
 	display: block;
 
@@ -78,6 +83,11 @@ h2 {
 	color: #7e7e7e;
 
 	margin-top: 8px;
+}
+
+.SC-title {
+	color: #1eabb8;
+	font-weight: bold;
 }
 
 .b-title {
@@ -175,4 +185,116 @@ textarea:focus {
 
 		justify-content: space-around;
 	}
+}
+
+.checkbox-box > div {
+	display: flex;
+	align-items: flex-start;
+	width: 100%;
+}
+
+.checkbox-box > :first-child {
+	margin-top: -10px;
+}
+
+.checkbox-box input[type="checkbox"] {
+	display: none;
+}
+
+.checkbox-box div > label {
+	display: flex;
+	align-items: flex-start;
+	padding-left: 30px;
+	min-height: 30px;
+	cursor: pointer;
+	position: relative;
+	color: #212529;
+	font-size: 14px;
+}
+
+.checkbox-box label::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 15px;
+	display: block;
+	width: 15px;
+	height: 15px;
+	border-radius: 3px;
+	box-sizing: border-box;
+	border: 1px solid #999999;
+}
+
+.checkbox-box input[type="checkbox"]:checked + label::after {
+	border: 1px solid #1eabb8;
+}
+
+.checkbox-box input[type="checkbox"]:checked + label::before {
+	content: "\2713";
+	color: #fff;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 15px;
+	height: 15px;
+	border-radius: 3px;
+	left: 0;
+	top: 15px;
+	background-color: #1eabb8;
+}
+
+.checkbox-box > div {
+	display: flex;
+	align-items: center;
+	min-height: 45px;
+	width: 100%;
+}
+
+.checkbox-box input[type="checkbox"] {
+	display: none;
+}
+
+.checkbox-box div > label {
+	display: flex;
+	align-items: center;
+	padding-left: 30px;
+	min-height: 45px;
+	cursor: pointer;
+	position: relative;
+	color: #212529;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.checkbox-box label::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 15px;
+	display: block;
+	width: 15px;
+	height: 15px;
+	border-radius: 3px;
+	box-sizing: border-box;
+	border: 1px solid #999999;
+}
+
+.checkbox-box input[type="checkbox"]:checked + label::after {
+	border: 1px solid #1eabb8;
+}
+
+.checkbox-box input[type="checkbox"]:checked + label::before {
+	content: "\2713";
+	color: #fff;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 15px;
+	height: 15px;
+	border-radius: 3px;
+	left: 0;
+	top: 15px;
+	background-color: #1eabb8;
 }
