@@ -17,7 +17,6 @@
 	touch-action: manipulation;
 }
 
-.#1eabb8,
 .btn-main:active {
 	background-color: rgb(200, 75, 20);
 	color: #fff;
