@@ -28,6 +28,9 @@
 	width: 600px;
 	margin: 0 auto;
 }
+.banner img {
+	width: 100%;
+}
 
 @media (max-width: 768px) {
 	.banner {
