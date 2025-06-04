@@ -164,7 +164,7 @@ body {
 
 	align-items: center;
 
-	padding: 12px 0;
+	padding: 12px 0 20px;
 }
 
 .title-box .icon-box {
@@ -174,21 +174,23 @@ body {
 
 	align-items: center;
 
-	width: 40px;
+	width: 60px;
 
-	height: 40px;
+	height: 60px;
 
-	border-radius: 10px;
+	border-radius: 50%;
 
 	background: #1eabb8;
+
+	position: absolute;
 }
 
 .title-box .title {
-	color: #656c78;
+	color: #1eabb8;
 
 	font-weight: bolder;
 
-	margin-left: 10px;
+	margin-left: 80px;
 }
 
 .title-box .percent {
