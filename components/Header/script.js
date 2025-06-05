@@ -20,8 +20,12 @@ function initUserType() {
 
 	// 從 sessionStorage 獲取 userType
 	const userType = sessionStorage.getItem("userType");
+
+	// menu
 	const coachMenu = document.getElementById("coachMenu");
 	const caseMenu = document.getElementById("caseMenu");
+
+	//profilebtn
 	const controlShowPanel = document.getElementById("controlShowPanel");
 	const profileMenu = document.getElementById("profileMenu");
 	const profileButton = document.getElementById("profileButton");
@@ -36,19 +40,17 @@ function initUserType() {
 		return;
 	}
 
+	$(document).off("click", "#controlShowPanel");
+
 	// 根據 userType= 1:個案、2:教練、else:其他 顯示相應的視窗
 	if (userType === "1") {
 		// 個案
+
 		caseMenu.style.display = "flex";
 		caseMenu.style.alignItems = "center";
 		coachMenu.style.display = "none";
 		profileMenu.style.display = "block";
 		profileButton.style.display = "none";
-
-		// debugLog('userType=' + userType);
-		$(document).on("click", "#controlShowPanel", function () {
-			openControler("userPopup");
-		});
 	} else if (userType === "2") {
 		// 教練
 		coachMenu.style.display = "flex";
@@ -57,10 +59,6 @@ function initUserType() {
 		controlShowPanel.style.display = "none";
 		profileMenu.style.display = "block";
 		profileButton.style.display = "none";
-		// console.log('userType=' + userType);
-		$(document).on("click", "#controlShowPanel", function () {
-			openControler("couchPopup");
-		});
 	} else if (!userType || userType === "null") {
 		$(document).on("click", "#controlShowPanel", function () {
 			openControler("noneLoginPopup");
@@ -72,8 +70,6 @@ function initUserType() {
 function logout() {
 	sessionStorage.removeItem("sessionId");
 	sessionStorage.removeItem("userType");
-	// console.log("session_id: ", sessionStorage.getItem('sessionId'));
-	// console.log("userType: ", sessionStorage.getItem('userType'));
 	window.location.assign("../LoginPage/index.html");
 }
 
@@ -90,16 +86,43 @@ function toggleNav() {
 
 // 開啟nav
 function openNav() {
-	document.getElementById("mySidenav").style.display = "block";
-	let menuImg = document.getElementById("menu_nav_button");
-	menuImg.src = "../../assets/menu_focus.svg";
+	let userTypeString = sessionStorage.getItem("userType");
+	let userType = !userTypeString || userTypeString === "null" ? null : parseInt(userTypeString);
 
-	$("body").css("overflow", "hidden"); // 打開nav時禁用滾動
+	const width = window.innerWidth;
+	if (width > 787) {
+		// 超過 787 不開啟 nav
+		closeNav(); // 防止錯誤顯示
+		return;
+	}
+
+	// 關掉兩個 menu，確保只顯示正確的
+	document.getElementById("coachMenuSidenav").style.display = "none";
+	document.getElementById("caseMenuSidenav").style.display = "none";
+
+	if (userType === 1) {
+		document.getElementById("caseMenuSidenav").style.display = "block"; // 個案
+	} else if (userType === 2) {
+		document.getElementById("coachMenuSidenav").style.display = "block"; // 教練
+	} else {
+		// 如果不是已知身份，全部不顯示
+		console.warn("使用者未登入或身份未知！");
+	}
+
+	// 更換 menu 圖示
+	let menuImg = document.getElementById("menu_nav_button");
+	if (menuImg) {
+		menuImg.src = "../../assets/menu_focus.svg";
+	}
+
+	// 禁用滾動
+	$("body").css("overflow", "hidden");
 }
 
 // 關閉nav
 function closeNav() {
-	document.getElementById("mySidenav").style.display = "none";
+	document.getElementById("coachMenuSidenav").style.display = "none";
+	document.getElementById("caseMenuSidenav").style.display = "none";
 	let menuImg = document.getElementById("menu_nav_button");
 	menuImg.src = "../../assets/menu.svg";
 
@@ -112,30 +135,43 @@ function openControler() {
 	const userTypeString = sessionStorage.getItem("userType");
 	const userType = !userTypeString || userTypeString === "null" ? null : parseInt(userTypeString);
 
+	if (userType === 1) {
+		// 個案，打開 caseMenuSidenav
+		document.getElementById("caseMenuSidenav").style.display = "flex";
+		return;
+	}
+
+	if (userType === 2) {
+		// 教練，打開 coachMenuSidenav
+		document.getElementById("coachMenuSidenav").style.display = "flex";
+		return;
+	}
+
+	// 非登入使用者
 	if (!noneLoginPopup) {
 		console.error("❌ 找不到 noneLoginPopup 元素！");
 		return;
 	}
-
-	console.log("userType 是：", userType);
-
-	if (userType === null) {
-		if (popupOpen) {
-			noneLoginPopup.style.display = "block";
-		} else {
-			noneLoginPopup.style.display = "none";
-		}
-		popupOpen = !popupOpen;
+	if (popupOpen) {
+		noneLoginPopup.style.display = "block";
 	} else {
 		noneLoginPopup.style.display = "none";
-		popupOpen = true;
 	}
+	popupOpen = !popupOpen;
 }
 
 // 點擊空白區域關閉浮動視窗
 $(document).on("click", function (event) {
-	if (!$(event.target).is("#controlShowPanel") && !popupOpen) {
+	if (
+		!$(event.target).closest("#controlShowPanel").length &&
+		!$(event.target).closest("#mySidenav").length &&
+		!popupOpen
+	) {
 		$(".rightPanelRoot").hide();
 		popupOpen = true;
 	}
 });
+
+function debugLog(msg) {
+	console.log(`🛠️ [DEBUG]: ${msg}`);
+}
