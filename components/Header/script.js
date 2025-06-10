@@ -30,10 +30,10 @@ function initUserType() {
 	const profileMenu = document.getElementById("profileMenu");
 	const profileButton = document.getElementById("profileButton");
 
-	console.log("userType:" + userType);
-	console.log("coachMenu:", coachMenu, "caseMenu:", caseMenu);
+	// console.log("userType:" + userType);
+	// console.log("coachMenu:", coachMenu, "caseMenu:", caseMenu);
 	if (!userType) {
-		console.warn("未能取得 userType");
+		// console.warn("未能取得 userType");
 		// 可以選擇顯示預設選單或隱藏所有
 		coachMenu.style.display = "none";
 		caseMenu.style.display = "none";

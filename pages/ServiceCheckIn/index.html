@@ -116,7 +116,7 @@
 
       </div>
 
-      <div class="container">
+      <div class="container" id="service-checkin-container">
         <div class="row">
           <div class="col-12 p-0">
             <div class="card border-0 shadow-sm p-3 mb-2 bg-body rounded">
@@ -127,20 +127,20 @@
                 <span class="dot mx-1">*</span>
 
                 <div class="mb-3 fw-bold">
-                  <label for="question1" class="form-label">安靜時</label>
+                  <label for="input-hr-rest" class="form-label">安靜時</label>
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75" id="input-hr-rest"
+                      aria-describedby="SC_input-hr-rest">
                     <span>bpm</span>
                   </div>
                 </div>
 
 
                 <div class="mb-3 fw-bold">
-                  <label for="question2" class="form-label">訓練中</label>
+                  <label for="input-hr-exercise" class="form-label">訓練中</label>
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control  form-control-sm me-2 w-75" id="question2"
-                      aria-describedby="SC_question2">
+                    <input type="number" class="form-control  form-control-sm me-2 w-75" id="input-hr-exercise"
+                      aria-describedby="SC_input-hr-exercise">
                     <span>% 最大心率</span>
                   </div>
                 </div>
@@ -168,10 +168,10 @@
                 <span class="dot mx-1">*</span>
 
                 <div class="mb-3 fw-bold">
-                  <label for="question1" class="form-label">安靜時</label>
+                  <label for="input-bp-rest" class="form-label">安靜時</label>
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75" id="input-bp-rest"
+                      aria-describedby="SC_input-bp-rest">
                     <span>mmHg</span>
                   </div>
                 </div>
@@ -180,8 +180,8 @@
                 <div class="mb-3 fw-bold">
                   <label for="question2" class="form-label">訓練中</label>
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control  form-control-sm me-2 w-75" id="question2"
-                      aria-describedby="SC_question2">
+                    <input type="input-bp-exercise" class="form-control  form-control-sm me-2 w-75"
+                      id="input-bp-exercise" aria-describedby="SC_input-bp-exercise">
                     <span>mmHg</span>
                   </div>
                 </div>
@@ -210,8 +210,8 @@
 
                 <div class="mb-3 fw-bold">
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75" id="input-spo2"
+                      aria-describedby="SC_input-spo2">
                     <span> %</span>
                   </div>
                 </div>
@@ -238,8 +238,8 @@
 
                 <div class="mb-3 fw-bold">
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75" id="input-rr"
+                      aria-describedby="SC_input-rr">
                     <span>次/分鐘</span>
                   </div>
                 </div>
@@ -266,8 +266,8 @@
 
                 <div class="mb-3 fw-bold">
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75" id="input-temp"
+                      aria-describedby="SC_input-temp">
                     <span>°C</span>
                   </div>
                 </div>
@@ -293,7 +293,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-4">上次分數</p>
-                    <p class="card-text fw-bold">5</p>
+                    <p class="card-text fw-bold" id="SC-EatingLastScore">5</p>
                   </div>
                 </div>
 
@@ -301,8 +301,8 @@
 
                 <div class="mb-3 fw-bold">
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75" id="SC-EatingCurrentScore"
+                      aria-describedby="SC_EatingCurrentScore">
                     <span>(本次分數)</span>
                   </div>
                 </div>
@@ -319,7 +319,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-4">上次分數</p>
-                    <p class="card-text fw-bold">5</p>
+                    <p class="card-text fw-bold" id="SC-DressingLastScore">5</p>
                   </div>
                 </div>
 
@@ -327,8 +327,8 @@
 
                 <div class="mb-3 fw-bold">
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75" id="SC-DressingCurrentScore"
+                      aria-describedby="SC_DressingCurrentScore">
                     <span>(本次分數)</span>
                   </div>
                 </div>
@@ -345,7 +345,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold">5</p>
+                    <p class="card-text fw-bold" id="SC-PantsDressingLastScore">5</p>
                   </div>
                 </div>
 
@@ -353,8 +353,8 @@
 
                 <div class="mb-3 fw-bold">
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75"
+                      id="SC-PantsDressingCurrentScore" aria-describedby="SC_PantsDressingCurrentScore">
                     <span>(本次分數)</span>
                   </div>
                 </div>
@@ -371,7 +371,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold">5</p>
+                    <p class="card-text fw-bold" id="SC-BedsideSittingLastScore">5</p>
                   </div>
                 </div>
 
@@ -379,8 +379,8 @@
 
                 <div class="mb-3 fw-bold">
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75"
+                      id="SC-BedsideSittingCurrentScore" aria-describedby="SC_BedsideSittingCurrentScore">
                     <span>(本次分數)</span>
                   </div>
                 </div>
@@ -397,7 +397,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold">5</p>
+                    <p class="card-text fw-bold" id="SC-StandingLastScore">5</p>
                   </div>
                 </div>
 
@@ -405,8 +405,8 @@
 
                 <div class="mb-3 fw-bold">
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75" id="SC-StandingCurrentScore"
+                      aria-describedby="SC_StandingCurrentScore">
                     <span>(本次分數)</span>
                   </div>
                 </div>
@@ -423,7 +423,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold">5</p>
+                    <p class="card-text fw-bold" id="SC-BedWheelchairTransferLastScore">5</p>
                   </div>
                 </div>
 
@@ -431,34 +431,8 @@
 
                 <div class="mb-3 fw-bold">
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
-                    <span>(本次分數)</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 p-0">
-            <div class="card border-0 shadow-sm p-3 mb-2 bg-body rounded">
-              <div class="card-body">
-                <div class="d-flex">
-                  <div class="w-50 d-flex">
-                    <p class="card-text fw-bold SC-title mb-2 me-3">指標</p>
-                    <p class="card-text fw-bold  mb-2">輪椅坐入</p>
-                  </div>
-                  <div class="d-flex">
-                    <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold">5</p>
-                  </div>
-                </div>
-
-                <span class="dot mx-1">*</span>
-
-                <div class="mb-3 fw-bold">
-                  <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75"
+                      id="SC-BedWheelchairTransferCurrentScore" aria-describedby="SC_BedWheelchairTransferCurrentScore">
                     <span>(本次分數)</span>
                   </div>
                 </div>
@@ -499,31 +473,53 @@
                     <p class="card-text fw-bold SC-title mb-2 me-3">指標</p>
                     <div class="checkbox-box d-flex flex-column">
                       <div>
-                        <input type="checkbox" id="checkbox1">
-                        <label for="checkbox1">駕電動輪椅</label>
+                        <input type="checkbox" id="SC-UsePowerWheelchair">
+                        <label for="SC-UsePowerWheelchair">駕電動輪椅</label>
                       </div>
                       <div>
-                        <input type="checkbox" id="checkbox2" checked>
-                        <label for="checkbox2">自推輪椅</label>
+                        <input type="checkbox" id="SC-UseManualWheelchair">
+                        <label for="SC-UseManualWheelchair">自推輪椅</label>
                       </div>
                     </div>
 
 
                   </div>
-                  <div class="d-flex">
-                    <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold">5</p>
+
+                  <div class="d-flex  flex-column justify-content-between">
+                    <div class="d-flex">
+                      <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
+                      <p class="card-text fw-bold" id="SC-UsePowerWheelchairLastScore">5</p>
+                    </div>
+
+                    <div class="d-flex">
+                      <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
+                      <p class="card-text fw-bold" id="SC-UseManualWheelchairLastScore">5</p>
+                    </div>
                   </div>
+
+
+
                 </div>
 
                 <span class="dot mx-1">*</span>
 
                 <div class="mb-3 fw-bold">
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75"
+                      id="SC-UsePowerWheelchairCurrentScore" aria-describedby="SC_UsePowerWheelchairCurrentScore"
+                      placeholder="駕電動輪椅">
                     <span>(本次分數)</span>
                   </div>
+
+                </div>
+                <div class="mb-3 fw-bold">
+                  <div class="d-flex align-items-center">
+                    <input type="number" class="form-control form-control-sm me-2 w-75"
+                      id="SC-UseManualWheelchairCurrentScore" aria-describedby="SC_UseManualWheelchairCurrentScore"
+                      placeholder="自推輪椅">
+                    <span>(本次分數)</span>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -538,7 +534,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold">5</p>
+                    <p class="card-text fw-bold" id="SC-WalkingLastScore">5</p>
                   </div>
                 </div>
 
@@ -546,8 +542,8 @@
 
                 <div class="mb-3 fw-bold">
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75" id="SC-WalkingCurrentScore"
+                      aria-describedby="SC_WalkingCurrentScore">
                     <span>(本次分數)</span>
                   </div>
                 </div>
@@ -564,7 +560,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold">5</p>
+                    <p class="card-text fw-bold" id="SC-ToiletingLastScore">5</p>
                   </div>
                 </div>
 
@@ -572,8 +568,8 @@
 
                 <div class="mb-3 fw-bold">
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75" id="SC-ToiletingCurrentScore"
+                      aria-describedby="SC_ToiletingCurrentScore">
                     <span>(本次分數)</span>
                   </div>
                 </div>
@@ -590,7 +586,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold">5</p>
+                    <p class="card-text fw-bold" id="SC-BathingLastScore">5</p>
                   </div>
                 </div>
 
@@ -598,8 +594,8 @@
 
                 <div class="mb-3 fw-bold">
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75" id="SC-BathingCurrentScore"
+                      aria-describedby="SC_BathingCurrentScore">
                     <span>(本次分數)</span>
                   </div>
                 </div>
@@ -616,7 +612,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold">5</p>
+                    <p class="card-text fw-bold" id="SC-StairClimbingLastScore">5</p>
                   </div>
                 </div>
 
@@ -624,8 +620,8 @@
 
                 <div class="mb-3 fw-bold">
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75"
+                      id="SC-StairClimbingCurrentScore" aria-describedby="SC_StairClimbingCurrentScore">
                     <span>(本次分數)</span>
                   </div>
                 </div>
@@ -639,7 +635,7 @@
         <div class="record-box">
           <div class="type-box">
 
-            <span class="">送出</span>
+            <span class="" id="submit">送出</span>
 
           </div>
 
