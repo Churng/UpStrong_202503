@@ -29,13 +29,13 @@ $(document).ready(function () {
 
 		let session_id = sessionStorage.getItem("sessionId");
 
-		let action = "getWorkOrderDetailById";
+		let action = "getWorkOrderServiceDetailById";
 
 		let chsm = "upStrongWorkOrderApi"; // api文件相關
 
 		chsm = $.md5(session_id + action + chsm);
 
-		let data = { workOrderId: params.orderid };
+		let data = { workOrderId: params.workOrderID };
 
 		formData.append("session_id", session_id);
 
@@ -59,6 +59,16 @@ $(document).ready(function () {
 			success: function (res) {
 				console.log(res);
 				handleResponse(res);
+
+				if (res.returnCode == "1" && res.returnData) {
+					let data = res.returnData;
+					let item = data.workOrderServiceDetailData;
+
+					$("#SR-ActivitySummary").val(item.ActivitySummary);
+					$("#SR-DiscomfortReported").val(item.DiscomfortReported);
+					$("#SR-AdjustmentSuggestion").val(item.AdjustmentSuggestion);
+					$("#SR-CommunicationNotes").val(item.CommunicationNotes);
+				}
 			},
 
 			error: function () {
@@ -68,4 +78,56 @@ $(document).ready(function () {
 	};
 
 	getOrderData();
+
+	//送出
+	$("#submit").on("click", function () {
+		let formData = new FormData();
+
+		let session_id = sessionStorage.getItem("sessionId");
+
+		let action = "setWorkOrderSignInDetailById";
+
+		let chsm = "upStrongWorkOrderApi"; // api文件相關
+
+		chsm = $.md5(session_id + action + chsm);
+
+		let data = {
+			workOrderId: params.workOrderID,
+			ActivitySummary: $("#SR-ActivitySummary").val(),
+			DiscomfortReported: $("#SR-DiscomfortReported").val(),
+			AdjustmentSuggestion: $("#SR-AdjustmentSuggestion").val(),
+			CommunicationNotes: $("#SR-CommunicationNotes").val(),
+		};
+
+		formData.append("session_id", session_id);
+
+		formData.append("action", action);
+
+		formData.append("chsm", chsm);
+
+		formData.append("data", JSON.stringify(data));
+
+		$.ajax({
+			url: `${window.apiUrl}${window.apiworkOrder}`,
+
+			type: "POST",
+
+			data: formData,
+
+			processData: false,
+
+			contentType: false,
+
+			success: function (res) {
+				console.log(res);
+				handleResponse(res);
+				if (res.returnCode == "1" && res.returnData) {
+				}
+			},
+
+			error: function () {
+				$("#error").text("An error occurred. Please try again later.");
+			},
+		});
+	});
 });
