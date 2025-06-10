@@ -61,10 +61,10 @@ $(document).ready(function () {
 					<div class="printerbutton">
 						<button class="printerbutton-toggle">列印</button>
 						<ul class="printerbutton-menu">
-							<li>服務紀錄</li>
-							<li>訓練指引</li>
-							<li>初評評估量表</li>
-							<li>生活功能評估表</li>
+							<li id="printServiceRecord">服務紀錄</li>
+							<li id="printTrainingGuide">訓練指引</li>
+							<li id="printInitialAssessmentForm">初評評估量表</li>
+							<li id="printDailyFunctionAssessmentForm">生活功能評估表</li>
 						</ul>
 					</div>
              <div class="banner">
@@ -280,4 +280,112 @@ $(document).ready(function () {
 	};
 
 	getOrderData();
+
+	// 列印服務紀錄
+	$(".main-box").on("click", "#printServiceRecord", function () {
+		let formData = new FormData();
+		let session_id = sessionStorage.getItem("sessionId");
+		let action = "printServiceRecordById";
+		let chsm = "upStrongWorkOrderApi";
+		chsm = $.md5(session_id + action + chsm);
+		let data = { workOrderId: params.orderid };
+
+		formData.append("session_id", session_id);
+		formData.append("action", action);
+		formData.append("chsm", chsm);
+		formData.append("data", JSON.stringify(data));
+
+		$.ajax({
+			url: `${window.apiUrl}${window.apiworkOrder}`,
+			type: "POST",
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function (res) {
+				console.log("後端回傳", res);
+				console.log("typeof res", typeof res);
+
+				if (typeof res === "string" && res.startsWith("%PDF")) {
+					try {
+						// 直接將字串轉為 Blob
+						const blob = new Blob([res], { type: "application/pdf" });
+						const url = URL.createObjectURL(blob);
+
+						window.open(url, "_blank");
+						// 自訂下載檔案名稱
+						const fileName = `列印服務紀錄_${params.orderid}.pdf`;
+						const a = document.createElement("a");
+						a.href = url;
+						a.download = fileName; // 設置下載檔案名稱
+						document.body.appendChild(a);
+						a.click();
+						document.body.removeChild(a);
+						URL.revokeObjectURL(url);
+					} catch (e) {
+						console.error("處理 PDF 失敗", e);
+						alert("列印服務紀錄失敗，可能是 PDF 格式錯誤。");
+					}
+				} else {
+					alert("無效的 PDF 資料，請稍後再試。");
+				}
+			},
+			error: function () {
+				alert("An error occurred. Please try again later.");
+			},
+		});
+	});
+
+	// 列印服務紀錄
+	$(".main-box").on("click", "#printServiceRecord", function () {
+		let formData = new FormData();
+		let session_id = sessionStorage.getItem("sessionId");
+		let action = "printServiceRecordById";
+		let chsm = "upStrongWorkOrderApi";
+		chsm = $.md5(session_id + action + chsm);
+		let data = { workOrderId: params.orderid };
+
+		formData.append("session_id", session_id);
+		formData.append("action", action);
+		formData.append("chsm", chsm);
+		formData.append("data", JSON.stringify(data));
+
+		$.ajax({
+			url: `${window.apiUrl}${window.apiworkOrder}`,
+			type: "POST",
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function (res) {
+				console.log("後端回傳", res);
+				console.log("typeof res", typeof res);
+
+				if (typeof res === "string" && res.startsWith("%PDF")) {
+					try {
+						// 直接將字串轉為 Blob
+						const blob = new Blob([res], { type: "application/pdf" });
+						const url = URL.createObjectURL(blob);
+
+						window.open(url, "_blank");
+						// 自訂下載檔案名稱
+						const fileName = `列印服務紀錄_${params.orderid}.pdf`;
+						const a = document.createElement("a");
+						a.href = url;
+						a.download = fileName; // 設置下載檔案名稱
+						document.body.appendChild(a);
+						a.click();
+						document.body.removeChild(a);
+						URL.revokeObjectURL(url);
+					} catch (e) {
+						console.error("處理 PDF 失敗", e);
+						alert("列印服務紀錄失敗，可能是 PDF 格式錯誤。");
+					}
+				} else {
+					alert("無效的 PDF 資料，請稍後再試。");
+				}
+			},
+			error: function () {
+				alert("An error occurred. Please try again later.");
+			},
+		});
+	});
 });
