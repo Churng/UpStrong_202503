@@ -130,7 +130,8 @@ h2 {
 	color: #1eabb8;
 }
 
-.box02 .record-box .type-box span.active {
+.box02 .record-box .type-box span.active,
+.box02 .record-box .type-box span:hover {
 	background-color: #1eabb8;
 	color: white;
 }
