@@ -176,3 +176,7 @@ textarea:focus {
 		justify-content: space-around;
 	}
 }
+
+#prevBtn {
+	padding: 7px 0 0 30px;
+}

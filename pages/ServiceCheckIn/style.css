@@ -299,3 +299,7 @@ textarea:focus {
 	top: 15px;
 	background-color: #1eabb8;
 }
+
+#prevBtn {
+	padding: 7px 0 0 30px;
+}
