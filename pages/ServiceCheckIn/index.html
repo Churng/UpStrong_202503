@@ -281,7 +281,7 @@
         <p class="title text-start fw-bold">每月填寫一次</p>
       </div>
 
-      <div class="container">
+      <div class="container" id="monthly-checkin-container">
         <div class="row">
           <div class="col-12 p-0">
             <div class="card border-0 shadow-sm p-3 mb-2 bg-body rounded">
@@ -293,7 +293,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-4">上次分數</p>
-                    <p class="card-text fw-bold" id="SC-EatingLastScore">5</p>
+                    <p class="card-text fw-bold" id="SC-EatingLastScore"></p>
                   </div>
                 </div>
 
@@ -319,7 +319,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-4">上次分數</p>
-                    <p class="card-text fw-bold" id="SC-DressingLastScore">5</p>
+                    <p class="card-text fw-bold" id="SC-DressingLastScore"></p>
                   </div>
                 </div>
 
@@ -345,7 +345,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold" id="SC-PantsDressingLastScore">5</p>
+                    <p class="card-text fw-bold" id="SC-PantsDressingLastScore"></p>
                   </div>
                 </div>
 
@@ -371,7 +371,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold" id="SC-BedsideSittingLastScore">5</p>
+                    <p class="card-text fw-bold" id="SC-BedsideSittingLastScore"></p>
                   </div>
                 </div>
 
@@ -397,7 +397,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold" id="SC-StandingLastScore">5</p>
+                    <p class="card-text fw-bold" id="SC-StandingLastScore"></p>
                   </div>
                 </div>
 
@@ -423,7 +423,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold" id="SC-BedWheelchairTransferLastScore">5</p>
+                    <p class="card-text fw-bold" id="SC-BedWheelchairTransferLastScore"></p>
                   </div>
                 </div>
 
@@ -449,7 +449,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold">5</p>
+                    <p class="card-text fw-bold" id="SC-WheelchairEntryLastScore"></p>
                   </div>
                 </div>
 
@@ -457,8 +457,8 @@
 
                 <div class="mb-3 fw-bold">
                   <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2 w-75" id="question1"
-                      aria-describedby="SC_question1">
+                    <input type="number" class="form-control form-control-sm me-2 w-75"
+                      id="SC-WheelchairEntryCurrentScore" aria-describedby="SC_WheelchairEntryCurrentScore">
                     <span>(本次分數)</span>
                   </div>
                 </div>
@@ -488,12 +488,12 @@
                   <div class="d-flex  flex-column justify-content-between">
                     <div class="d-flex">
                       <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                      <p class="card-text fw-bold" id="SC-UsePowerWheelchairLastScore">5</p>
+                      <p class="card-text fw-bold" id="SC-UsePowerWheelchairLastScore"></p>
                     </div>
 
                     <div class="d-flex">
                       <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                      <p class="card-text fw-bold" id="SC-UseManualWheelchairLastScore">5</p>
+                      <p class="card-text fw-bold" id="SC-UseManualWheelchairLastScore"></p>
                     </div>
                   </div>
 
@@ -534,7 +534,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold" id="SC-WalkingLastScore">5</p>
+                    <p class="card-text fw-bold" id="SC-WalkingLastScore"></p>
                   </div>
                 </div>
 
@@ -560,7 +560,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold" id="SC-ToiletingLastScore">5</p>
+                    <p class="card-text fw-bold" id="SC-ToiletingLastScore"></p>
                   </div>
                 </div>
 
@@ -586,7 +586,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold" id="SC-BathingLastScore">5</p>
+                    <p class="card-text fw-bold" id="SC-BathingLastScore"></p>
                   </div>
                 </div>
 
@@ -612,7 +612,7 @@
                   </div>
                   <div class="d-flex">
                     <p class="card-text fw-bold SC-title mb-2 me-3">上次分數</p>
-                    <p class="card-text fw-bold" id="SC-StairClimbingLastScore">5</p>
+                    <p class="card-text fw-bold" id="SC-StairClimbingLastScore"></p>
                   </div>
                 </div>
 

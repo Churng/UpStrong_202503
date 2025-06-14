@@ -303,3 +303,8 @@ textarea:focus {
 #prevBtn {
 	padding: 7px 0 0 30px;
 }
+
+.disabled-container {
+	opacity: 0.6;
+	pointer-events: none;
+}
