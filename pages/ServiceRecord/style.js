@@ -19,6 +19,26 @@ $(document).ready(function () {
 
 	const params = Object.fromEntries(urlSearchParams.entries());
 
+	const currentUserType = sessionStorage.getItem("userType");
+	console.log(params);
+	console.log(typeof currentUserType);
+
+	//設定返回按鈕
+	if (currentUserType === "1") {
+		$("#prevBtn")
+			.show()
+			.on("click", function () {
+				window.history.back();
+			});
+		$("#submit").hide();
+	} else if (currentUserType === "2") {
+		$("#prevBtn").hide();
+		$("#submit").show();
+	} else {
+		$("#prevBtn").hide();
+		$("#submit").hide();
+	}
+
 	//送出按鈕設定
 	$(".box02 .record-box .type-box span").on("click", function () {
 		$(this).toggleClass("active");
@@ -85,7 +105,7 @@ $(document).ready(function () {
 
 		let session_id = sessionStorage.getItem("sessionId");
 
-		let action = "setWorkOrderSignInDetailById";
+		let action = "setWorkOrderServiceDetailById";
 
 		let chsm = "upStrongWorkOrderApi"; // api文件相關
 
@@ -122,6 +142,8 @@ $(document).ready(function () {
 				console.log(res);
 				handleResponse(res);
 				if (res.returnCode == "1" && res.returnData) {
+					successResponse(res);
+					window.history.back();
 				}
 			},
 
