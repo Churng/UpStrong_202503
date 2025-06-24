@@ -379,8 +379,8 @@ $(document).ready(function () {
 					// console.log(transformedData);
 
 					$(transformedData).each((idx, e) => {
-						console.log("test:", e);
-						console.log(e.isSpecial);
+						// console.log("test:", e);
+						// console.log(e.isSpecial);
 
 						// 單獨處理 id=7 和 id=8 的資料
 						if (e.date == "option") {
