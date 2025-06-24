@@ -140,16 +140,16 @@ $(document).ready(function () {
 				// 	}
 				// }
 
-				// if (i === 7) {
-				// 	$(`input[data-list-id=7]`).each((inx, e) => {
-				// 		if ($(e).is(":checked")) {
-				// 			obj["option"] = Number($(e).val());
-				// 		}
-				// 	});
-				// }
-				// if (i === 8) {
-				// 	obj["description"] = $(`input[data-list-id=8]`).val();
-				// }
+				if (i === 7) {
+					$(`input[data-list-id=7]`).each((inx, e) => {
+						if ($(e).is(":checked")) {
+							obj["option"] = Number($(e).val());
+						}
+					});
+				}
+				if (i === 8) {
+					obj["description"] = $(`input[data-list-id=8]`).val();
+				}
 
 				newData[i] = obj;
 				result[i] = obj;
@@ -379,8 +379,8 @@ $(document).ready(function () {
 					// console.log(transformedData);
 
 					$(transformedData).each((idx, e) => {
-						// console.log("test:", e);
-						// console.log(e.isSpecial);
+						console.log("test:", e);
+						console.log(e.isSpecial);
 
 						// 單獨處理 id=7 和 id=8 的資料
 						if (e.date == "option") {
@@ -528,7 +528,9 @@ $(document).ready(function () {
 								url.searchParams.set("step", Number(step));
 								window.history.replaceState(null, "", url);
 							} else {
-								window.location.href = `../../AssessmentPage/question/Index06.html?workOrderID=${testparams.workOrderID}`;
+								console.log(res);
+
+								// window.location.href = `../../AssessmentPage/question/Index06.html?workOrderID=${testparams.workOrderID}`;
 							}
 						} else {
 							if (step !== "01") {
