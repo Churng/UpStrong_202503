@@ -40,13 +40,6 @@ $(document).ready(function () {
 	}
 
 	$(".next").on("click", function () {
-		// const userType = sessionStorage.getItem("userType");
-
-		// if (userType === "1") {
-		// 	window.location.href = `../../AssessmentPage/question/Index06.html?workOrderID=${testparams.workOrderID}`;
-		// 	return;
-		// }
-
 		if (step === "01") {
 			// Step 1 資料處理
 			let newData = [{ value: [] }];
@@ -86,35 +79,6 @@ $(document).ready(function () {
 			let result = {};
 
 			const lengthOfList = 12;
-
-			// for (let i = 0; i < lengthOfList; i++) {
-			// 	const targetValue = Number($(`.table-box[data-target=${i}] .select-box`).text().trim());
-			// 	const targetValue2 = $(`input[data-list-id=0]`).val();
-
-			// 	const obj = {};
-			// 	obj["target"] = {};
-
-			// 	if (i === 0) {
-			// 		obj["target"]["0"] = targetValue2;
-			// 	} else {
-			// 		obj["target"]["0"] = targetValue;
-			// 		obj["target"]["1"] = savedData[i.toString()] || "";
-			// 	}
-
-			// 	if (i === 7) {
-			// 		$(`input[data-list-id=7]`).each((inx, e) => {
-			// 			if ($(e).is(":checked")) {
-			// 				obj["option"] = Number($(e).val());
-			// 			}
-			// 		});
-			// 	}
-			// 	if (i === 8) {
-			// 		obj["description"] = $(`input[data-list-id=8]`).val();
-			// 	}
-
-			// 	newData[i] = obj;
-			// 	result[i] = obj;
-			// }
 
 			for (let i = 0; i < lengthOfList; i++) {
 				// 先取得舊資料，保留補充內容
@@ -375,9 +339,6 @@ $(document).ready(function () {
 					// console.log(transformedData);
 
 					$(transformedData).each((idx, e) => {
-						// console.log("test:", e);
-						// console.log(e.isSpecial);
-
 						// 單獨處理 id=7 和 id=8 的資料
 						if (e.date == "option") {
 							// console.log(e.id == "option");
@@ -540,7 +501,7 @@ $(document).ready(function () {
 							} else {
 								console.log(res);
 
-								// window.location.href = `../../AssessmentPage/question/Index06.html?workOrderID=${testparams.workOrderID}`;
+								window.location.href = `../../AssessmentPage/question/Index06.html?workOrderID=${testparams.workOrderID}`;
 							}
 						} else {
 							if (step !== "01") {
