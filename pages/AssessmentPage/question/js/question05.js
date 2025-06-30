@@ -74,39 +74,37 @@ $(document).ready(function () {
 			});
 		} else if (step === "02") {
 			// Step 2 資料處理
+
 			let newData = {};
 			let result = {};
+
 			const lengthOfList = 12;
 
-			// 從 oldData 中取得現有資料作為基礎
-			let currentData = {};
-			if (
-				oldData?.item?.[paramBigStep] &&
-				Array.isArray(oldData.item[paramBigStep]?.item) &&
-				oldData.item[paramBigStep]?.item[Number(step) - 1]?.item &&
-				Array.isArray(oldData.item[paramBigStep]?.item[Number(step) - 1]?.item)
-			) {
-				currentData = oldData.item[paramBigStep].item[Number(step) - 1].item[0].value || {};
-			}
-
 			for (let i = 0; i < lengthOfList; i++) {
-				// 取得現有資料（如果存在），否則初始化為空物件
-				let obj = currentData[i] ? { ...currentData[i] } : {};
+				// 先取得舊資料，保留補充內容
+				const oldValue = oldData.item[paramBigStep].item[Number(step) - 1].item[0].value[i] || {};
+				const oldTarget = oldValue.target || {};
 
-				// 更新 target 值
-				const targetValue = Number($(`.table-box[data-target=${i}] .select-box`).text().trim());
-				const targetValue2 = $(`input[data-list-id=0]`).val(); // 目標值
+				const obj = {};
+				obj["target"] = {};
 
 				if (i === 0) {
-					obj["target"] = { 0: targetValue2 };
+					obj["target"]["0"] = $(`input[data-list-id=0]`).val();
+					// 補充內容可能沒有，直接保留舊值或空字串
+					obj["target"]["1"] = oldTarget["1"] || "";
 				} else {
-					obj["target"] = {
-						...(obj["target"] || {}),
-						1: savedData[i.toString()] || "",
-					};
+					const targetValue = Number($(`.table-box[data-target=${i}] .select-box`).text().trim());
+
+					obj["target"]["0"] = targetValue;
+
+					// 只在 savedData 有修改時更新，否則保留舊值
+					if (savedData.hasOwnProperty(i.toString())) {
+						obj["target"]["1"] = savedData[i.toString()];
+					} else {
+						obj["target"]["1"] = oldTarget["1"] || "";
+					}
 				}
 
-				// 處理特殊索引 i === 7 和 i === 8
 				if (i === 7) {
 					$(`input[data-list-id=7]`).each((inx, e) => {
 						if ($(e).is(":checked")) {
@@ -118,7 +116,6 @@ $(document).ready(function () {
 					obj["description"] = $(`input[data-list-id=8]`).val();
 				}
 
-				// 將更新後的 obj 存入 newData 和 result
 				newData[i] = obj;
 				result[i] = obj;
 			}
@@ -191,15 +188,11 @@ $(document).ready(function () {
 
 		const textarea = $(".popup-box textarea");
 		textarea.attr("id", `popupTextArea_${target}`);
+		textarea.val(savedData[target] || "");
 
-		let supplement = savedData[target];
-
-		if (supplement === undefined) {
-			const data = oldData.item[paramBigStep].item[1].item[0].value[target];
-			supplement = data && data.target && data.target["1"] ? data.target["1"] : "";
-		}
-
-		textarea.val(supplement || "");
+		const data = oldData.item[paramBigStep].item[1].item[0].value[target];
+		const supplement = data && data.target && data.target["1"] ? data.target["1"] : "";
+		textarea.val(supplement);
 	}
 
 	function closePopupBox() {
@@ -360,15 +353,13 @@ $(document).ready(function () {
 							// 目標值
 							if (e.id == 0) {
 								$(".left-box .lv-box .target-box").text(e.value[0]);
-
-								// 如果有特定的 input 元素需要設置值，可以取消註解以下代碼
-								// const $input = $(".left-box .target-box");
-								// if (!$input.val()) {
-								// 	$input.val(e.value[0]);
-								// }
-								// $input.prop("readonly", true);
+								const $input = $(".left-box .target-box");
+								if (!$input.val()) {
+									$input.val(e.value[0]);
+								}
+								$input.prop("readonly", true);
 							} else {
-								$(`[data-target=${e.id}] .select-box`).text(e.value[0]);
+								$(`[data-target=${e.id}] .select-box`).text(e.value[0]); // ✅ 只顯示分數
 							}
 						} else if (e.date != "target") {
 							// 處理其他 id 的資料
@@ -510,7 +501,7 @@ $(document).ready(function () {
 							} else {
 								console.log(res);
 
-								// window.location.href = `../../AssessmentPage/question/Index06.html?workOrderID=${testparams.workOrderID}`;
+								window.location.href = `../../AssessmentPage/question/Index06.html?workOrderID=${testparams.workOrderID}`;
 							}
 						} else {
 							if (step !== "01") {
