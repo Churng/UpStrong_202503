@@ -10,7 +10,8 @@ function handleResponse(res) {
 	//重新登入
 	if (res.returnCode === "003") {
 		new CustomAlert({ content: res.returnMessage });
-
+		sessionStorage.removeItem("sessionId");
+		sessionStorage.removeItem("userType");
 		window.location.assign("../LoginPage/index.html"); // 從根目錄開始
 	}
 }
