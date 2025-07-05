@@ -1,10 +1,13 @@
 // responseHandler.js
+const loginPageURL = "/pages/LoginPage/index.html";
 
 function handleResponse(res) {
 	//系統異常
 	if (res.returnCode === "002") {
 		new CustomAlert({ content: res.returnMessage });
-		window.location.assign("../LoginPage/index.html");
+		sessionStorage.removeItem("sessionId");
+		sessionStorage.removeItem("userType");
+		window.location.assign(loginPageURL);
 	}
 
 	//重新登入
@@ -12,7 +15,7 @@ function handleResponse(res) {
 		new CustomAlert({ content: res.returnMessage });
 		sessionStorage.removeItem("sessionId");
 		sessionStorage.removeItem("userType");
-		window.location.assign("../LoginPage/index.html"); // 從根目錄開始
+		window.location.assign(loginPageURL); // 從根目錄開始
 	}
 }
 
