@@ -578,9 +578,7 @@ button.btn-main,
 	background-color: #3084bd;
 	color: #fff;
 }
-button.#1eabb8,
-button.btn-main:focus,
-.#1eabb8,
+button button.btn-main:focus,
 .btn-main:focus {
 	color: #fff;
 	background-color: #2871a2;
@@ -1951,6 +1949,10 @@ ul.list-info li {
 	transition: opacity 0.2s;
 }
 
+.edit-bottom {
+	padding: 8px;
+}
+
 .btn-icon:hover {
 	opacity: 0.7;
 }
@@ -1985,4 +1987,21 @@ ul.list-info li {
 	padding: 5px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
+}
+
+.edit-textarea {
+	width: 100%;
+	resize: vertical;
+}
+.edit-bottom {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+.edit-actions {
+	display: flex;
+	gap: 5px;
+}
+.d-none {
+	display: none !important;
 }

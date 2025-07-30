@@ -72,53 +72,108 @@ $(document).ready(function () {
 					if (item.matchTypeName === "文字") {
 						// 純文字
 						contentHTML = `
-							<div class="recommendation-item style01 mb-5 shadow-sm">
-								<div class="card-body d-flex align-items-start checkbox-box">
-									<input type="checkbox" class="isMatch-checkbox" id="${item.id}" 
-										name="${item.id}" value="${item.checkListId}" 
-										data-id="${item.id}" ${item.isMatch ? "checked" : ""}>
-									<label for="${item.id}"></label>
-									<div class="card-box">
-										<p class="card-text">${item.content}</p>
-									</div>
-								</div>
-							</div>
+							 <div class="recommendation-item style01 mb-5 d-flex align-items-center" data-id="${item.id}">
+                                <div class="card-body d-flex align-items-start checkbox-box shadow-sm">
+                                    <input type="checkbox" class="isMatch-checkbox" id="${item.id}" 
+                                        name="${item.id}" value="${item.checkListId}" 
+                                        data-id="${item.id}" ${item.isMatch ? "checked" : ""}>
+                                    <label for="${item.id}"></label>
+                                    <div class="card-box">
+                                        <div class="text-content">
+                                            <p class="card-text">${item.content}</p>
+                                            <textarea class="edit-textarea form-control d-none" rows="3">${
+																							item.content
+																						}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="edit-bottom">
+                                    <button class="btn btn-link edit-btn" type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                        </svg>
+                                    </button>
+                                    <div class="edit-actions d-none">
+                                        <button class="btn btn-sm btn-success save-btn">儲存</button>
+                                        <button class="btn btn-sm btn-secondary cancel-btn">取消</button>
+                                    </div>
+                                </div>
+                            </div>
 						`;
 						targetContainer = textContainer;
 					} else if (item.matchTypeName === "圖片") {
 						// 圖片
 						contentHTML = `
-							<div class="recommendation-item mb-5 shadow-sm">
-								<div class="card-body d-flex align-items-start checkbox-box">
-									<input type="checkbox" class="isMatch-checkbox" id="${item.id}" 
-										name="${item.id}" value="${item.checkListId}" 
-										data-id="${item.id}" ${item.isMatch ? "checked" : ""}>
-									<label for="${item.id}"></label>
-									<div class="card-box">
-										<img src="${item.url}" alt="${item.description}" class="img-fluid mb-3" style="width: 300px;">
-										<p class="card-text">${item.description}</p>
-									</div>
-								</div>
-							</div>
+							<div class="recommendation-item mb-5 d-flex align-items-center" data-id="${item.id}">
+                                <div class="card-body d-flex align-items-start checkbox-box shadow-sm">
+                                    <input type="checkbox" class="isMatch-checkbox" id="${item.id}" 
+                                        name="${item.id}" value="${item.checkListId}" 
+                                        data-id="${item.id}" ${item.isMatch ? "checked" : ""}>
+                                    <label for="${item.id}"></label>
+                                    <div class="card-box">
+                                        <img src="${item.url}" alt="${
+							item.description
+						}" class="img-fluid mb-3" style="width: 300px;">
+                                        <div class="text-content">
+                                            <p class="card-text">${item.description}</p>
+                                            <textarea class="edit-textarea form-control d-none" rows="3">${
+																							item.description
+																						}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+								<div class="edit-bottom">
+                                            <button class="btn btn-link edit-btn" type="button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                                </svg>
+                                            </button>
+                                            <div class="edit-actions d-none">
+                                                <button class="btn btn-sm btn-success save-btn">儲存</button>
+                                                <button class="btn btn-sm btn-secondary cancel-btn">取消</button>
+                                            </div>
+                                        </div>
+                            </div>
 						`;
 						targetContainer = imageContainer;
 					} else if (item.matchTypeName === "youtube") {
 						// 嵌入 YouTube 影片
 						var URL = convertToEmbed(item.url);
 						contentHTML = `
-							<div class="recommendation-item mb-5 shadow-sm">
-								<div class="card-body d-flex align-items-start checkbox-box">
-									<input type="checkbox" class="isMatch-checkbox" id="${item.id}" 
-										name="${item.id}" value="${item.checkListId}" 
-										data-id="${item.id}" ${item.isMatch ? "checked" : ""}>
-									<label for="${item.id}"></label>
-									<div class="card-box">
-										<iframe class="mb-3 w-100" height="315" src="${URL}" 
-											title="YouTube video" frameborder="0" allowfullscreen style="width: 300px;"></iframe>
-										<p class="card-text">${item.description}</p>
-									</div>
-								</div>
-							</div>
+							<div class="recommendation-item mb-5  d-flex align-items-center" data-id="${item.id}">
+                                <div class="card-body d-flex align-items-start checkbox-box shadow-sm ">
+                                    <input type="checkbox" class="isMatch-checkbox" id="${item.id}" 
+                                        name="${item.id}" value="${item.checkListId}" 
+                                        data-id="${item.id}" ${item.isMatch ? "checked" : ""}>
+                                    <label for="${item.id}"></label>
+                                    <div class="card-box">
+                                        <iframe class="mb-3 w-100" height="315" src="${URL}" 
+                                            title="YouTube video" frameborder="0" allowfullscreen style="width: 300px;"></iframe>
+                                        <div class="text-content">
+                                            <p class="card-text">${item.description}</p>
+                                            <textarea class="edit-textarea form-control d-none" rows="3">${
+																							item.description
+																						}</textarea>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+								 <div class="edit-bottom">
+                                            <button class="btn btn-link edit-btn" type="button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                                </svg>
+                                            </button>
+                                            <div class="edit-actions d-none">
+                                                <button class="btn btn-sm btn-success save-btn">儲存</button>
+                                                <button class="btn btn-sm btn-secondary cancel-btn">取消</button>
+                                            </div>
+                                        </div>
+                            </div>
 						`;
 						targetContainer = youtubeContainer;
 					}
@@ -349,158 +404,6 @@ function bindImageUpload(container, inputId) {
 }
 // 初始綁定圖片上傳
 bindImageUpload(document.querySelector(".addpic-box"), "imageUpload");
-
-// // 收集資料
-// function collectAllData() {
-// 	collectedData = [];
-// 	imageFiles = [];
-
-// 	// 收集文字區塊資料
-// 	document.querySelectorAll(".textarea-box").forEach((box, index) => {
-// 		const content = box.querySelector(".recommendation-textarea").value;
-// 		if (content) {
-// 			collectedData.push({
-// 				id: "",
-// 				isMatch: true,
-// 				content: content,
-// 				description: "",
-// 				url: "",
-// 				checkListId: "",
-// 				checkItemName: "",
-// 				matchType: "1",
-// 				recommendOrder: index + 1, // 根據順序設定值
-// 				matchCondition: "",
-// 				action: "set",
-// 				workOrderId: params.workOrderID,
-// 			});
-// 		}
-// 	});
-
-// 	// 收集圖片區塊資料
-// 	document.querySelectorAll(".addpic-box").forEach((box, index) => {
-// 		const description = box.querySelector(".addpic-textarea").value;
-// 		const fileInput = box.querySelector("#imageUpload");
-// 		const previewImage = box.querySelector(".preview-image");
-// 		const imageFile = fileInput.files[0];
-
-// 		if (imageFile || description) {
-// 			collectedData.push({
-// 				id: "",
-// 				isMatch: true,
-// 				content: "",
-// 				description: description || "",
-// 				url: "",
-// 				checkListId: "",
-// 				checkItemName: "",
-// 				matchType: "2",
-// 				recommendOrder: index + 1, // 根據順序設定值
-// 				matchCondition: "",
-// 				action: "set",
-// 				workOrderId: params.workOrderID,
-// 				recommendPhoto: imageFile || null,
-// 			});
-
-// 			if (imageFile) {
-// 				imageFiles.push({
-// 					file: imageFile,
-// 					description: description || "",
-// 				});
-// 			}
-// 		}
-// 	});
-
-// 	// 收集YouTube區塊資料
-// 	document.querySelectorAll(".ytlink-box").forEach((box, index) => {
-// 		const url = box.querySelector(".ytlink-input").value;
-// 		const videodescription = box.querySelector(".yttext-input").value;
-// 		if (url) {
-// 			collectedData.push({
-// 				id: "",
-// 				isMatch: true,
-// 				content: "",
-// 				description: videodescription,
-// 				url: convertToEmbed(url),
-// 				checkListId: "",
-// 				checkItemName: "",
-// 				matchType: "3",
-// 				recommendOrder: index + 1, // 根據順序設定值
-// 				matchCondition: "",
-// 				action: "set",
-// 				workOrderId: params.workOrderID,
-// 			});
-// 		}
-// 	});
-
-// 	return collectedData;
-// }
-// // // 單筆資料傳送函數（含圖片上傳）
-// function sendSingleData(dataItem, workOrderId) {
-// 	let formData = new FormData();
-// 	formData.append("session_id", sessionStorage.getItem("sessionId"));
-// 	formData.append("action", "setRecommendMatchDataById");
-// 	formData.append(
-// 		"chsm",
-// 		$.md5(sessionStorage.getItem("sessionId") + "setRecommendMatchDataById" + "upStrongRecommendApi")
-// 	);
-
-// 	// 基本資料
-// 	formData.append("action", action);
-// 	formData.append("session_id", session_id);
-// 	formData.append("chsm", chsm);
-
-// 	// 如果有圖片檔案，添加到FormData
-// 	if (dataItem.recommendPhoto instanceof File) {
-// 		formData.append("recommendPhoto", dataItem.recommendPhoto);
-// 		let dataWithoutFile = { ...dataItem };
-// 		delete dataWithoutFile.recommendPhoto;
-// 		formData.append("data", JSON.stringify(dataWithoutFile));
-// 	} else {
-// 		formData.append("data", JSON.stringify(dataItem));
-// 	}
-
-// 	$.ajax({
-// 		url: `${window.apiUrl}${window.apirecommend}`,
-// 		type: "POST",
-// 		data: formData,
-// 		processData: false, // 必要！防止jQuery處理FormData
-// 		contentType: false, // 必要！讓瀏覽器自動設置Content-Type
-// 		success: function (res) {
-// 			console.log(res);
-// 			successResponse(res);
-// 			window.location.href = `../AssessmentRecommendation/index.html?workOrderID=${params.workOrderID}`;
-// 		},
-// 		error: function (xhr, status, error) {
-// 			console.error("API呼叫失敗:", error);
-// 			alert("圖片上傳失敗，請稍後再試");
-// 		},
-// 	});
-// }
-
-// // Next按鈕點擊處理
-// document.querySelector(".next-button").addEventListener("click", function () {
-// 	const dataToSend = collectAllData();
-
-// 	// 檢查是否有任何資料被收集到
-// 	if (dataToSend.length === 0) {
-// 		// 如果沒有資料，直接跳轉
-// 		window.location.href = `../AssessmentRecommendation/index.html?workOrderID=${params.workOrderID}`;
-// 		return; // 結束函數執行
-// 	}
-
-// 	// 如果有資料，執行原本的傳送邏輯
-// 	const allRequests = dataToSend.map((dataItem) => {
-// 		return new Promise((resolve) => {
-// 			sendSingleData(dataItem, params.workOrderID);
-// 			resolve();
-// 		});
-// 	});
-
-// 	Promise.all(allRequests)
-// 		.then(() => {})
-// 		.catch((error) => {
-// 			console.error("資料傳送錯誤:", error);
-// 		});
-// });
 
 $(".next")
 	.off("click")
