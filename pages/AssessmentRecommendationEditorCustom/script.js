@@ -771,7 +771,7 @@ $(document).ready(function () {
 
 		// 如果沒有任何資料變更，直接跳轉
 		if (changedItems.length === 0 && editedItems.length === 0 && newItems.length === 0) {
-			// window.location.href = `../AssessmentRecommendation/index.html?workOrderID=${params.workOrderID}`;
+			window.location.href = `../AssessmentRecommendation/index.html?workOrderID=${params.workOrderID}`;
 			return;
 		}
 
@@ -787,8 +787,8 @@ $(document).ready(function () {
 			})
 			.then(() => {
 				// 不重新呼叫 getDefaultRecommendMatchDataListById，保持 UI 不變
-				location.reload();
-				// window.location.href = `../AssessmentRecommendation/index.html?workOrderID=${params.workOrderID}`;
+				// location.reload();
+				window.location.href = `../AssessmentRecommendation/index.html?workOrderID=${params.workOrderID}`;
 			})
 			.catch((error) => {
 				console.error("處理過程中發生錯誤:", error);
