@@ -1,5 +1,6 @@
 // responseHandler.js
-const loginPageURL = "/upStrongAdminDemo/upStrongWeb/pages/LoginPage/index.html";
+// const loginPageURL = "/upStrongAdminDemo/upStrongWeb/pages/LoginPage/index.html";
+const loginPageURL = "/pages/LoginPage/index.html";
 function handleResponse(res) {
 	//系統異常
 	if (res.returnCode === "002") {

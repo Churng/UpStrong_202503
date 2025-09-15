@@ -642,6 +642,11 @@ input:not(:placeholder-shown) {
 	border: 1px solid #1eabb8;
 }
 
+.moodicon {
+	width: 40px;
+	height: 41px;
+}
+
 .step04 .detail-box,
 .step06 .detail-box,
 .step07 .detail-box {
