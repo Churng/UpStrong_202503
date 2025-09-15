@@ -653,7 +653,22 @@ $(document).ready(function () {
 		}
 	});
 
+	// $(".home-box").click(() => {
+	//  // console.log(params);
+
+	// });
+
 	$(".home-box").click(() => {
+		//window.location.href = `../`
+		//console.log(params);
 		window.location.href = `../../AssessmentPage/index.html?workOrderID=${testparams.workOrderID}`;
 	});
+	// $(".button").click(() => {
+	//   window.location.href = `../../AssessmentPage/question/question_a01.html?step=1&bigstep=0`
+	// })
+	// $(".prev").click(() => {
+	//   //console.log(params);
+	//   //window.location.href = `../`
+	//   window.location.href = `../../AssessmentPage/index.html?workOrderID=${testparams.workOrderID}`;
+	// })
 });
