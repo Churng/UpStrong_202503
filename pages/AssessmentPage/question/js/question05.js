@@ -76,7 +76,7 @@ $(document).ready(function () {
 			// Step 2 資料處理
 			let newData = {};
 			let result = {};
-			const lengthOfList = 12;
+			const lengthOfList = 13;
 
 			// 從 oldData 中取得現有資料作為基礎
 			let currentData = {};
@@ -365,10 +365,10 @@ $(document).ready(function () {
 						}
 
 						if (e.date == "target") {
-							console.log(e.value[0]);
+							// console.log(e.value[0]);
 							// 目標值
 							if (e.id == 0) {
-								console.log(e.value[0]);
+								// console.log(e.value[0]);
 								$(".left-box .lv-box .target-box").text(e.value[0]);
 								$(".left-box .target-box").val(e.value[0]);
 								// 目標值有需要readonly的話可以取消註解
@@ -383,7 +383,7 @@ $(document).ready(function () {
 						} else if (e.date != "target") {
 							// 處理其他 id 的資料
 							if (e.id == 0) {
-								console.log(e.value[0]);
+								// console.log(e.value[0]);
 								//項目日期
 								$(".right-box .date-box").append(`
 									<span class="past-box">${e.date}</span>
