@@ -107,9 +107,7 @@ $(document).ready(function () {
 
           <div class="button-box">
 
-            <span>個案資料</span>
-
-            <span>聯絡簿</span>
+            <span class="userInfo-link">個案資料</span>
 
           </div>
 
