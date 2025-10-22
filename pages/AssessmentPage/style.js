@@ -24,14 +24,13 @@ $(document).ready(function () {
 	console.log(typeof savedUserType);
 
 	if (savedUserType == 2) {
-		console.log("教練");
+		// console.log("教練");
 		if (data.workOrderId) {
 			const link = document.querySelector(".userInfo-link");
-			console.log("找到的連結元素:", link);
 			document.querySelector(".userInfo-link").href = `../EditUserInfoPage/index.html?workOrderID=${data.workOrderId}`;
 		}
 	} else {
-		console.log("個案");
+		// console.log("個案");
 		document.querySelector(".userInfo-link").href = `../EditUserInfoPage/index.html`;
 	}
 

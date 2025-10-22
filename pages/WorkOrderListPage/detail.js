@@ -16,8 +16,9 @@ if (window.consoleToggle) {
 
 $(document).ready(function () {
 	const urlSearchParams = new URLSearchParams(window.location.search);
-
 	const params = Object.fromEntries(urlSearchParams.entries());
+	let data = { orderid: params.orderid };
+	const savedUserType = JSON.parse(sessionStorage.getItem("userType"));
 
 	const getOrderData = () => {
 		let formData = new FormData();
@@ -278,6 +279,16 @@ $(document).ready(function () {
 	};
 
 	getOrderData();
+
+	$(document).on("click", ".userInfo-link", function () {
+		if (savedUserType == 2) {
+			if (data.orderid) {
+				window.location.href = `../EditUserInfoPage/index.html?workOrderID=${data.orderid}`;
+			}
+		} else {
+			window.location.href = `../EditUserInfoPage/index.html`;
+		}
+	});
 
 	// 列印服務紀錄
 	$(".main-box").on("click", "#printServiceRecord", function () {

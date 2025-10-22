@@ -17,6 +17,11 @@ ready(() => {
 			$(document).on("click", "#controlShowPanel", function () {
 				openControler();
 			});
+
+			$(document).on("click", ".header__image", function () {
+				window.location.href = "../HomePage/index.html";
+			});
+
 			initUserType();
 		}
 	})();
@@ -38,10 +43,6 @@ function initUserType() {
 	const controlShowPanel = document.getElementById("controlShowPanel");
 	const profileMenu = document.getElementById("profileMenu");
 	const profileButton = document.getElementById("profileButton");
-
-	// debugLog("DOM 元素状态 - coachMenu: " + (coachMenu ? "存在" : "不存在"));
-	// debugLog("DOM 元素状态 - caseMenu: " + (caseMenu ? "存在" : "不存在"));
-	// debugLog("DOM 元素状态 - controlShowPanel: " + (controlShowPanel ? "存在" : "不存在"));
 
 	if (!coachMenu || !caseMenu) {
 		setTimeout(initUserType, 100);
@@ -80,7 +81,7 @@ function initUserType() {
 			openControler("noneLoginPopup");
 		});
 	}
-} // end initUserType
+}
 
 // 在登出函數中刪除 sessionId 並導向其他頁面
 function logout() {
