@@ -85,6 +85,14 @@ $(document).ready(function () {
 					let data = res.returnData;
 					let item = data.workOrderSignInDetailData;
 
+					//請假
+					$("#SC-IfTakeTimeOff-yes").prop("checked", !!item.IfTakeTimeOff);
+					$("#SC-IfTakeTimeOff-no").prop("checked", !item.IfTakeTimeOff);
+
+					//請假選擇
+
+					$("#SC_TakeTimeOffType").val(item.TakeTimeOffType);
+
 					// Box-1
 					$("#input-hr-rest").val(item.PulseAtRest);
 					$("#input-hr-exercise").val(item.PulseTrainingPercentMaxHr);
