@@ -209,10 +209,12 @@ $(document).ready(function () {
 
 				let data02 = res.returnData.item[5].item[1];
 
+				console.log(data02);
+
 				$(".step02 .list-box").html("");
 
 				$(data02.item).each((idx, e) => {
-					// console.log(e);
+					console.log(e);
 					// console.log(e.question);
 
 					$(".step02 .list-box").append(`
@@ -225,7 +227,7 @@ $(document).ready(function () {
     
                         <span>${e.title}</span>
     
-                        <span>推薦</span>
+                        ${e.if_recommend ? '<span class="">推薦</span>' : ""}
     
                     </div>
     
