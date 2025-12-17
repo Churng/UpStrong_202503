@@ -27,191 +27,132 @@ $(document).ready(function () {
 	});
 
 	//日曆tab
+
 	$(".model_to_02").click(() => {
-		$(".model01").css("display", "none");
-		$(".model02").css("display", "block");
+		$(".model01").hide();
+		$(".model02").show();
 
-		var now = new Date();
-		var year = now.getFullYear();
-		var month = now.getMonth();
-		var firstDay = new Date(year, month, 1); // 當月第一天
+		// 拿目前月份
+		const now = new Date();
+		const year = now.getFullYear();
+		const month = now.getMonth();
+		const firstDay = new Date(year, month, 1);
 
-		$("#calendar").fullCalendar("destroy"); // 銷毀現有日曆再重新載入
+		$("#calendar").fullCalendar("destroy");
 
-		//行事曆
-		$("#calendar").fullCalendar(
-			{
-				locale: "zh-tw",
-				fixedWeekCount: true,
-				defaultDate: firstDay,
-				height: "aspectRatio", //組件高度，默認aspectRatio即縱橫比；parent父容器大小；auto自動不帶滾動條；
-				contentHeight: "aspectRatio", //組件中的內容高度，默認aspectRatio即縱橫比；auto自動不帶滾動條；支持數字和函數返回像素；
-				dayNamesShort: ["日", "一", "二", "三", "四", "五", "六"],
-				monthNames: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"], //月份自定義命名
-				buttonText: {
-					today: "今天",
-				},
-				views: {
-					month: {
-						titleFormat: "YYYY年 MMMM",
-					},
-				},
-				events: function (start, end, timezone, callback) {
-					let formData = new FormData();
-					let session_id = sessionStorage.getItem("sessionId");
-					let action = "getWorkOrder";
-					let chsm = "upStrongWorkOrderApi"; // api文件相關
-					chsm = $.md5(session_id + action + chsm);
-
-					// 根據當前月份動態計算開始和結束日期
-					const formatDate = (date) => {
-						const yyyy = date.getFullYear();
-						const mm = String(date.getMonth() + 1).padStart(2, "0");
-						const dd = String(date.getDate()).padStart(2, "0");
-						return `${yyyy}-${mm}-${dd}`;
-					};
-
-					// start 和 end 是 FullCalendar 傳遞過來的時間範圍，代表當前顯示月份的開始和結束
-					let startDate = formatDate(start.toDate());
-					let endDate = new Date(end.toDate());
-					endDate.setDate(endDate.getDate() - 1);
-					endDate = formatDate(endDate);
-
-					// 將日期範圍放入 data 物件
-					let data = { startTime: startDate, endTime: endDate };
-
-					formData.append("session_id", session_id);
-					formData.append("action", action);
-					formData.append("chsm", chsm);
-					formData.append("data", JSON.stringify(data));
-
-					$.ajax({
-						url: `${window.apiUrl}${window.apiworkOrder}`,
-						type: "POST",
-						data: formData,
-						processData: false,
-						contentType: false,
-						success: function (res) {
-							getWorkDetail();
-							$(".fc-day").each(function (idx, e) {
-								$(this).append(
-									`
-                                    <div class="even-box">
-                                    </div>
-                                `
-								);
-							});
-
-							$(".fc-day").each(function (idx, e) {
-								$(eventsData).each(function (idxx, ee) {
-									if ($(e).data("date") == ee.start) {
-										$(e)
-											.children()
-											.append(
-												`
-                                            <a class="fc-day-grid-event fc-event ${ee.className.slice(0, 8)}">
-                                            <div class="fc-content">
-                                                <span class="fc-title">${ee.detail.CaseName} - ${
-													ee.detail.ServiceTypeName
-												}</span>
-                                            </div>
-                                            </a>
-                                        `
-											);
-									}
-								});
-							});
-							callback(eventsData);
-						},
-						error: function () {
-							$("#error").text("An error occurred. Please try again later.");
-						},
-					});
-				},
-				dayClick: function (date, allDay, jsEvent, view) {
-					// $('.fc-day-top').each(function (idx, e) {
-					//     if ($(e).data('date') == date.format('YYYY-MM-DD')) {
-					//         $(this).addClass('today');
-					//     } else {
-					//         $(this).removeClass('today');
-					//     }
-					// })
-					//課程內容
-					$(".right-box").css("display", "block");
-					var eventsCount = 0;
-					var year = date.format("YYYY");
-					var date = date.format("YYYY-MM-DD");
-					$.ajax({
-						url: `../../js/TaiwanCalendar/${year}.json`,
-						type: "get",
-						success: function (res) {
-							$(res).each(function (idx, e) {
-								let resDate = e.date.slice(0, 4) + "-" + e.date.slice(4, 6) + "-" + e.date.slice(6, 8);
-								if (resDate == date) {
-									$(".date-bar").html("");
-									$(".date-bar").append(
-										`
-                                        <span class="date">${date} 星期${e.week}</span>
-                                        <span class="date-tag">${e.description}</span>
-                                    `
-									);
-								}
-							});
-						},
-					});
-
-					$(".detail-box").remove();
-					$("#calendar").fullCalendar("clientEvents", function (event) {
-						console.log(event);
-
-						var start = moment(event.start).format("YYYY-MM-DD");
-						var end = moment(event.end).format("YYYY-MM-DD");
-						if (date == start) {
-							if (event.detail.courseTypeId == 3) {
-								$(".right-box .detail").append(
-									`
-                                <div class="detail-box vacation">
-                                    <span class="tag">${event.detail.courseType}</span>
-                                </div>
-                                `
-								);
-							} else {
-								$(".right-box .detail").append(
-									`
-                                <div class="detail-box ${
-																	event.detail.Status == 1
-																		? "status01"
-																		: event.detail.Status == 2
-																		? "status02"
-																		: event.detail.Status == 3
-																		? "status03"
-																		: event.detail.Status == 4
-																		? "status04"
-																		: event.detail.Status == 5
-																		? "status05"
-																		: null
-																}" data-orderid="${event.detail.WorkOrderId}">
-                                    <span class="tag status">${event.detail.StatusName}</span>
-                                    <span class="title">${event.detail.ServiceTypeName}</span>
-                                    <span class="name">個案：${event.detail.CaseName}</span>
-                                    <span class="coach">專業評估教練：${
-																			event.detail.ProfessionalAssessmentCoach || ""
-																		}</span>
-                                    <span class="coach">自主應用教練：${
-																			event.detail.AutonomousApplicationCoach || ""
-																		}</span>
-                                    <span class="date">服務日期：${event.detail.ServiceDate}</span>
-                                    <span class="add">服務地點：${event.detail.ServiceArea}</span>
-                                </div>
-                                `
-								);
-							}
-						}
-					});
+		$("#calendar").fullCalendar({
+			locale: "zh-tw",
+			fixedWeekCount: true,
+			defaultDate: firstDay,
+			height: "auto",
+			dayNamesShort: ["日", "一", "二", "三", "四", "五", "六"],
+			monthNames: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+			buttonText: {
+				today: "今天",
+			},
+			views: {
+				month: {
+					titleFormat: "YYYY年 MMMM",
 				},
 			},
-			2000
-		);
+
+			// ✅ 直接從篩選後資料生成事件
+			events: function (start, end, timezone, callback) {
+				// 沒資料就空
+				if (!filteredWorkOrderData || filteredWorkOrderData.length === 0) {
+					callback([]);
+					return;
+				}
+
+				// 只取目前顯示月份範圍的資料
+				const eventsData = filteredWorkOrderData
+					.filter((e) => {
+						const date = new Date(e.ServiceDate);
+						return date >= start.toDate() && date <= end.toDate();
+					})
+					.map((e) => ({
+						title: e.StatusName,
+						start: e.ServiceDate.slice(0, 10), // 轉成 "YYYY-MM-DD"
+						className:
+							e.Status == 1
+								? "status01"
+								: e.Status == 2
+								? "status02"
+								: e.Status == 3
+								? "status03"
+								: e.Status == 4
+								? "status04"
+								: e.Status == 5
+								? "status05"
+								: null,
+						detail: e,
+					}));
+
+				callback(eventsData);
+			},
+
+			// ✅ 點擊日期顯示詳細資料
+			dayClick: function (date, allDay, jsEvent, view) {
+				$(".right-box").show();
+				const clickedDate = date.format("YYYY-MM-DD");
+
+				// 顯示日期資訊（抓台灣行事曆 JSON）
+				const year = date.format("YYYY");
+				$.getJSON(`../../js/TaiwanCalendar/${year}.json`, (res) => {
+					const match = res.find((e) => {
+						const resDate = `${e.date.slice(0, 4)}-${e.date.slice(4, 6)}-${e.date.slice(6, 8)}`;
+						return resDate === clickedDate;
+					});
+
+					$(".date-bar").html(
+						`<span class="date">${clickedDate} 星期${match?.week || ""}</span>
+                     <span class="date-tag">${match?.description || ""}</span>`
+					);
+				});
+
+				// 顯示該日期的工單詳情
+				$(".right-box .detail").html("");
+
+				const todayEvents = $("#calendar").fullCalendar("clientEvents", function (event) {
+					return moment(event.start).format("YYYY-MM-DD") === clickedDate;
+				});
+
+				todayEvents.forEach((event) => {
+					const e = event.detail;
+					if (e.courseTypeId == 3) {
+						$(".right-box .detail").append(`
+						<div class="detail-box vacation">
+							<span class="tag">${e.courseType}</span>
+						</div>
+					`);
+					} else {
+						$(".right-box .detail").append(`
+						<div class="detail-box ${
+							e.Status == 1
+								? "status01"
+								: e.Status == 2
+								? "status02"
+								: e.Status == 3
+								? "status03"
+								: e.Status == 4
+								? "status04"
+								: e.Status == 5
+								? "status05"
+								: ""
+						}" data-orderid="${e.WorkOrderId}">
+							<span class="tag status">${e.StatusName}</span>
+							<span class="title">${e.ServiceTypeName}</span>
+							<span class="name">個案：${e.CaseName}</span>
+							<span class="coach">專業評估教練：${e.ProfessionalAssessmentCoach || ""}</span>
+							<span class="coach">自主應用教練：${e.AutonomousApplicationCoach || ""}</span>
+							<span class="date">服務日期：${e.ServiceDate}</span>
+							<span class="add">服務地點：${e.ServiceArea}</span>
+						</div>
+					`);
+					}
+				});
+			},
+		});
 	});
 
 	$(".hidden-btn img").click(() => {
@@ -287,70 +228,6 @@ $(document).ready(function () {
 		});
 	}
 
-	// const getWorkOrder = (startTime, endTime) => {
-	//     let formData = new FormData()
-	//     let session_id = sessionStorage.getItem('sessionId');
-	//     let action = 'getWorkOrder'
-	//     let chsm = 'upStrongWorkOrderApi'; // api文件相關
-	//     chsm = $.md5(session_id + action + chsm);
-
-	//     //搜尋起訖
-	//     var birthDate =$("#birthDate").val()
-	//     var rangeDates = birthDate.split(' ~ ');
-	//     var startDate = new Date(rangeDates[0]);
-	//     var endDate = new Date(rangeDates[1]);
-
-	//     formatDateToYYYYMMDD(startDate);
-	//     formatDateToYYYYMMDD(endDate);
-
-	//     //預設起訖日期(當月)
-	//     var now = new Date();
-	//     var year = now.getFullYear();
-	//     var month = now.getMonth();
-	//     var firstDay = new Date(year, month, 1);// 當月第一天
-	//     var lastDay = new Date(year, month + 1, 0); // 下個月的第 0 天( 當月最後一天)
-
-	//     var formatDate = (date) => {
-	//         var yyyy = date.getFullYear();
-	//         var mm = String(date.getMonth() + 1).padStart(2, '0');
-	//         var dd = String(date.getDate()).padStart(2, '0');
-	//         return `${yyyy}-${mm}-${dd}`;
-	//     };
-
-	//     var firstDay = birthDate != "" ? formatDateToYYYYMMDD(startDate) : formatDate(firstDay);
-	//     var lastDay = birthDate != "" ? formatDateToYYYYMMDD(endDate) : formatDate(lastDay);
-	//     let data = { "startTime": firstDay, "endTime": lastDay }
-
-	//     if (firstDay, lastDay) {
-	//         data = { "startTime": firstDay, "endTime": lastDay }
-	//     }
-
-	//     formData.append('session_id', session_id);
-	//     formData.append('action', action)
-	//     formData.append('chsm', chsm)
-	//     formData.append('data', JSON.stringify(data))
-
-	//     $.ajax({
-	//         url: `${window.apiUrl}${window.apiworkOrder}`,
-	//         type: "POST",
-	//         data: formData,
-	//         processData: false,
-	//         contentType: false,
-	//         success: function (res) {
-	//             workOrderData = res.returnData.workOrderData
-	//             changePage(1)
-	//             getWorkDetail()
-	//             getPage()
-	//             getSelectData()
-
-	//         },
-	//         error: function () {
-	//             $("#error").text("An error occurred. Please try again later.");
-	//         },
-	//     })
-	// }
-
-	//行事曆活動
 	const getWorkDetail = () => {
 		eventsData = [];
 		$(workOrderData).each(function (idx, e) {
