@@ -17,7 +17,6 @@ function formatDateToYYYYMMDD(date) {
 }
 
 $(document).ready(function () {
-	// $('#MyTrainingSearch').click();
 	getWorkOrder();
 	let eventsData = null;
 	//列表tab
@@ -304,33 +303,6 @@ $(document).ready(function () {
 		});
 	};
 
-	//頁數
-	// const getPage = (page) => {
-	// 	console.log(page);
-	// 	total = Math.ceil(workOrderData.length / 10); // 計算總頁數
-	// 	nowPage = page ?? 1; // 使用傳入的頁數，若未傳入則預設為第 1 頁
-
-	// 	// 更新頁數顯示
-	// 	$(".total-text").html(`共 ${workOrderData.length} 筆`);
-	// 	$(".page").html(`${nowPage}/${total}`);
-
-	// 	// 清空頁碼區域
-	// 	$(".page-box div").html("");
-
-	// 	// 生成頁碼按鈕
-	// 	for (let i = 0; i < total; i++) {
-	// 		// 根據當前頁數，為當前頁碼加上 active 樣式
-	// 		if (i === nowPage - 1) {
-	// 			$(".page-box div").append(`<span class="active" data-page="${i + 1}">${i + 1}</span>`);
-	// 		} else {
-	// 			$(".page-box div").append(`<span data-page="${i + 1}">${i + 1}</span>`);
-	// 		}
-	// 	}
-
-	// 	// 更新資料顯示
-	// 	changePage(nowPage); // 根據當前頁數顯示資料
-	// };
-
 	// 點擊頁碼時的處理
 	$(".page-box").on("click", "span", function () {
 		const page = $(this).data("page");
@@ -338,164 +310,6 @@ $(document).ready(function () {
 			getPage(page); // 更新頁數顯示並載入該頁資料
 		}
 	});
-
-	// const changePage = (num) => {
-	// 	//每頁十筆
-	// 	let newData = JSON.parse(JSON.stringify(workOrderData));
-	// 	newData.sort((a, b) => {
-	// 		//按照服務日期排序
-	// 		let dateA = new Date(a.ServiceDate.replace(/(\d{4})\/(\d{2})\/(\d{2}) (\d{2}):(\d{2})/, "$1-$2-$3T$4:$5:00"));
-	// 		let dateB = new Date(b.ServiceDate.replace(/(\d{4})\/(\d{2})\/(\d{2}) (\d{2}):(\d{2})/, "$1-$2-$3T$4:$5:00"));
-	// 		return dateA - dateB;
-	// 	});
-
-	// 	newData = newData.slice(10 * num - 10, 10 * num);
-	// 	$(".mb_none table tbody").html("");
-	// 	$(".pc_none .content").html("");
-
-	// 	let select = $(".select").val(); //教練下拉選單
-	// 	let birthDate = $("#birthDate").val(); //服務日期範圍
-	// 	let search = $(".search").val().toLowerCase(); //關鍵字搜尋
-	// 	$(newData).each((idx, item) => {
-	// 		let formattedItemDateStr = item.ServiceDate.replace(
-	// 			/(\d{4})\/(\d{2})\/(\d{2}) (\d{2}):(\d{2})/,
-	// 			"$1-$2-$3T$4:$5:00"
-	// 		);
-	// 		let itemDate = new Date(formattedItemDateStr);
-	// 		if (
-	// 			(search.trim() === "" ||
-	// 				(item.AutonomousApplicationCoach && item.AutonomousApplicationCoach.toLowerCase().includes(search)) ||
-	// 				(item.CaseName && item.CaseName.toLowerCase().includes(search)) ||
-	// 				(item.ProfessionalAssessmentCoach && item.ProfessionalAssessmentCoach.toLowerCase().includes(search)) ||
-	// 				(item.ServiceArea && item.ServiceArea.toLowerCase().includes(search)) ||
-	// 				(item.ServiceTypeName && item.ServiceTypeName.toLowerCase().includes(search)) ||
-	// 				(item.StatusName && item.StatusName.toLowerCase().includes(search))) &&
-	// 			// (
-	// 			//     (!validStartDate || itemDate >= startDate) &&
-	// 			//     (!validEndDate || itemDate <= endDate)
-	// 			// ) &&
-	// 			(select == "0" || (item.CaseName && item.CaseName.toLowerCase().includes(select)))
-	// 		) {
-	// 			$(".mb_none table tbody").append(`
-
-	//                 <tr data-orderid="${item.WorkOrderId}">
-
-	//                 <td><span>${idx + 1}</span></td>
-
-	//                 <td class="align-middle text-center"><span>${item.CaseName}</span></td>
-
-	//                 <td class="align-middle text-center">
-	//                     <span class="${
-	// 												item.ProfessionalAssessmentCoach ? (item.TrainingType == 1 ? "active-coach" : "") : "hidden"
-	// 											}">
-	//                                 ${item.ProfessionalAssessmentCoach || ""}
-	//                     </span>
-	//                 </td>
-
-	//                 <td class="align-middle text-center">
-	//                     <span class="${
-	// 												item.AutonomousApplicationCoach ? (item.TrainingType == 2 ? "active-coach" : "") : "hidden"
-	// 											}">
-	//                                 ${item.AutonomousApplicationCoach || ""}
-	//                     </span>
-	//                 </td>
-
-	//                 <td><span>${item.ServiceDate}</span></td>
-
-	//                 <td><span>${item.ServiceArea}</span></td>
-
-	//                 <td><span class="text type ${
-	// 										item.Status == 1
-	// 											? "type01"
-	// 											: item.Status == 2
-	// 											? "type02"
-	// 											: item.Status == 3
-	// 											? "type03"
-	// 											: item.Status == 4
-	// 											? "type04"
-	// 											: item.Status == 5
-	// 											? "type05"
-	// 											: ""
-	// 									}">${item.StatusName}</span></td>
-
-	//                 <td><span>${item.ServiceTypeName}</span></td>
-
-	//                 </tr>
-
-	//             `);
-
-	// 			$(".pc_none .content").append(`
-	//             <div class="box" data-orderid="${item.WorkOrderId}">
-	//                 <div class="text-box">
-	//                     <span class="title">個案名稱</span>
-	//                     <span class="text">${item.CaseName}</span>
-	//                 </div>
-
-	//                 <div class="text-box">
-	//                     <span class="title">專業評估教練</span>
-	//                     <span class="text">
-	//                         <div class="coach">
-	//                             <span class="${
-	// 																item.ProfessionalAssessmentCoach
-	// 																	? item.TrainingType == 1
-	// 																		? "active-coach"
-	// 																		: ""
-	// 																	: "hidden"
-	// 															}">
-	//                                 ${item.ProfessionalAssessmentCoach || ""}
-	//                             </span>
-	//                         </div>
-	//                     </span>
-	//                 </div>
-
-	//                 <div class="text-box">
-	//                     <span class="title">自主應用教練</span>
-	//                     <span class="text">
-	//                         <div class="coach">
-	//                             <span class="${
-	// 																item.AutonomousApplicationCoach
-	// 																	? item.TrainingType == 2
-	// 																		? "active-coach"
-	// 																		: ""
-	// 																	: "hidden"
-	// 															}">
-	//                                 ${item.AutonomousApplicationCoach || ""}
-	//                             </span>
-	//                         </div>
-	//                     </span>
-	//                 </div>
-
-	//                 <div class="text-box">
-	//                     <span class="title">服務日期</span>
-	//                     <span class="text">${item.ServiceDate}</span>
-	//                 </div>
-
-	//                 <div class="text-box">
-	//                     <span class="title">狀態</span>
-	//                     <span class="text type ${
-	// 												item.Status == 1
-	// 													? "type01"
-	// 													: item.Status == 2
-	// 													? "type02"
-	// 													: item.Status == 3
-	// 													? "type03"
-	// 													: item.Status == 4
-	// 													? "type04"
-	// 													: item.Status == 5
-	// 													? "type05"
-	// 													: ""
-	// 											}">${item.StatusName}</span>
-	//                 </div>
-
-	//                 <div class="text-box">
-	//                     <span class="title">服務類型</span>
-	//                     <span class="text">${item.ServiceTypeName}</span>
-	//                 </div>
-	//             </div>
-	//             `);
-	// 		}
-	// 	});
-	// };
 
 	//手機板日曆縮放
 	$(document).on("click", ".page-box div span", function () {
