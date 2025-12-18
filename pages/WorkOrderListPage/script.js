@@ -88,7 +88,63 @@ $(document).ready(function () {
 						detail: e,
 					}));
 
+				// ✅ 先回傳給 FullCalendar（讓 dayClick、clientEvents 可以用）
 				callback(eventsData);
+
+				// ✅ 然後立刻把 FullCalendar 自己畫的事件清掉，改成自訂樣式
+				setTimeout(() => {
+					// 移除預設的事件內容（避免重複顯示）
+					$(".fc-event").remove();
+
+					// 先確保每個日期格都有 even-box
+					$(".fc-day").each(function () {
+						if (!$(this).find(".even-box").length) {
+							$(this).append(`<div class="even-box"></div>`);
+						}
+					});
+
+					// 自己根據 eventsData append
+					$(".fc-day").each(function () {
+						const $dayCell = $(this);
+						const cellDate = $dayCell.data("date");
+
+						eventsData.forEach((ee) => {
+							if (cellDate === ee.start) {
+								$dayCell.find(".even-box").append(`
+							<a class="fc-day-grid-event fc-event ${ee.className}">
+								<div class="fc-content">
+									<span class="fc-title">${ee.detail.CaseName} - ${ee.detail.ServiceTypeName}</span>
+								</div>
+							</a>
+						`);
+							}
+						});
+					});
+				}, 150);
+			},
+			eventRender: function (event, element) {
+				// 阻止 FullCalendar 自動插入標題，清空內文
+				element.html("");
+
+				// 找到該日期格（fc-day），在其中 append 我們自己的結構
+				const cell = $(`.fc-day[data-date='${event.start.format("YYYY-MM-DD")}']`);
+
+				if (cell.length > 0) {
+					if (!cell.find(".even-box").length) {
+						cell.append(`<div class="even-box"></div>`);
+					}
+
+					cell.find(".even-box").append(`
+			<a class="fc-day-grid-event fc-event ${event.className}">
+				<div class="fc-content">
+					<span class="fc-title">${event.detail.CaseName} - ${event.detail.ServiceTypeName}</span>
+				</div>
+			</a>
+		`);
+				}
+
+				// return false 告訴 FullCalendar：不要幫我顯示這個 event
+				return false;
 			},
 
 			// ✅ 點擊日期顯示詳細資料
